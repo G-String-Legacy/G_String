@@ -8,3 +8,4 @@ The purpose of this site is to develop a platform that serves as a hub for the c
 As the community becomes stronger, I will fade away.
 My programming task now is to complete G_String_L, a version as bug free as possible, and well documented, so it will be possible for you to understand the code, and continuously build it further.
  
+Help documentation and additional information can be found in this repository's [Wiki section](https://github.com/Papa-26/gsvi_root/wiki).

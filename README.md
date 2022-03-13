@@ -6,6 +6,7 @@ Specifically, it provides:
 - Current releases of G_String.
 - Branches for evolving new versions of G_String.
 - Resources for G_String in Wiki.
+- An open-source work bench to keep G_string alive.
  
 Help documentation and additional information can be found in this repository's [Wiki section](https://github.com/Papa-26/gsvi_root/wiki).
 But the deeper purpose of this site is to develop a community of Generalizabilty enthusiasts who will ensure long term G_String maintenance support beyond the death of its creator.

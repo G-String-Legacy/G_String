@@ -5,5 +5,6 @@ Specifically, it provides:
 - A discussion forum for technical issues with G_String.
 - Current releases of G_String.
 - Branches for evolving new versions of G_String.
+- Resources for G_String in Wiki.
  
 Help documentation and additional information can be found in this repository's [Wiki section](https://github.com/Papa-26/gsvi_root/wiki).

@@ -1,8 +1,8 @@
 ## Generalizability Analysis with G_String
 This repository serves as community platform for investigators applying G_String software for Generalizability Analysis of performance assessments.
 Specifically, it provides:
-- A discussion forum for methodological issues in Generalizability Analysis.
-- A discussion forum for technical issues with G_String.
+- A [discussion forum for methodological issues in Generalizability Analysis](https://github.com/G-String-Legacy/G_String/discussions/1).
+- A [discussion forum for technical issues with G_String](https://github.com/G-String-Legacy/G_String/discussions/2).
 - [Current releases of G_String.](https://github.com/G-String-Legacy/G_String/releases/tag/1.0.0)
 - Branches for evolving new versions of G_String.
 - Resources for G_String in [Wiki](https://github.com/G-String-Legacy/G_String/wiki).

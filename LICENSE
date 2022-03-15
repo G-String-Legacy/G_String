@@ -186,6 +186,10 @@ above, provided that you also meet all of these conditions:
     application-supplied function or table used by this function must
     be optional: if the application does not supply it, the square
     root function must still compute square roots.)
+    
+    e) Any modifications or improvements of the work must be made 
+    available for inclusion into the library or available for license 
+    under identical terms.
 
 These requirements apply to the modified work as a whole.  If
 identifiable sections of that work are not derived from the Library,

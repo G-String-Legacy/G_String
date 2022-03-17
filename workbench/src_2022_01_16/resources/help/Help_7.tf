@@ -1,0 +1,7 @@
+<title>Select Data File</title>
+<para>If you have come this far, you should see an open file selection window. For those who are working on an already existing control file, the active directory should be the one that also contains the control file. But if your data file resides in another directory, don't fret. Simply travel through your directory tree, until you find the desired datafile. You may notice that naming and organizing your files and directories pays off.</para>
+<para>When you have found the desired data file, double click on it, or highlight it and then click on "Open".</para>
+<para>You will now see a representation of your data. If your lines are longer and/or you have more lines than the window can display, it will show appropriate scroll bars.</para>
+<para>Your data files should have a tabular structure. Data items can be separated by either commas or tabs, or the columns may be of fixed widths. But you have use one and only one method consistently throughout the file. A confused G_String is an unhappy G_String.</para>
+<para>Your file may contain both index and score columns. But all the index columns must be to the left of all the score columns.</para>
+<para>Now mask all the index columns by raising the skip count, but make sure, not to also mask some score columns. When you are ready, click on "NextStep".</para>

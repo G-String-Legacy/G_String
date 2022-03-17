@@ -1,0 +1,42 @@
+.myDialog{
+    -fx-background-color: #f4f4f4;
+}
+.myDialog > *.button-bar > *.container{
+    -fx-background-color: #f4f4f4;
+}
+.myDialog > *.label.content{
+	-fx-font-family: Serif;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #50280D;
+}
+.myDialog:header *.header-panel{
+    -fx-background-color: #f4f4f4;
+}
+.myDialog:header *.header-panel *.label{
+	-fx-font-family: Serif;
+    -fx-font-size: 18px;
+    -fx-font-style: italic;
+    -fx-text-fill: saddlebrown;
+	-fx-background-color: #f4f4f4;}
+.myDialog:button1{
+    -fx-text-fill: #006464;
+    -fx-background-color: #DFB951;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+    -fx-padding: 5;
+}
+.myDialog:okButton{
+    -fx-text-fill: #006464;
+    -fx-background-color: #DFB951;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+    -fx-padding: 5;	
+}
+.myDialog:pmButton{
+    -fx-text-fill: #006464;
+    -fx-background-color: #DFB951;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+    -fx-padding: 5;	
+}

@@ -1,0 +1,3 @@
+The author of urGENOVA  (Dr. Robert L. Brennan) provides 
+no warranty (explicit or implied) concerning the accuracy 
+or adequacy of any use made of the urGENOVA code.

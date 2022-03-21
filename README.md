@@ -9,6 +9,6 @@ Specifically, it provides:
 - An open-source [work bench](workbench) to keep G_string alive.
  
 Help documentation and additional information can be found in this repository's [Wiki section](https://github.com/Papa-26/gsvi_root/wiki).
-But the deeper purpose of this site is to develop a community of Generalizabilty enthusiasts who will ensure long term G_String maintenance support beyond the death of its creator.
+But the deeper purpose of this site is to develop a community of Generalizabilty users who will ensure long term G_String maintenance support beyond the death of its creator.
 
-Ultimately, it is you, the user community, who will have to depend on the viability of this platform. If you won't put in your effort, don't be astonished if G_String won't work anymore in a few years!
+Ultimately, it is only **you**, a member of the user community, who will have to depend on the viability of this platform. If **you** won't put in **your** effort, don't be astonished if G_String won't work anymore in a few years!

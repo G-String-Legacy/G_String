@@ -22,7 +22,7 @@ But before you download G_String_VI.jar, make sure that you have installed the J
 
 Then select your operating system for instructions how to install G_String on your particular operating system:
 
-[Windows]()    [Mac OS]()    [Linux]()
+[Windows]()  ----  [Mac OS]()  ----  [Linux]()
 
 
 

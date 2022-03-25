@@ -16,7 +16,7 @@ G_String_VI runs on all major OS platforms for desktop and laptop computers. It 
 
 To download the latest G_String_VI.jar file, [**click here**](../../../releases/tag/1.0.1/gstring_25.jar). The name of the downloaded file includes the build-number.
 
-To download the G_String_VI manual, [**click here**](../../../tree/software/Support/Manual.pdf).
+To download the G_String_VI manual, [**click here**](../Support/Manual.pdf).
 
 But before you download G_String_VI.jar, make sure that you have installed the [Java Runtime JRE 8](https://www.java.com/en/download/manual.jsp) on your computer.
 

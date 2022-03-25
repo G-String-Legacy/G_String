@@ -1,0 +1,6 @@
+Application = G_String_V
+Version = 5.25.1
+Build Date = 2022-03-15
+Copyright = Ralph Bloch (2020)
+Support = ralph@papaworx.com
+Institution = McMaster University

@@ -5,7 +5,7 @@ Specifically, it provides:
 - A [discussion forum for technical issues with G_String](../../discussions/2).
 - [Help in downloading and installing the newest version](../../tree/main/Support/get_G_String.md).
 - Resources for G_String in [Wiki](../../wiki).
-- An open-source [work bench](../../tree/software/workbench) to keep G_String alive.
+- An open-source [work bench](../../tree/main/workbench) to keep G_String alive.
  
 Help documentation and additional information can be found in this repository's [Wiki section](https://github.com/Papa-26/gsvi_root/wiki).
 But the deeper purpose of this site is to develop a community of Generalizabilty users who will ensure long term G_String maintenance support beyond the death of its creator.

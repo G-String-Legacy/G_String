@@ -8,7 +8,6 @@ Specifically, it provides:
 - An open-source [work bench](../../tree/main/workbench/workbench.md) to keep G_String alive.
 - [A way to join **G-String-Legacy**](../../blob/main/Support/membership.md).
  
-Help documentation and additional information can be found in this repository's [Wiki section](https://github.com/Papa-26/gsvi_root/wiki).
-But the deeper purpose of this site is to develop a community of Generalizabilty users who will ensure long term G_String maintenance support beyond the death of its creator.
+Help documentation and additional information can be found in this repository's [Wiki section](https://github.com/Papa-26/gsvi_root/wiki). But the deeper purpose of this site is to develop a community of Generalizabilty users who will ensure long term G_String maintenance support for future generations.
 
-Ultimately, it is **you**, a member of the user community, who will have to depend on the viability of this platform. If **you** won't put in **your** effort, don't be astonished if G_String won't be around anymore in a few years!
+Ultimately, it is you, a member of the user community, who will have to depend on the viability of this platform. If we all contribute, G_String will be around for many years years!

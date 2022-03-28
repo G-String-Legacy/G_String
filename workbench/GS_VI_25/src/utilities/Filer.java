@@ -668,5 +668,5 @@ public class Filer {
 			sb.append("    " + myNest.getVarianceCoefficient(i));
 		writer.println(sb.toString());
 		writer.close();
-	};
+	}
 }

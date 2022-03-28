@@ -395,17 +395,15 @@ public class Filer {
 
 		for (String[] sRow1 : sRawData) {
 			for (int j = iHilight; j < sRow1.length; j++) {
-				if (sRow1[j] != null && sRow1[j] != "") {
-					if (!sRow1[j].trim().isEmpty()){ 
+				if (!sRow1[j].trim().isEmpty()){ 
 					sum += dItem;
 					if (dItem < dMin)
 						dMin = dItem;
 					else if (dItem > dMax)
 						dMax = dItem;
 					iDataCount++;
-                } else {
-                    sRow1[j] = "x";
-
+				} else {
+				    sRow1[j] = "x";
 				}
 			}
 		}

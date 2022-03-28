@@ -573,8 +573,6 @@ public class SynthGroups {
 						} else {
 							Integer iStarred = cell.getIndex();
 							myNest.setAsterisk(iStarred);
-							// System.out.println(sText + "(" + iStarred + "); "
-							// + sHDictionary);
 							cStarred = sText.toCharArray()[0];
 							cell.setText(sHDictionary.toCharArray()[iStarred] + "*");
 							myNest.setAsterisk(iStarred);

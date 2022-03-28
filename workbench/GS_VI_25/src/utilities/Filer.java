@@ -70,6 +70,7 @@ public class Filer {
 	private Double dMin = 100.0;
 	private Double dMax = -100.0;
 	private Popup popup;
+    private int iDataCount = 0;
 
 	public Filer(Nest _nest, Preferences _prefs, Popup _popup) {
 		iMaxColCount = 100;
@@ -390,33 +391,28 @@ public class Filer {
 		Double sum = 0.0;
 		Double dItem = 0.0;
 		Double dValue = 0.0;
-		Integer count = 0;
 		int iHeadCount = 0;
 
 		for (String[] sRow1 : sRawData) {
 			for (int j = iHilight; j < sRow1.length; j++) {
 				if (sRow1[j] != null && sRow1[j] != "") {
-					try {
-					dItem = Double.parseDouble(sRow1[j]);
-					} catch (Throwable e) {
-						popup.tell("1110a", "Non-numeric characters.");
-						break;
-					}
+					if (!sRow1[j].trim().isEmpty()){ 
 					sum += dItem;
 					if (dItem < dMin)
 						dMin = dItem;
 					else if (dItem > dMax)
 						dMax = dItem;
-					count++;
+					iDataCount++;
+                } else {
+                    sRow1[j] = "x";
+
 				}
 			}
 		}
-		dGrandMeans = sum / count;
+		dGrandMeans = sum / iDataCount;
 		myNest.setGrandMeans(dGrandMeans);
 
 		String sDataPath = prefs.get("Working Directory", null) + File.separator + sDataFileName;
-		// String sDataPath =
-		// "/home/ralph/Documents/Work/G-Theory/G_String_VI/Clean/TestOutput.txt";
 		File fData = new File(sDataPath);
 		fData.setReadable(true, false);
 		PrintStream ps = null;
@@ -433,11 +429,11 @@ public class Filer {
 			for (String s : dRow) {
 				if (iHeadCount-- > 0)
 					sb.append(padLeft(s.toString(), iFieldWidth));
-				else if (s != null && s != "") {
+				else if (!s.equals("x")) {
 					dValue = Double.parseDouble(s) - dGrandMeans;
 					sb.append(padLeft(df.format(dValue), iFieldWidth));
 				} else
-					sb.append(padLeft("", iFieldWidth));
+					sb.append(padLeft(df.format(0.0), iFieldWidth));
 			}
 			ps.println(sb.toString());
 		}
@@ -451,7 +447,7 @@ public class Filer {
 		Lehmer Signer = new Lehmer(dMin, dMax);
 		for (String[] sRow1 : sRawData) {
 			for (int j = iHilight; j < sRow1.length; j++) {
-				if (sRow1[j] != null && sRow1[j] != "") {
+				if (!sRow1[j].equals("x")) {
 					dItem = Double.parseDouble(sRow1[j]);
 					Signer.Test(dItem);
 				}
@@ -485,8 +481,6 @@ public class Filer {
 	}
 
 	private void processResultlLine(String _line) {
-		//if (_line.indexOf("Means for") == 0)
-			//System.out.println(_line.substring(10));
 		switch (iOutputPointer) {
 		case 0:
 			if (_line.indexOf("--------------------------------") >= 0)

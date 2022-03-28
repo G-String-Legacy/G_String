@@ -313,11 +313,6 @@ public class SampleSizeTree {
 		for (Integer i = 0; i < iarSizes[iFacet].length; i++) {
 			sIndices = getIndex(iFacet, i);
 			iValue = iarSizes[iFacet][i];
-			if (sIndices == null) {
-				// System.out.println("Counting sample size views error for
-				// facet " + iFacet + " and count " + iCounter);
-				System.exit(3);
-			}
 			ssvAL.add(new SampleSizeView(this, cFacet, iFacet, iCounter++, iValue, stringToArray(sIndices)));
 		}
 	}
@@ -409,11 +404,6 @@ public class SampleSizeTree {
 				else
 					iLoopCount++;
 				continue;
-			} else {
-				// System.out.println("Facet " +
-				// sHDictionary.toCharArray()[iRoot] + " too complex.");
-				System.exit(10);
-				break;
 			}
 		}
 		return iRecordCount;

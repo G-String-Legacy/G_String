@@ -168,7 +168,6 @@ public class Nest {
 
 	public void incrementSteps() {
 		if (!bDawdle)
-			// System.out.println("Dawdle = " + bDawdle);
 			iStep++;
 	}
 
@@ -193,14 +192,6 @@ public class Nest {
 		bSimulate = _bSimulate;
 	}
 
-/*	public void setAutoIndex(Boolean _bAutoIndex) {
-		bAutoIndex = _bAutoIndex;
-	}
-
-	public Boolean getAutoIndex() {
-		return bAutoIndex;
-	}*/
-
 	public void setTitle(String _title) {
 		title = _title;
 	}
@@ -214,7 +205,6 @@ public class Nest {
 	}
 
 	public Integer getFacetCount() {
-		// System.out.println("Return FacetCount: " + iFacetCount);
 		return iFacetCount;
 	}
 
@@ -300,9 +290,7 @@ public class Nest {
 		for (Integer i = 0; i < words.length - iFirst; i++)
 			sss[i] = words[i + iFirst];
 		myTree.addSampleSize(cTarget, sss);
-		// System.out.println("cTarget: " + cTarget);
 		myTree.setHDictionary(sHDictionary);
-		// System.out.println("NestCount - " + iNestCount);
 		iNestCount++;
 	}
 
@@ -591,7 +579,6 @@ public class Nest {
 			dGF = dValue;
 			break;
 		}
-		// System.out.println(_sTarget + ": " + dValue);
 	}
 
 	public void saveVariable(String _sType, String _sTarget, String _sValue) {
@@ -936,9 +923,6 @@ public class Nest {
 
 	public void addAnchors(String value) {
 		String[] sAnchors = value.split("\\s+");
-		int iAnchors = sAnchors.length;
-		if (iAnchors != 3)
-			//System.out.println("no 3 anchors");
 		iFloor = Integer.parseInt(sAnchors[0]);
 		dMean = Double.parseDouble(sAnchors[1]);
 		iCeiling = Integer.parseInt(sAnchors[2]);

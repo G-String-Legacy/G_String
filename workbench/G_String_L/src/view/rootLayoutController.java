@@ -171,7 +171,7 @@ public class rootLayoutController {
 	}
 
 	private void about() {
-		About myAbout = new About(myMain.getPrimaryStage(), popup, "/resources/About.txt", "About G_String_V");
+		About myAbout = new About(myMain.getPrimaryStage(), popup, "/resources/About.txt", "About G_String_L");
 		myAbout.show();
 	}
 

@@ -50,6 +50,8 @@ public class Main extends Application {
 	 * main(), start(), and initRootLayout();
 	 * This ensures tight integration with rootLayoutController and rootLayout.fxml in the view package.
 	 * Main also steers the operations according to menu selections to the actual work routines.
+	 * 
+	 * All traffic between the UID (rootLayout) and the working code is funneled through the 'Main' class.
 	 */
 	private Stage primaryStage;
 	private BorderPane rootLayout;

@@ -19,13 +19,21 @@ public class Facet {
 													 * 's' - Stratification
 													 * 'g' - Generalization
 													 **/
+	
 	private Character cNestor = '$';				/**
-													 * the character for the facet in which 
-													 * this facet is nested
+													 * the designation char for the facet in which 
+													 * this facet is nested. The default is '$'
+													 * which indicates a crossed facets, i.e. 
+													 * facets without a 'Nestor'
 													 **/
 	private int iNestingRank = 0;					// depth of nesting 
-	private String sNestees = null;
-	private Double dFacetLevel;						// for D - Studies
+	private String sNestees = null;					/**
+	 												 * 'Nestees' are the facets nested in the current facet.
+	 												 * Since multiple facets can be nested within the current
+	 												 * facet, they form a string of facet designations (char)
+	 												 **/
+	
+	private Double dFacetLevel;						// sample size for D - Studies
 	private Nest myNest;
 	private Boolean bFixed = false;					/**
 	 												 * differentiates between random and
@@ -89,7 +97,7 @@ public class Facet {
 
 	public void setOffset ( Integer _iColumnOffset)
 	/**
-	 * Optional, if the values are specied in a columnar document
+	 * Optional, if the values are specified in a columnar document
 	 */
 	
 	{
@@ -107,6 +115,10 @@ public class Facet {
 
 	public void setNestor (char cFacet)
 	{
+		/**
+		 * see above regarding the meaning of 'Nestor'
+		 */
+		
 		cNestor = cFacet;
 		bIsNested = true;
 	}
@@ -115,7 +127,7 @@ public class Facet {
 
 	/**
 	 * As defined above in the variable list. The facet type is essential for
-	 * the calculation of variance components and G-coefiients.
+	 * the calculation of variance components and G-coefficients.
 	 */
 	
 		cFacetType = _cFacetType;
@@ -174,7 +186,7 @@ public class Facet {
 		return sb.toString();
 	}
 
-	public String getDesignationString()
+	public String getDesignationString()				// conversion: char to string
 	{
 		return String.valueOf(cDesignation);
 	}
@@ -246,6 +258,11 @@ public class Facet {
 	}
 	
  	public void doNesting(String sComponent) {
+ 		/**
+ 		 * based on the nesting input, this method determines the
+ 		 * nestor/nestees relationships
+ 		 */
+ 		
  		iNestingRank = (sComponent.length() - 1)/2;
 		if (iNestingRank > 0) {
 			bIsNested = true;
@@ -267,7 +284,10 @@ public class Facet {
 	public Boolean isFixed(){
 		return bFixed;
 	}
-	
+	/**
+	 * 'Nestees' are the facets nested in the current
+	 * @param cNestee
+	 */
 	public void addNestee(char cNestee) {
 		if (sNestees == null)
 			sNestees = String.valueOf(cNestee);
@@ -275,18 +295,6 @@ public class Facet {
 			String s = sNestees;
 			sNestees = s + String.valueOf(cNestee);
 		}		
-	}
-	
-	public void setDownPointer (int iPointer) {
-		/*int iCounter = 0;
-		iDownPointer = iPointer;
-		Integer[] iSampleSizes = myTree.getSizes(cDesignation);
-		for (int i = 0; i < iDownPointer; i++)
-			iCounter += iSampleSizes[i];
-		iCounter += myTree.getIndex(cDesignation);
-		for (char c : sNestees.toCharArray())
-			myNest.getFacet(c).setDownPointer(iCounter);*/
-		
 	}
 	
 	public char[] getcNestees() {

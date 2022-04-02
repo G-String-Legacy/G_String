@@ -28,7 +28,6 @@ public class Nest {
 	private Integer iCompCount = 0; // number of Components established
 	private Integer iStep = -1; // step counter in algorithm
 	private Boolean bDoOver = false; // boolean indicating 'do over' mode
-	//private Boolean bAutoIndex = false; // boolean indicating autoIndex mode
 	private Boolean bSimulate = false; // boolean indicating simulating mode
 
 	private String sFileName; // path of control file
@@ -43,28 +42,28 @@ public class Nest {
 	private Facet[] farFacets = null;
 	private SampleSizeTree myTree = null;
 	private String[] sarNestedNames;
-	// array of final, nested arrays in hierarchical order
+								// array of final, nested arrays in hierarchical order
 	private String sDictionary; // simple simulation of one character dictionary
-	// as concatenation of member characters
-	private String sHDictionary; // the hierarchical dictionary orders the
+								// as concatenation of member characters
+	private String sHDictionary; 	// the hierarchical dictionary orders the
 									// facets in the
-	// sequence they have to be processed according to the nesting
-	// hierarchy.
+									// sequence they have to be processed 
+									// according to the nesting hierarchy.
 	private Integer iNestCount = 0; // number of nested facets
-	private Scene scene = null; // standard empty display scene for use in
-								// objects
-	private Stage primaryStage = null;
-	private Integer iFieldWidth = 0;
-	private Boolean bDawdle = false; // flag, if true, inactivates normal
-										// procedural stepping, and instead
-										// steps through
-										// sample size collection.
+	private Scene scene = null; 	// standard empty display scene for use in
+									// objects
+	private Stage primaryStage = null;		// stage of UID
+	private Integer iFieldWidth = 0;		// data input field width
+	private Boolean bDawdle = false; 		// flag, if true, inactivates normal
+											// procedural stepping, and instead
+											// steps through
+											// sample size collection.
 	private Boolean bVarianceDawdle = false;
-	private String sControlFileName = "~control.txt"; // name for internal use
+	private String sControlFileName = "~control.txt"; 	// name for internal use
 														// with urGenova
-	private String sDataFileName = "~data.txt"; // name for internal use with
-												// urGenova
-	private Main myMain;							// pointer to main object
+	private String sDataFileName = "~data.txt"; 		// name for internal use with
+														// urGenova
+	private Main myMain;								// pointer to main class
 	private Double dGrandMeans = 0.0;
 	private ArrayList<VarianceComponent> VarianceComponents = null;
 	private String sTitle = " G Study.";
@@ -74,7 +73,6 @@ public class Nest {
 	private Preferences prefs = null;
 	private Integer iFloor = 0; // lowest value of Score scale
 	private Double dMean = 0.0; // mean value of score
-	private Double dGF = 0.0;
 	private Integer iCeiling = 0; // maximum value of score
 	private Double[][] dVectors = null;
 	private Double[] dVC = null;
@@ -147,11 +145,11 @@ public class Nest {
 		myTree.setAsterisk(cAsterisk);
 	}
 
-	public Integer getAsterisk() {
-		return iAsterisk;
+	public Integer getAsterisk() {		// index of facet with asterisk
+		return iAsterisk;				// i.e. the facet associated data line change.
 	}
 
-	public Integer getHAsterisk() {
+	public Integer getHAsterisk() {		// hierachic index of facet with asterisk
 		char c = sDictionary.toCharArray()[iAsterisk];
 		return sHDictionary.indexOf(c);
 	}
@@ -243,13 +241,14 @@ public class Nest {
 
 	public void addEffect(String _sEffect) {
 		/**
-		 * Builds up 'SampleSizeTree' as design elements are added
+		 * Builds up 'SampleSizeTree' as design elements are added.
+		 * Basically it is a simple lexical analyzer.
 		 */
 		
 		char cTarget;
 		if (myTree == null) {
 			myTree = new SampleSizeTree(this, sDictionary, popup, prefs);
-			//myTree.DoOver(bDoOver);
+
 		}
 		String[] words = _sEffect.trim().split("\\s+");
 		String sNest = words[0];
@@ -308,6 +307,11 @@ public class Nest {
 	}
 
 	public void setNests(String[] _nests) {
+		/**
+		 * The term 'nest' here is confusing. It has nothing to do with the similar class name.
+		 * It is a historic relic for 'nested arrangements', and needs to be distinguished
+		 * from the 'Nest'. The author apologizes.
+		 */
 		// convert observable list back to string array
 		iNestCount = _nests.length;
 		if (myTree == null) {
@@ -440,27 +444,8 @@ public class Nest {
 			f.setID(j);
 			farFacets[j] = f;
 		}
-		//char[] cNest;
-		// check that all facets appear in nested Names
-		/*for (Facet f : facets) {
-			bNotFound = true;
-			char c = f.getDesignation();
-			Integer iCount = 0;
-			for (String sN : sarNestedNames) {
-				if (sN != null) {
-					iCount++;
-					if (sN.indexOf(c) >= 0)
-						bNotFound = false;
-				}
-			}
-			if (bNotFound) {
-				// add facet 'c' to nested names
-				sarNestedNames[iCount] = String.valueOf(c);
-			}
-
-		}*/
 	}
-
+	
 	public Facet[] getFacets() {
 		Facet[] farFacet = new Facet[iFacetCount];
 		for (int i = 0; i < iFacetCount; i++)
@@ -480,6 +465,7 @@ public class Nest {
 		/**
 		 * sets up facet types for generalizability calculations
 		 */
+		
 		char cDiff = 'x';
 		
 		/**
@@ -497,6 +483,7 @@ public class Nest {
 		/**
 		 * Then identify facets of stratification
 		 */
+		
 		String sNest = null;
 		for (int i = 0; i < iNestCount; i++) {
 			sNest = sarNestedNames[i];
@@ -532,6 +519,11 @@ public class Nest {
 	}
 
 	private void saveInteger(String _sTarget, String _sValue) {
+		/**
+		 * Handles integer conversion for the floor and ceiling score values
+		 * in the synthesis
+		 */
+		
 		Integer iValue = 0;
 		if (_sValue != null)
 			iValue = Integer.parseInt(_sValue);
@@ -553,8 +545,7 @@ public class Nest {
 		case "cMean":
 			dMean = dValue;
 			break;
-		case "cGF":
-			dGF = dValue;
+		default:
 			break;
 		}
 	}
@@ -717,69 +708,6 @@ public class Nest {
 		sarNestedNames[iComp] = sComp;
 	}
 
-/*	public void dump(Integer _k) {
-		/**
-		 * produces printed output of components, sizes and sums for arrays up
-		 * to the first 'k' plus the last members
-		 */
-		
-		/*String sDots = " . .  ";
-		Integer iDim = 0;
-		Integer iMax = 0;
-		Integer[] iA = null;
-		StringBuilder sb = null;
-		for (Integer iC = 0; iC < iCompCount; iC++) {
-			sb = new StringBuilder(sarNestedNames[iC]);
-			//sPrint(sb.toString());
-			//iA = myTree.getHSizes(iC);
-			//iA = 0;
-			sb = new StringBuilder("    Dimension: ");
-			iDim = iA.length;
-			iMax = Math.min(_k, iDim);
-			sb.append(iDim);
-			//sPrint(sb.toString());
-			sb = new StringBuilder("      Sizes: ");
-			if (iMax == iDim) {
-				for (Integer j = 0; j < (iMax - 1); j++)
-					sb.append(iA[j] + ", ");
-				sb.append(iA[iMax - 1]);
-			} else {
-				for (Integer j = 0; j < (iMax - 1); j++)
-					sb.append(iA[j] + ", ");
-				sb.append(sDots + iA[iDim - 1]);
-			}
-			//sPrint(sb.toString());
-			//iA = myTree.getHSums(iC);
-			iDim = iA.length;
-			iMax = Math.min(_k, iDim);
-			sb = new StringBuilder("      Sums: ");
-			if (iMax == (iDim)) {
-				for (Integer j = 0; j < iMax - 1; j++)
-					sb.append(iA[j] + ", ");
-				sb.append(iA[iMax - 1]);
-			} else {
-				for (Integer j = 0; j < iMax; j++)
-					sb.append(iA[j] + ", ");
-				sb.append(sDots + iA[iDim - 1]);
-			}
-//			sPrint(sb.toString());
-			Double[] dA = dVectors[iC];
-			iDim = dA.length;
-			iMax = Math.min(_k, iDim);
-			sb = new StringBuilder("      Vector Dimensions: " + dA.length + "    ");
-			if (iMax == (iDim)) {
-				for (Integer j = 0; j < iMax - 1; j++) {
-					sb.append(String.format("%.3f, ", dA[j]));
-				}
-				sb.append(String.format("%.3f", dA[iMax - 1]));
-			} else {
-				for (Integer j = 0; j < iMax; j++)
-					sb.append(String.format("%.3f,  ", dA[j]));
-				sb.append(sDots + String.format("%.3f", dA[iDim - 1]));
-			}
-		}
-	}*/
-
 	public void createVectors(Integer iDim) {
 		dVectors = new Double[iDim][];
 		dVC = new Double[iDim];
@@ -825,9 +753,9 @@ public class Nest {
 		return dMean;
 	}
 
-	public Double getGF() {
+	/*public Double getGF() {
 		return dGF;
-	}
+	}*/
 
 	public void setSarNestedNames(ArrayList<String> _sarNestedNames) {
 		int i = 0;

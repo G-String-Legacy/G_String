@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane fx:id="bpScreen" prefHeight="800.0" prefWidth="900.0" style="-fx-background-color: #FBFBED; -fx-border-color: BLACK;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.rootLayoutController">
+	<top>
+      <MenuBar minHeight="35.0" style="-fx-background-color: BLANCHEDALMOND; -fx-border-color: BLACK;" BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem fx:id="mnuStart" mnemonicParsing="false" text="Start Over" />
+                  <MenuItem fx:id="mnuSaveAll" mnemonicParsing="false" text="Save  Results" />
+              <MenuItem fx:id="mnuExit" mnemonicParsing="false" text="Exit" />
+            </items>
+          </Menu>
+            <Menu fx:id="mnuAction" mnemonicParsing="false" text="Action">
+              <items>
+                <MenuItem fx:id="mnuActionFresh" mnemonicParsing="false" text="Start New" />
+                  <MenuItem fx:id="mnuActionStartOver" mnemonicParsing="false" text="Use Existing" />
+                  <MenuItem fx:id="mnuSimulate" mnemonicParsing="false" text="Synthesize Data" />
+                  <MenuItem fx:id="mnuResimulate" mnemonicParsing="false" text="Synthesize Again" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Setup">
+               <items>
+                  <MenuItem fx:id="mnuLogLevel" mnemonicParsing="false" text="Log Level" />
+                  <Menu mnemonicParsing="false" text="Preferences">
+                     <items>
+                        <MenuItem fx:id="mnuChangePrefs" mnemonicParsing="false" text="Change Preferences" />
+                        <MenuItem fx:id="mnuLoadPrefs" mnemonicParsing="false" text="Load Preferences" />
+                        <MenuItem fx:id="mnuSavePrefs" mnemonicParsing="false" text="Save Preferences" />
+                     </items>
+                  </Menu>
+                  <MenuItem fx:id="mnuSetup" mnemonicParsing="false" text="Set Working Directory" />
+               </items></Menu>
+            <Menu mnemonicParsing="false" text="Help">
+              <items>
+                  <MenuItem fx:id="mnuCHelp" mnemonicParsing="false" text="Contextual Help" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem fx:id="mnuIntro" mnemonicParsing="false" text="Background" />
+                  <MenuItem fx:id="mnuUHelp" mnemonicParsing="false" text="urGenova Manual" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem fx:id="mnuAbout" mnemonicParsing="false" text="About G_String_L" />
+                  <MenuItem fx:id="mnuAboutB" mnemonicParsing="false" text="About urGenova" />
+              </items>
+            </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+   <left>
+      <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER" />
+   </left>
+   <right>
+      <StackPane prefHeight="531.0" prefWidth="0.0" BorderPane.alignment="CENTER" />
+   </right>
+   <bottom>
+      <HBox prefHeight="20.0" prefWidth="898.0" style="-fx-background-color: BLANCHEDALMOND; -fx-border-color: black;" BorderPane.alignment="CENTER">
+         <children>
+            <VBox prefHeight="628.0" prefWidth="416.0">
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0" />
+            <ButtonBar minHeight="35.0" prefHeight="35.0" prefWidth="658.0">
+              <buttons>
+                  <Label fx:id="lblStep" prefHeight="16.0" prefWidth="60.0" text="Label" />
+                <Button fx:id="btnStepUp" mnemonicParsing="false" style="-fx-background-color:  #805015;-fx-border-color:black;" text="Next Step" textFill="WHITE" />
+              </buttons>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets right="5.0" />
+               </padding>
+            </ButtonBar>
+         </children>
+      </HBox>
+   </bottom>
+</BorderPane>

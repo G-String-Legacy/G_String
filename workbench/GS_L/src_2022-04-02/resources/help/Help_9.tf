@@ -1,0 +1,5 @@
+<title>Saving the Control File</title>
+<para>You don't want to loose the fruit of your labour. So save the newly constructed control file. The file directory has opened automatically for you. Choose an appropriate directory and a mnemonic file name. It is not wise to simply overwrite an older control file. At very least, number them consecutively. Then click the "Save" button.</para>
+<sub>Bingo!|You are almost done. The screen magically displays the results from urGenova for your design and dataset.</sub>
+<para>Check if the results make sense. Usually, the urGenova output exceeds the dimension of the output window. Again, there will be scroll bars.</para>
+<para>Propped up by the warm feelings of success, you can now click on "Next Step", and it will take you to the final result screen.</para>

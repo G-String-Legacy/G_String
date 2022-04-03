@@ -29,7 +29,6 @@ public class Nest {
 	private Integer iStep = -1; // step counter in algorithm
 	private Boolean bDoOver = false; // boolean indicating 'do over' mode
 	private Boolean bSimulate = false; // boolean indicating simulating mode
-
 	private String sFileName; // path of control file
 	private String title; // called 'gstudy' in urGenova
 	private ArrayList<String> comments = new ArrayList<String>();
@@ -752,10 +751,6 @@ public class Nest {
 	public Double getMean() {
 		return dMean;
 	}
-
-	/*public Double getGF() {
-		return dGF;
-	}*/
 
 	public void setSarNestedNames(ArrayList<String> _sarNestedNames) {
 		int i = 0;

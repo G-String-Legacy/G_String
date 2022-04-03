@@ -135,7 +135,6 @@ public class Main extends Application {
 		try {
 			URL fxmlLocation = getClass().getResource("/view/rootLayout.fxml");
 			FXMLLoader loader = new FXMLLoader(fxmlLocation);
-			//loader.setRoot(this);
 			rootLayout = loader.load();
 
 			// Show the scene containing the root layout.
@@ -183,12 +182,8 @@ public class Main extends Application {
 				case 1:
 					freshStart();
 					break;
-				case 7:
-					stepDown();
-					break;
 				case 9:
 					myNest.setStep(7);
-					stepDown();
 					break;
 				case 10:
 					break;
@@ -213,29 +208,6 @@ public class Main extends Application {
 				popup.tell("stepUp_b", e);
 			}
 			show(group);
-		}
-	}
-
-	public void stepDown() {
-		/**
-		 * provides limited roll back.
-		 */
-		
-		Integer iStep = myNest.getStep();
-		myProcess.getStep(true);
-		controller.setStep(iStep);
-		if (iStep == 1)
-			freshStart();
-		else {
-			try {
-				group = mySteps.getGroup(true);
-			} catch (Throwable e) {
-				popup.tell("stepDown_a", e);
-			}
-			if (group == null)
-				freshStart();
-			else
-				show(group);
 		}
 	}
 
@@ -587,5 +559,4 @@ public class Main extends Application {
 		}
 		return docFile;
 	}
-
 }

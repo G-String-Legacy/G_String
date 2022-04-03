@@ -98,7 +98,7 @@ public class SynthGroups {
 	private Integer iNoCut = 0;
 	private Popup popup = null;
 
-	public SynthGroups(Nest _nest,Popup _popup, rootLayoutController _controller, Preferences _prefs, Filer _flr) {
+	public SynthGroups(Nest _nest, Popup _popup, rootLayoutController _controller, Preferences _prefs, Filer _flr) {
 		// Constructor
 		myNest = _nest;
 		myController = _controller;
@@ -881,8 +881,19 @@ public class SynthGroups {
 		lbVar.setTranslateX(140.0);
 		hTitles.getChildren().addAll(lbDesig, lbLevel, lbVar);
 		vb.getChildren().add(hTitles);
+		/**
+		 * Next we have to construct all allowed configurations
+		 * ('Effects' in Brennan's terminology). The total number
+		 * of these configurations ('iComps') provides the number
+		 * of variance components to be entered.
+		 */
 		CompConstrct cc = new CompConstrct(myNest);
 		int iComps = cc.getComp();
+		/**
+		 * 'Dawdles' are booleans that represent, whether all the necessary components
+		 * of an array have been collected, or whether the collection process
+		 * has to go on.
+		 */
 		VarianceDadleCheck = new Boolean[iComps];
 		Boolean bRe = myNest.getDoOver();
 		int iUpper = iComps;

@@ -665,8 +665,9 @@ public class AnaGroups {
 		/*
 		 * Step 6 arranges nesting details, again using 'drag and drop'.
 		 * But while in step 5 items were moved in the same list, in
-		 * step 6 items are moved from the list on the left to the list
-		 * on the right. However, the basic mechanism stays the same.
+		 * step 6 items are moved from the list on the left (nested facets) 
+		 * to the list on the right (crossed effects). 
+		 * However, the basic mechanism stays the same.
 		 */
 
 		if (bDownStep)

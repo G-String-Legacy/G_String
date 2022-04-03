@@ -21,7 +21,9 @@ public class SampleSizeTree {
 
 	/*
 	 * The SampleSizeTree object contains the whole structure of the sample
-	 * sizes for both crossed and nested facets
+	 * sizes for both crossed and nested facets, as well management of indices, 
+	 * incrementing indices (stepping), and calculation of of range for each 
+	 * configuration.
 	 */
 
 	private Nest myNest = null;
@@ -46,7 +48,8 @@ public class SampleSizeTree {
 	private Boolean bChanged = false;
 	private Boolean bDoOver = false;
 	private int iConfiguration;			// pointer to the permitted configurations
-	// section related to updating sample sizes on processing the ssv page
+										// section related to updating sample sizes 
+										//on processing the ssv page
 	private ArrayList<SampleSizeView> ssvAL = null;
 	
 	private int[][] iarSizes;			/** 
@@ -61,9 +64,6 @@ public class SampleSizeTree {
 	 									*	Analysis specific sums of sample sizes
 	 									*	below a particular index of the nesting facet.
 	 									**/
-	private int[][][] iarTotals;		/**
-										**	Configuration specific cumulative sums.
-										**/
 	private int[][] iarOffsets;			/**
 										*	index offsets below a particular index of 
 										*	the nesting facet. 
@@ -75,8 +75,12 @@ public class SampleSizeTree {
 	private char[][] conKeySet = null;			// array of facet content of all configurations
 	private int[][] iarCurrentIndexSet = null;	// array of current index sets for all configurations
 	private int[] iarCounts = null;				// array of counts for each configuration
-	private int[] iarDepths = null;
+	private int[] iarDepths = null;				// array of total number of states for each configurations
 	
+	/**
+	 * Configurations, within the context of GS_L are strings defining specific facet combinations
+	 * that describe the permitted 'effects' and cross terms in Brennan's terminology
+	 */
 	private ArrayList<String> salConfigurations;	// array list of permitted configurations
 	private int iConfigurationCount = 0;
 	
@@ -101,7 +105,7 @@ public class SampleSizeTree {
 		Integer iFacets = sDictionary.length();
 		iarSizes = new int[iFacets][];
 		iarSums = new int[100][iFacets][];
-		iarTotals = new int[100][iFacets][];
+		//iarTotals = new int[100][iFacets][];
 		iarASums = new int[iFacets][];
 		iarOffsets = new int[iFacets][];
 		barCrossed = new Boolean[iFacets];
@@ -210,7 +214,9 @@ public class SampleSizeTree {
 
 	public VBox getPage(Integer _iSample) {
 		/*
-		 * composes sample size page for a facet within a nest.
+		 * composes sample size page for a facet within a nest. In contrast to
+		 * other pages for the GUI. this page also uses html formating, 
+		 * rather than exclusive javafx.
 		 */
 
 		VBox vOuter = new VBox();
@@ -337,8 +343,8 @@ public class SampleSizeTree {
 			iarSums[iConfiguration][iFacet] = new int[iSize + 1];
 			iarSums[iConfiguration][iFacet][0] = 0;
 			//iarSums[iConfiguration][iFacet][iSize] = 0;
-			iarTotals[iConfiguration][iFacet] = new int[iSize + 1];
-			iarTotals[iConfiguration][iFacet][0] = 0;
+			//iarTotals[iConfiguration][iFacet] = new int[iSize + 1];
+			//iarTotals[iConfiguration][iFacet][0] = 0;
 		}
 
 		String sIndices = null;
@@ -846,23 +852,6 @@ public class SampleSizeTree {
 		int iOffset = iarOffsets[iF][iPointer];
 		return iOffset;
 	}
-	
-	public int getTotals(int iConf, char cFacet, int iPointer) {
-		int iF = sDictionary.indexOf(cFacet);
-		int iTotals = iarTotals[iConf][iF][iPointer];
-		return iTotals;
-	}
-	
-/*	public int getCumul(char cFacet) {
-		int iF = sDictionary.indexOf(cFacet);
-		return (int) ialCumuls.get(iF);
-	}*/
-	
-/*	public int getTotal(char c) {
-		int iF = sDictionary.indexOf(c);
-		int L = iarOffsets[iF].length - 1;
-		return iarOffsets[iF][L];
-	}*/
 	
 	public String getDictionary() {
 		return sDictionary;

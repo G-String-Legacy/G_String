@@ -7,7 +7,7 @@ public class CompConstrct {
 	/*
 	 *     'CompConstr' takes the original nesting constructs and builds
 	 *  all possible facet combinations that have to be considered for
-	 *  constructing the variance components.
+	 *  constructing the variance components ('Effects').
 	 *     To create all possible combination a trick is used: consider an integer
 	 *  represented as a binary number. As we count from 0 to maximum, 
 	 *  every digit toggles between 0 and 1. In fact, since the count 

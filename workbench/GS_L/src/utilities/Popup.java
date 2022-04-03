@@ -6,6 +6,14 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
+/**
+ * popup is the means to communicate with the user additionally to the regular
+ * stepping process.
+ * When popup is triggered by a Throwable exception, it sends the message to the log file.
+ * When popup is triggered by other needs, the message goes to a popup window.
+ *
+ */
+
 public class Popup {
 	private Logger logger;
 	private String sMessage;

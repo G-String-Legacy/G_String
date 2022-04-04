@@ -1,0 +1,94 @@
+{
+  "main": {
+    "id": "1a02a4ee1ba771a0",
+    "type": "split",
+    "children": [
+      {
+        "id": "114c36e2dc078743",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "About GS_Legacy.md",
+            "mode": "preview"
+          }
+        }
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "4518b35066e4049c",
+    "type": "split",
+    "children": [
+      {
+        "id": "3f92ee4086dea423",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "40d5878ac7c19f7f",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "8f5a2056513b4a29",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "a10223ae908920f2",
+    "type": "split",
+    "children": [
+      {
+        "id": "ae5de04a52f5afbe",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "9233f0b881f1a7dc",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "About GS_Legacy.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "active": "114c36e2dc078743",
+  "lastOpenFiles": [
+    "About GS_Legacy.md",
+    "img_2_8_3.png"
+  ]
+}

@@ -19,3 +19,4 @@ Generalizability Analysis is a statistical method of ranking the sources of vari
 In addition, **GS_L** is also capable of generating synthetic data sets for any experimental design, to be used for teaching and experimentation.
 
 ### The Anatomy and Physiology of GS_L
+[[GS_L Structure]]

@@ -213,6 +213,13 @@ public class Filer {
 	}
 
 	public Group showTableNew() {
+		/**
+		 * This method displays the experimental scores, as read in from the data
+		 * file. It allows to exclude index columns from being fed to urGenova.
+		 * In contrast to all the other display scenes ('groups'), this one 
+		 * is not pure javafx, but it displays the data as html within a webview.
+		 * It is more efficient than having a factory generate a javafx object for each score.
+		 */
 		StringBuilder sb = new StringBuilder("<html><body contentEditable=\"true\"><table border = \"1\">\n");
 		Integer iCounter = 0;
 		for (int i = 0; i < iMaxColumns; i++)

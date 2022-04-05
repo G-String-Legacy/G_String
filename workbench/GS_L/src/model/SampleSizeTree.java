@@ -158,8 +158,7 @@ public class SampleSizeTree {
 	public void addSampleSize(char _c, String[] sss) {
 		/**
 		 * Alternative method to add sample sizes by facet character
-		 * sums and cumuls are calculated when each
-		 * configuration is added.
+		 * sums are calculated when each configuration is added.
 		 */
 		
 		if (_c == cPrevious)
@@ -570,21 +569,6 @@ public class SampleSizeTree {
 		}
 	}
 
-	/*public Integer getOLevels(Integer i) {
-		int[] ia = iarSums[i];
-		Integer L = ia.length - 1;
-		return ia[L];
-	}*/
-
-	/*public Integer getHLevels(Integer i) {
-		Integer j = i;
-		if (i < iFacetCount)
-			j = sDictionary.indexOf(sHDictionary.toCharArray()[i]);
-		int[] ia = iarSums[j];
-		Integer L = ia.length - 1;
-		return ia[L];
-	}*/
-
 	public Integer getEffectCount() {
 		return sarNests.length;
 	}
@@ -592,7 +576,6 @@ public class SampleSizeTree {
 	public void setAsterisk (char _cAsterisk){
 		cAsterisk = _cAsterisk;
 	}
-
 	
 	public Boolean increment() {
 		char[] cHFacets = sHDictionary.toCharArray();
@@ -720,11 +703,6 @@ public class SampleSizeTree {
 		return sb.toString();
 	}
 	
-/*	public String getCumuls(int iConf) {
-		String sCumuls = ialCumuls.get(iConf).toString();
-		return sCumuls;
-	}*/
-	
 	public int getConfigurationCount() {
 		if (iConfigurationCount == 0)
 			iConfigurationCount = salConfigurations.size();
@@ -744,7 +722,6 @@ public class SampleSizeTree {
 			conKeySet[i] = cConfiguration;
 			iarDepths[i] = getSize(i);
 		}
-		//resetIndices();
 	}
 	
 	public int factorConfigurations(int _iConf) {
@@ -767,18 +744,7 @@ public class SampleSizeTree {
 		salFactors.add(sCrosseds);
 		return iCount;
 	}
-	
-/*	private int getPointer(char c) {
-		int iF = sDictionary.indexOf(c);
-		int iPointer = 0;
-		Character cN = farFacets[iF].getNestor();
-		if (cN == 0)
-			iPointer = iIndices[iF];
-		else 
-			iPointer = iarOffsets[iF][getPointer(cN)] + iIndices[iF];
-		return iPointer;
-	}*/
-	
+		
 	private Boolean isContained(char cContent, String sContainer) {
 		Boolean bContains = false;
 		bContains = (sContainer.indexOf(cContent) >= 0);

@@ -318,6 +318,7 @@ public class Nest {
 			myTree.setHDictionary(sHDictionary);
 		}
 		String sNest = null;
+		sarNestedNames = new String[iNestCount];
 		for (Integer i = 0; i < iNestCount; i++) {
 			sNest = _nests[i];
 			sarNestedNames[i] = sNest;

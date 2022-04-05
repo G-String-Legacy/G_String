@@ -342,9 +342,8 @@ public class SampleSizeTree {
 			iarSizes[iFacet] = new int[iSize];
 			iarSums[iConfiguration][iFacet] = new int[iSize + 1];
 			iarSums[iConfiguration][iFacet][0] = 0;
-			//iarSums[iConfiguration][iFacet][iSize] = 0;
-			//iarTotals[iConfiguration][iFacet] = new int[iSize + 1];
-			//iarTotals[iConfiguration][iFacet][0] = 0;
+			iarASums[iFacet] = new int[iSize + 1];
+			iarASums[iFacet][0] = 0;
 		}
 
 		String sIndices = null;

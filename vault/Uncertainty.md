@@ -12,9 +12,9 @@ Force, Mass and Acceleration have absolute values. The uncertainty arises, when 
 
 You may counter that the problem lies with the accuracy of the measurement instrument. If we could add more digits behind the decimal point, results would become more certain. But the opposite is true. The finer the measurement instrument, the more different results we will get on repeated measurements. The best we can do is to average the measured values by calculating their ==mean== value like this:
 
-> $\overline{x}$ = $^1/_N$  $\sum_{i=1}^{N} x_i$
+> https://latex.codecogs.com/svg.latex?%\overline{x}% = %^1/_N%  %\sum_{i=1}^{N} x_i%
 
-where the individual measurements $x_{i}$ are repeated N times, resulting in $\overline{x}$, the mean value for x .
+where the individual measurements %x_{i}% are repeated N times, resulting in %\overline{x}%, the mean value for x .
 
 
 

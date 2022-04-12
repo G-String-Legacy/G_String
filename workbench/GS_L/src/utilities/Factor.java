@@ -17,11 +17,12 @@ public class Factor {
 			
 	
 	/**
-	 * This class encapsulates design factors - factors
+	 * This class encapsulates design factors ('factors')
 	 * within a configuration. It  calculates the absolute size
 	 * of this factor, and the indices dependent count for
-	 * this factor. That makes it easy to calculate size and count 
-	 * for the configuration.
+	 * this factor. That makes it easier to calculate size and count 
+	 * for the whole configuration.
+	 * Factor is used extensively in SampleSizeTree.
 	 */
 	
 	public Factor (SampleSizeTree _tree, String _sFactor) {

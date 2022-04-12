@@ -6,6 +6,25 @@ import model.Nest;
 import model.SampleSizeTree;
 
 public class constructSimulation {
+	/**
+	 * 'constructSimulation' (cS) builds the synthetic data according to
+	 * the general linear model of statistics.
+	 *   On the basis of the specified facets and their nesting, the program
+	 * has identified the potential sources of variability (variance components)
+	 * in terms of crossed and nested facets, as well as due to their interactions
+	 * (see CompConstrct), expressed as strings, designated 'Configurations'.
+	 * For each configuration it then gets the number of possible states 
+	 * (from 'SampleSizeTree.getSize), over the allowed range of facet indices. 
+	 * For each configuration it generates 'synthetic error' values, distributed 
+	 * according to the variance component corresponding to its configuration. It then 
+	 * steps through the indices in the correct order, adding all the component error values 
+	 * according to the appropriate indices. The resulting array of double numbers (darOutput) 
+	 * is distributed symmetrically around 0.0 with the appropriate compound variance.
+	 * On the side, 'constructSimulation also prepares a stringArrayList (salCarriageReturn),
+	 * providing the formated indices for each line of data values. Both, darOutput and 
+	 * salCarriageReturn are being passed to SynthGroups.saveSynthetics.
+	 */
+	
 	private Nest myNest = null;
 	private SampleSizeTree myTree = null;
 	private int iConfCount = 0;

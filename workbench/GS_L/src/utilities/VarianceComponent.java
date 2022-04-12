@@ -5,6 +5,14 @@ import model.Facet;
 import model.Nest;
 
 public class VarianceComponent {
+	/**
+	 * 'VarianceComponent' (vc) is a class of objects for the calculation of 
+	 * Generalizability Coefficients used in 'Nest', method 'formatResults'.
+	 * There is one one vc object for each actual variance component value.
+	 * The object calculates the contribution of this variance component
+	 * to the final Generalization Coefficient.
+	 */
+	
 	private String sPattern; // nesting pattern
 	private char[] cPattern = null; // char array of pattern
 	private Boolean b_tau = false; // contributes to tau
@@ -32,21 +40,6 @@ public class VarianceComponent {
 		sPattern = sWords[0];
 		cPattern = sPattern.toCharArray();
 		sPlatform = _sPlatform;
-		popup = _popup;
-		popup.setClass("VarianceComponent");
-	}
-
-	public VarianceComponent(Nest _nest, Boolean bMarker, Double _dVC, String sComponent, Popup _popup) {
-		/*
-		 * Constructor for data synthesis. (note the Boolean bMarker, which only
-		 * serves to differentiate.)
-		 */
-		myNest = _nest;
-		sDictionary = myNest.getDictionary();
-		farFacets = myNest.getFacets();
-		dVC = _dVC;
-		sPattern = sComponent;
-		cPattern = sPattern.toCharArray();
 		popup = _popup;
 		popup.setClass("VarianceComponent");
 	}

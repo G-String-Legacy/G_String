@@ -55,7 +55,7 @@ import javafx.util.Callback;
 
 public class AnaGroups {
 	/**
-	 * AnaGroups manages the process of generating a synthetic data file by taking the user step-by-step
+	 * AnaGroups manages the process of analyzing data file by taking the user step-by-step
 	 * through the whole procedure from entering the project title to
 	 * printing out the resulting pseudo data file.  Altogether there are 9 steps,
 	 * and proceeding to the next step is only possible after 'grammatically'
@@ -99,7 +99,17 @@ public class AnaGroups {
 
 	public AnaGroups(Nest _nest, Popup _popup, rootLayoutController _controller, Stage _stage, Preferences _prefs, Filer _flr) {
 		/**
-		 * This is the constructor of 'AnaGroups'. I receives its parameters from 'Main'.
+		 * 'AnaGroups' manages the G-Analysis by taking the user step-by-step
+		 * through the whole procedure from entering the project title to
+		 * performing an arbitrary number of D-Studies. Altogether there are 10 steps,
+		 * and proceeding to the next step is only possible after 'grammatically'
+		 * correct input. Obviously, users can still enter parameters that do not correspond to
+		 * their actual study. At each step a context specific help screen is available.
+		 * As result of the user responses at a given step, the entered data are stored, and the GUI scene
+		 * for the next step is generated, and handed via 'main' back to the GUI.
+		 * Users can step through the analysis either manually, by entering the design information
+		 * via keyboard and mouse, or they can pick the 'do-over' mode, where the program
+		 * reads a control file, prepared in a previous analysis run, and the user just has to enter changes.
 		 */
 		
 		myNest = _nest;
@@ -185,7 +195,7 @@ public class AnaGroups {
 
 	private Group startUp() {
 		/*
-		 * Constructs scene_0, inviting user to choose her/his action.
+		 * Step 0: Constructs scene_0, inviting user to choose her/his action.
 		 */
 		
 		myController.setStep(0);
@@ -335,6 +345,7 @@ public class AnaGroups {
 		/*
 		 * generates bound GUI sub form to specify one specific facet.
 		 * iFacetID provides an index for the specific facet.
+		 * Is used in both 'mainSubjectGroup' (x 1), and 'subjectsGroup' (x1 to many).
 		 */
 		Facet currentFacet = myNest.getNewFacet();
 		currentFacet.setOffset(-1);
@@ -409,6 +420,7 @@ public class AnaGroups {
 		/**
 		 * Generates subform for spinner to enter number of
 		 * additional facets.
+		 * Is used once in 'subjectsGroup'.
 		 */
 		Group fc = new Group();
 		HBox hb = new HBox(50);
@@ -438,7 +450,7 @@ public class AnaGroups {
 
 	private Group headerSubForm(String _sColumnHeader) {
 		/**
-		 * Generates the subform for the header line.
+		 * Generates the subform for the header line in all groups.
 		 */
 		
 		Group header = new Group();
@@ -968,7 +980,7 @@ public class AnaGroups {
 
 	public Group runBrennan() {
 		/**
-		 * this is the crucial step 9 where urGENOVA is tasked with claculating the estimates
+		 * this is the crucial step 9 where urGENOVA is tasked with calculating the estimates
 		 * of variance coefficients for all facets and their appropriate calculations.
 		 */
 

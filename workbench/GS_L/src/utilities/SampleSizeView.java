@@ -8,11 +8,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
 
 public class SampleSizeView extends TextField {
-	/*
-	 * Clever TextField Checks for proper values and transfers changed values
-	 * int SampleSizeTree
-	 */
-
+/**
+ * 'SampleSizeView' (ssv) is a specialized text field for the display and modification
+ * of sample size values in the 'SampleSizeTree', both for the construction of
+ * the SampleSize page (Called by both AnaGroups (step 8) and SynthGroups (step 6).
+ */
 	private Integer iLevel = 0;
 	private Integer iSampleSize = 0;
 	private SampleSizeTree myTree = null;

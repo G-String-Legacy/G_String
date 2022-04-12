@@ -12,7 +12,9 @@ import javafx.scene.layout.HBox;
 
 public class FacetModView extends HBox{
 	/**
-	 * a line in the D Study window
+	 * 'FacetModView' is used as a display/control class in
+	 * the 'Analysis' scene of 'AnaGroups' (Step 10). It allows
+	 * changing the properties of facets in D-Studies.
 	 */
 
 	Integer id = -1;

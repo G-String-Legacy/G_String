@@ -48,17 +48,16 @@ import javafx.util.Callback;
 
 public class SynthGroups {
 	/**
-	 * SynthGroup manages the G-Analysis by taking the user step-by-step
-	 * through the whole procedure from entering the project title to
-	 * performing an arbitrary number of D-Studies. Altogether there are 10 steps,
+	 * SynthGroup manages the generation of synthetic data sets by taking the user step-by-step
+	 * through the whole procedure from entering the project summary to
+	 * writing the reulting data file. Altogether there are 9 steps,
 	 * and proceeding to the next step is only possible after 'grammatically'
-	 * correct input. Obviously, users can still enter parameters that do not correspond to
-	 * their actual study. At each step a context specific help screen is available.
+	 * correct input. At each step a context specific help screen is available.
 	 * As result of the user responses at a given step, the entered data are stored, and the GUI scene
 	 * for the next step is generated, and handed via 'main' back to the GUI.
-	 * Users can step through the analysis either manually, by entering the design information
+	 * Users can step through the synthesis either manually, by entering the design information
 	 * via keyboard and mouse, or they can pick the 'do-over' mode, where the program
-	 * reads a control file, prepared in a previous analysis run, and the user just has to enter changes.
+	 * reads a control file, prepared in a previous synthesis run.  The user just has to enter changes.
 	 */
 
 	private rootLayoutController myController;

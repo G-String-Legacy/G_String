@@ -15,7 +15,6 @@ import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -28,7 +27,6 @@ import steps.AnaGroups;
 import steps.gSetup;
 import utilities.Filer;
 import utilities.Popup;
-import utilities.process;
 import view.TextStack;
 import view.rootLayoutController;
 import javafx.scene.Group;
@@ -58,7 +56,6 @@ public class Main extends Application {
 	private Boolean bSynthesize = false; // flag for synthesizing mode;
 	private Boolean bDawdle = false;
 	private static Nest myNest;
-	private process myProcess;
 	private AnaGroups mySteps;
 	private SynthGroups mySynthSteps;
 	private Scene scene0;
@@ -116,7 +113,6 @@ public class Main extends Application {
 		myNest.setStage(primaryStage);
 		this.primaryStage.setTitle("G_String_L (Java)");
 		group = null;
-		myProcess = new process(myNest);
 		initRootLayout();								// initializes standard GUI layout
 		mySteps = new AnaGroups(myNest, popup, controller, primaryStage, prefs, flr); 	// object for analysis
 		mySynthSteps = new SynthGroups(myNest, popup, controller, prefs, flr);	// object for synthesis
@@ -170,7 +166,7 @@ public class Main extends Application {
 			/**
 			 * This is the default analysis path
 			 */
-			myProcess.getStep(false);
+			myNest.incrementSteps();
 			controller.setStep(iStep);
 			try {
 				group = mySteps.getGroup(false);
@@ -436,7 +432,6 @@ public class Main extends Application {
 		myNest = new Nest(popup, this, prefs);
 		myNest.setStage(primaryStage);
 		group = null;
-		myProcess = new process(myNest);
 		mySteps = new AnaGroups(myNest, popup, controller, primaryStage, prefs, flr);
 		controller.callForAction(true);
 		try {

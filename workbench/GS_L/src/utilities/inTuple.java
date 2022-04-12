@@ -1,6 +1,11 @@
 package utilities;
 
 public class inTuple {
+	/**
+	 * 'inTuple' is a helper object. It packages long data strings,
+	 * being read in by 'Filer'.
+	 */
+	
 	private Integer iDim = 0;
 	private String[] tuple = null;
 
@@ -17,45 +22,4 @@ public class inTuple {
 			i++;
 		}
 	}
-
-	public String[] get() {
-		return tuple;
-	}
-
-	public Integer size() {
-		return iDim;
-	}
-
-	public String get(Integer _index) {
-		if (_index >= iDim)
-			throw new RuntimeException();
-		return tuple[_index];
-	}
-
-	@Override
-	public String toString() {
-		Boolean bFirst = true;
-		StringBuilder sb = new StringBuilder();
-		for (String s : this.tuple) {
-			if (bFirst)
-				sb.append(s);
-			else
-				sb.append(", " + s);
-			bFirst = false;
-		}
-		return sb.toString();
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (o == null)
-			return false;
-		String s1 = o.toString();
-		String s2 = this.toString();
-		if (s1.equals(s2))
-			return true;
-		else
-			return false;
-	}
-
 }

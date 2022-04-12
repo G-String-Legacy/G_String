@@ -20,6 +20,10 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class About {
+	/**
+	 * This small utility is used to display two text files:
+	 * 'About' G_String, and 'About' urGenova as part of 'Help'
+	 */
 
 	private ArrayList<String> salItems = new ArrayList<String>();
 	private String sFileName = null;

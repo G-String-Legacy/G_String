@@ -20,7 +20,7 @@ where the mean <img style="transform: translateY(0.1em); background: white;" src
 
 So we now know how to estimate the quantitative value of a real entity, but we still don't know anything about its uncertainty. 'Uncertainty' really isn't a scientific term, what we really are looking for is a quantity called 'variance'  (&sigma;<sup>2</sup>) of a measurement:
 
-$$\sigma^{2}=\frac{\sum_i(x_i-\bar{x})^2}{N-1}$$
+<div align="center"><img style="background: white;" src="svg/uGWR4aBeBY.svg"></div>
 
 It is something like the mean of the square differences between the individually measured values, and the calculated mean of those values. But you may ask: "why are we dividing by (N - 1) rather than by N?". Well, we have measured N different values x<sub>i</sub>. From those we have calculated the mean, so there are really only N-1 variables left to average.
 

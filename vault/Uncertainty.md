@@ -10,7 +10,7 @@ This statement too can be challenged - some people manage to avoid paying taxes 
  In classical physics [^1] there are no uncertainties. For example, Newton's Second Law of Motion states that:
 > Force = Mass x Acceleration
 
-The variables Force, Mass and Acceleration have absolute values. The uncertainty arises, when we attempt to measure them. Thus, I will define statistics as: **the Science of estimating uncertainty.**
+The variables 'Force', 'Mass' and 'Acceleration' have absolute values. The uncertainty arises, when we attempt to measure them. Thus, I will define statistics as: **the Science of estimating uncertainty.**
 
 You may counter that the problem lies with the accuracy of the measurement instrument. If we could add more digits behind the decimal point, results would become more certain. But the opposite is true. The finer the measurement instrument, the more different results we will get on repeated measurements. The best estimate for the 'true' value of a variable 'x' is the average of the measured values by calculating their **mean** value like this:
 

@@ -14,7 +14,7 @@ The variables Force, Mass and Acceleration have absolute values. The uncertainty
 
 You may counter that the problem lies with the accuracy of the measurement instrument. If we could add more digits behind the decimal point, results would become more certain. But the opposite is true. The finer the measurement instrument, the more different results we will get on repeated measurements. The best estimate for the 'true' value of a variable 'x' is the average of the measured values by calculating their **mean** value like this:
 
-<div align="center"><img style="background: white;" src="/svg/YUyhMYmlbD.svg"></div>
+<div align="center"><img style="background: white;" src="svg/YUyhMYmlbD.svg"></div>
 
 where the mean $\bar{x}$ is equal to the sum over all N measurements x<sub>i</sub> divided by N, the number of measurements.
 

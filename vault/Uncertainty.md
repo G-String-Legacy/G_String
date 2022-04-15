@@ -18,11 +18,11 @@ You may counter that the problem lies with the accuracy of the measurement instr
 
 where the mean <img style="transform: translateY(0.1em); background: white;" src="svg/lvTG095mPi.svg"> is equal to the sum over all N measurements x<sub>i</sub> divided by N, the number of measurements.
 
-So we now know how to estimate the quantitative value of a real entity, but we still don't know anything about its uncertainty. 'Uncertainty' really isn't a scientific term, what we really are looking for is a quantity called 'variance'  ( $\sigma^{2}$ ) of a measurement:
+So we now know how to estimate the quantitative value of a real entity, but we still don't know anything about its uncertainty. 'Uncertainty' really isn't a scientific term, what we really are looking for is a quantity called 'variance'  (&sigma;<sup>2</sup>) of a measurement:
 
 $$\sigma^{2}=\frac{\sum_i(x_i-\bar{x})^2}{N-1}$$
 
-It is something like the mean of the square differences between the individually measured values, and the calculated mean of those values. But you may ask: "why are we dividing by (N - 1) rather than by N?". Well, we have measured N different values $x_i$. From those we have calculated the mean, so there are really only N-1 variables left to average.
+It is something like the mean of the square differences between the individually measured values, and the calculated mean of those values. But you may ask: "why are we dividing by (N - 1) rather than by N?". Well, we have measured N different values x<sub>i</sub>. From those we have calculated the mean, so there are really only N-1 variables left to average.
 
 Now that we understand, how to estimate the mean and variance of a measured entity, we are ready for the next step: [Analyzing Variance](obsidian://open?vault=GS_Legacy&file=Analyzing%20Variance.md)
 

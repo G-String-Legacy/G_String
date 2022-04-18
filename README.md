@@ -7,7 +7,7 @@ Specifically, it provides:
 - Resources for G_String in [Wiki](../../wiki).
 - An open-source [work bench](../../tree/main/workbench/workbench.md) to keep G_String alive.
 - [A way to join **G-String-Legacy**](../../blob/main/Support/membership.md).
-- G_String [mind map](About.md).
+- G_String [mind map](About.md) (still growing).
  
 Help documentation and additional information can be found in this repository's [Wiki section](https://github.com/Papa-26/gsvi_root/wiki). But the deeper purpose of this site is to develop a community of Generalizabilty users who will ensure long term G_String maintenance support for future generations.
 

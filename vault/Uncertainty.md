@@ -3,7 +3,7 @@
 In a November 1789 letter to Jean-Baptiste Le Roy, Benjamin Franklin wrote: 
 > "Our new Constitution is now established, everything seems to promise it will be durable; but, in this world, nothing is certain except death and taxes".
 
-This statement too can be challenged - some people manage to avoid paying taxes  and so far, nobody has managed to live for ever, but establishing the exact moment of death mostly escapes medical science. 
+This statement too can be challenged - some people manage to avoid paying taxes, and so far, nobody has managed to live for ever, but establishing the exact moment of death mostly escapes medical science. 
 
 > Thus, to paraphrase Benjamin Franklin: Only uncertainty is certain!
 

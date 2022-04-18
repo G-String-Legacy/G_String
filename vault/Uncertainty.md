@@ -24,7 +24,7 @@ So we now know how to estimate the quantitative value of a real entity, but we s
 
 It is something like the mean of the square differences between the individually measured values, and the calculated mean of those values. But you may ask: "why are we dividing by (N - 1) rather than by N?". Well, we have measured N different values x<sub>i</sub>. From those we have calculated the mean, so there are really only N-1 variables left to average.
 
-Now that we understand, how to estimate the mean and variance of a measured entity, we are ready for the next step: [Analyzing Variance](obsidian://open?vault=GS_Legacy&file=Analyzing%20Variance.md)
+Now that we understand, how to estimate the mean and variance of a measured entity, we are ready for the next step: [Analyzing Variance](Variance.md)
 
 
 [^1]: Statistical Mechanics and Thermodynamics excluded

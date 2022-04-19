@@ -1,0 +1,101 @@
+Successful execution
+
+
+                             CONTROL CARDS FOR RUN 1
+                     Control Cards File Name:  ~control.txt
+                                 Analysis s x q
+
+GSTUDY    Analysis s x q
+COMMENT   Simplest case Student x Question.
+COMMENT   - 30 Students and 5 question
+COMMENT   - short essay questions
+COMMENT   - rated blindly on 5 point scale
+COMMENT*  Student    (s)
+COMMENT*  Question    (q)
+OPTIONS   NREC 5 "*.lis" TIME NOBANNER
+EFFECT       * s           30 
+EFFECT       q           5 
+FORMAT       8  8
+PROCESS      "~data.txt"
+
+
+
+                             INPUT RECORDS FOR RUN 1
+                                 Analysis s x q
+
+RECORD NUMBER 1:
+ -1.880   0.120  -1.880   0.120  -0.880 
+RECORD NUMBER 2:
+  1.120   2.120  -0.880   1.120   1.120 
+RECORD NUMBER 3:
+ -1.880  -1.880  -1.880  -2.880   0.120 
+RECORD NUMBER 4:
+  0.120   1.120  -0.880   0.120   1.120 
+RECORD NUMBER 5:
+  0.120   1.120   1.120   1.120   2.120 
+
+
+                        MEANS FOR MAIN EFFECTS FOR RUN 1
+                                 Analysis s x q
+
+Means for s
+
+ -0.880   0.920  -1.680   0.320   1.120  -1.080  -0.080   0.320   0.320   1.520
+  1.520   1.920  -0.080  -1.280  -1.480  -0.080   0.720  -0.080  -1.080  -0.480
+  1.720   0.320   1.120  -0.680  -0.880   0.920   1.320  -1.080  -0.880  -2.280
+
+Means for q
+
+ -0.480   0.687  -0.647  -0.480   0.920 
+
+
+
+                            ANOVA TABLE FOR RUN 1
+                                Analysis s x q
+-----------------------------------------------------------------------------
+Effect             df             T            SS            MS            VC
+-----------------------------------------------------------------------------
+s                  29     182.64000     182.64000       6.29793       1.05391
+q                   4      65.90667      65.90667      16.47667       0.51494
+sq                116     367.83999     119.29333       1.02839       1.02839
+-----------------------------------------------------------------------------
+Mean                        0.00000
+-----------------------------------------------------------------------------
+Total             149                   367.83999
+-----------------------------------------------------------------------------
+        Grand Mean:         0.00000
+
+
+Date and time at beginning of Run 1:  Tue Apr 19 13:55:24 2022
+Processor time for run: 0 seconds
+
+
+There were no missing items.
+
+
+The calculated grand mean = 2.88000
+This value has been subtracted from the actual scores for the calculations.
+While this improves the accuracy, it does not affect the calculated variances.
+
+
+
+-----------------------------------
+Results  G Study.
+
+Facet q, random; level = 5.0.
+
+Variance component 's' (d) is 1.05391; denominator is 1.00;  τ only
+Variance component 'q' (g) is 0.51494; denominator is 5.00;  Δ only
+Variance component 'sq' (dg) is 1.02839; denominator is 1.00 x 5.00;  both δ and Δ
+
+σ²(τ) = 1.0539
+σ²(δ) = 0.2057
+σ²(Δ) = 0.3087
+
+GENERALIZABILITY COEFFICIENTS:
+
+Consistency   = 1.00
+Eρ²      	  = 0.84
+Φ             = 0.77
+
+Sig: 0

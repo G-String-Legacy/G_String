@@ -94,8 +94,8 @@ Variance component 'sq' (dg) is 1.02839; denominator is 1.00 x 5.00;  both δ an
 
 GENERALIZABILITY COEFFICIENTS:
 
-Consistency     = 1.00
+Consistency       = 1.00
 Eρ²      	  = 0.84
-Φ              = 0.77
+Φ                 = 0.77
 
 Sig: 0

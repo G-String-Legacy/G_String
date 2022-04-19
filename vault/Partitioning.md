@@ -16,7 +16,9 @@ The nesting rules require that a combination is only allowed, if for every liste
 ### Calculating their Numerical Values ###
 In this ridiculously simple example, the variance components can be calculated directly from the raw scores. In the more general case, however, iterative approximations are required to arrive at the variance component values. G_String is using a subroutine (urGENOVA) designed by Robert Brennan[^1] to calculate these values. The code is based on an algorithm developed by C.R. Henderson[^2].
 
-The G_String output for a synthetic dataset simulating the s x q design looks like [this](Results_s_x_q.txt).
+The G_String output for a synthetic dataset simulating the s x q design looks like [this](Results_s_x_q.txt). G_String calculates E&rho;<sup>2</sup>, the variance fraction due to students as:
+<div align="center"><img style="background: white;" src="svg/l3zlZE9ZZk.svg"></div>
+We can ignore the variables &Phi; and &sigma;<sup>2</sup>(&Delta;) here.
 
 
 [^1]:R.L. Brennan. Manual for urGENOVA. Iowa City, IA: Iowa Testing Programs, University of Iowa, based on an algorithm developed by C.R. Henderson.

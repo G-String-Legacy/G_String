@@ -9,8 +9,8 @@ Rather than starting off with a theoretical explanation, let's look at a very si
 The simplest possible design is 2 crossed facets: e.g. short essay, student (signature 's') x question (signature 'q'). All essays are being marked blindly on a 5 point scale. In this case we will have a total of 3 variance components: 1 component each for the facets 's' and 'q', plus 1 facet for the interaction of these two ('sq').
 In fact, in this very simple design the component 'sq' is also considered the 'residual variance component', encompassing all possible residual confounders.
 
-We will discuss some more complex designs in greater detail below. But the general rule for listing all possible variance components for n facets is:
-> All allowed combinations of n facets = 2<sup>n</sup> - 1 - all combinations violating nesting rules.
+We will discuss some more complex designs in greater detail below. But the general rule for the number of all possible variance components for n facets is:
+> Number of all allowed combinations of n facets = 2<sup>n</sup> - 1 - number of combinations violating nesting rules.
 
 The nesting rules require that a combination is only allowed, if for every listed facet, all the facets, in which it is nested, are included as well in the combination.
 ### Calculating their Numerical Values ###

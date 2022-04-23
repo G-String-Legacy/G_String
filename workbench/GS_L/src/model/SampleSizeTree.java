@@ -533,6 +533,13 @@ public class SampleSizeTree {
 	}
 
 	public Double getLevel(Integer _iFacet) {
+		/*
+		 * Calculates the mean sample size for the given facet
+		 * to be used to calculate the level for the sigma_square (g) calculation
+		 * for simple nested facets. Is used by'facet', and
+		 * indirectly by 'Analysis' ('AnaGroups')
+		 */
+		
 		Integer iSize = iarSizes[_iFacet].length;
 		Double dNum = (double)iarASums[_iFacet][iSize];
 		Double dDenom = (double)iSize.doubleValue();
@@ -550,6 +557,13 @@ public class SampleSizeTree {
 	}
 
 	public Double getHarmonic(Integer _iFacet) {
+		/*
+		 * Calculates the harmonic mean sample size for the given facet
+		 * to be used to calculate the level for the sigma_square (g) calculation
+		 * for deeper (>1) nested facets. Is used by'facet', and
+		 * indirectly by 'Analysis' ('AnaGroups')
+		 */
+		
 		Double dDenom = 0.0;
 		Integer iCount = 0;
 		for (Integer iSize : iarSizes[_iFacet]) {

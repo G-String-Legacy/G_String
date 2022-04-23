@@ -595,7 +595,7 @@ public class Nest {
 		sTitle = " D-Study.";
 		for (VarianceComponent vc : VarianceComponents) {
 			vc.doCoefficient(sbResult);
-			dTemp = vc.getVarianceComponent() / vc.getCoefficient();
+			dTemp = vc.getVarianceComponent() / vc.getDenominator();
 			dAbsolute += Math.abs(dTemp);
 			if (dTemp > 0.0) {
 				dFactual += dTemp;

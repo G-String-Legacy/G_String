@@ -11,6 +11,11 @@ public class VarianceComponent {
 	 * There is one one vc object for each actual variance component value.
 	 * The object calculates the contribution of this variance component
 	 * to the final Generalization Coefficient.
+	 * VC also handles Brennan's rules for calculating sigma2(tau), sigma2(delta), 
+	 * and sigma2(Delta) [Brennan, Generalizability Theory, pp 144/5]
+	 * For each variance component it thus determines three booleans (b_tau, b_delta, 
+	 * and b_Delta to signify that this variance component gets added to the corresponding
+	 * sigma squares. This step then occurs in Nest.formatResults.
 	 */
 	
 	private String sPattern; // nesting pattern
@@ -23,8 +28,8 @@ public class VarianceComponent {
 	private Nest myNest;
 	private String sDictionary = null;
 	private Facet[] farFacets = null;
-	private Double dCoefficient = 1.0;
-	private String sCoefficient = null;
+	private Double dDenominator = 1.0;
+	private String sDenominator = null;
 	private Popup popup = null;
 	private String sPlatform = null;
 
@@ -48,7 +53,7 @@ public class VarianceComponent {
 		StringBuilder sb = new StringBuilder();
 		Double dFactor = 0.0;
 		Boolean bFirst = true;
-		dCoefficient = 1.0;
+		dDenominator = 1.0;
 		sSignature = sign(sPattern);
 		for (char c : cPattern) {
 			if (c != ':') {
@@ -58,7 +63,7 @@ public class VarianceComponent {
 					dFactor = 1.00;
 				else
 					dFactor = f.dGetLevel();
-				dCoefficient *= dFactor;
+				dDenominator *= dFactor;
 				if (bFirst)
 					try {
 						sb.append(reCode(String.format("%.2f", dFactor)));
@@ -90,11 +95,11 @@ public class VarianceComponent {
 			sTarget = "Δ only";
 		else if (b_delta && b_Delta)
 			sTarget = "both δ and Δ";
-		sCoefficient = sb.toString();
+		sDenominator = sb.toString();
 		if (sbOut != null) {
 			try {
 				sbOut.append("Variance component '" + sPattern + "' (" + sSignature + ") is " + dVC
-						+ "; denominator is " + sCoefficient + ";  " + reCode(sTarget) + "\n");
+						+ "; denominator is " + sDenominator + ";  " + reCode(sTarget) + "\n");
 			} catch (Exception ioe) {
 				popup.tell("doCoefficienta", ioe);
 			}
@@ -108,8 +113,8 @@ public class VarianceComponent {
 		return (sSignature.indexOf(_c) >= 0);
 	}
 
-	public Double getCoefficient() {
-		return dCoefficient;
+	public Double getDenominator() {
+		return dDenominator;
 	}
 
 	public String getPattern() {

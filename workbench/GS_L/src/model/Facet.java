@@ -11,7 +11,7 @@ public class Facet {
 	private Boolean bIsNested = false;
 	private Boolean bAsterisk = false;
 	private Integer iColumnOffset = null;			// for auto-indexing, indicates column, where that facet index occurs
-	private Integer iOrder = -1;					// hierarchical order of facet in sHDictionary
+	private Integer iOrder = -1;					// order of facet in sDictionary
 	
 	private char cFacetType = 'x';					/**
 													 * 'x' - not specified
@@ -40,8 +40,6 @@ public class Facet {
 	 												 * fixed facets in D Study context.
 	 												 **/
 	private SampleSizeTree myTree  = null;
-
-
 
 	public Facet(Nest _nest)
 	/**
@@ -233,6 +231,12 @@ public class Facet {
 
 	public void setFacetLevel()
 	{
+		/**
+		 * Calculates levels for G studies for facets of generalization:
+		 * simple mean of sample sizes for 1 level of nesting, harmoniv mean
+		 * for higher levels of nesting.
+		 */
+		
 		if (myTree == null)
 			myTree = myNest.getTree();
 		switch (iNestingRank) {

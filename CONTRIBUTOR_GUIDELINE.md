@@ -4,7 +4,7 @@ If you are looking to help to with a code contribution our project uses Oracle 
 If you do identify an issue that needs to be addressed, raise it on the [issue tracker](../../issues) under the appropriate label.
 
 If you are interested in making a code contribution and would like to learn more about the technologies that we use, here are some relevant sources:
-- examine the [source code](../../tree/main/workbench/workbench/GS_L/src)
+- examine the [source code](../../tree/main/workbench/GS_L/src)
 - deepen your understanding of the inner workings of Generalizability Analysis or GS_L by exploring the [Mind Map](../../tree/main/vault/About.md), or by making contributions to it.
 
 ### How do I make a contribution?

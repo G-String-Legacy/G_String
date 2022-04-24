@@ -7,7 +7,7 @@ For the past ten year I have designed, coded, debugged, maintained, upgraded, an
 
 > My **goal**, therefore, is to create an infrastructure enabling the members of the user community of **GS_L**, the most uptodate version of G_String, to gradually take over the responsibility for, and 'ownership' of the **GS_L Open Source Project**. The project is hosted by **GitHub**.
 
-To this end, I am trying to make any information and tools for the future maintenance and support of G_String available in one place available in as user-friendly form as possible.
+To this end, I am trying to make any information and tools for the future maintenance and support of G_String available in one place as user-friendly as possible.
 
 In keeping with this goal, here is a list of resources of use for people who will manage an Open Source project:
 - https://opensource.org/

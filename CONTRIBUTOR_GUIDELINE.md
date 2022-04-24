@@ -9,7 +9,7 @@ If you are interested in making a code contribution and would like to learn more
 
 ### How do I make a contribution?
 
-Never made an open source contribution before? Wondering how contributions work in the in our project? Here's a quick rundown!
+Never made an open source contribution before? Wondering how contributions work in the in our project? Here's a quick rundown.
 
 1.  Find an issue that you are interested in addressing or a feature that you would like to add.
 2.  Fork the repository associated with the issue to your local GitHub organization. This means that you will have a copy of the repository under **your-GitHub-username/repository-name**.

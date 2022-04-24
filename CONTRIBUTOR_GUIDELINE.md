@@ -1,6 +1,6 @@
 ### What do I need to know to help?
 
-If you are looking to help with a code contribution our project uses Oracle Java 8 with JavaFX. If you don't feel ready to make a code contribution yet, no problem! You can also check out documentation issues in  the [G_String Manual](../../tree/main/Support/Manual.md) or visit one of the [discussion boards](../../discussions), be it to ask a question or for help, but also to assist other members of the community with their problems.
+If you are looking to help with a code contribution, our project uses Oracle Java 8 with JavaFX. If you don't feel ready to make a code contribution yet, no problem! You can also check out documentation issues in  the [G_String Manual](../../tree/main/Support/Manual.md) or visit one of the [discussion boards](../../discussions), be it to ask a question or for help, but also to assist other members of the community with their problems.
 If you do identify an issue that needs to be addressed, raise it on the [issue tracker](../../issues) under the appropriate label.
 
 If you are interested in making a code contribution and would like to learn more about the technologies that we use, here are some relevant sources:

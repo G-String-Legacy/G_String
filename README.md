@@ -9,4 +9,4 @@ Specifically, it provides:
 - [A way to join **G-String-Legacy**](../../blob/main/Support/membership.md).
 - G_String [mind map](../../tree/main/vault/About.md) (still growing).
  
-The deeper purpose of this site is to develop an [Open Source](../../tree/main/vault/Open_Source.md) community of Generalizabilty users who will ensure long term G_String maintenance support for future generations. Ultimately, it is **you**, a member of the user community, who will have to depend on the viability of this platform. If we all contribute, G_String will be around for many years to come!
+The deeper purpose of this site is to develop an [Open Source](../../tree/main/vault/Open_Source.md) community of Generalizabilty users who will ensure long term G_String maintenance support for future generations. Ultimately, it is **you**, a member of the user community, who will have to depend on the viability of this platform. If **we all contribute**, G_String will be around for many years to come!

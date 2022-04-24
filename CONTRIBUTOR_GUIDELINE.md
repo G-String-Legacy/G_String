@@ -28,7 +28,7 @@ Never made an open source contribution before? Wondering how contributions work 
 
 ### Where can I go for help?
 
-If you need help, you can ask questions on our mailing list, IRC chat, or visit one of our [discussion forums](../../discussions).
+If you need help, you can ask questions gy visting onethe appropriate [discussion forums](../../discussions).
 
 ### What does the Code of Conduct mean for me?
 

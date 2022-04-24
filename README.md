@@ -3,7 +3,7 @@ This repository serves as community platform for investigators applying G_String
 Specifically, it provides:
 - A [discussion forum for methodological issues in Generalizability Analysis](../../discussions/1).
 - A [discussion forum for technical issues with G_String](../../discussions/12).
-- [Help in downloading and installing the newest version](../../tree/main/Support/get_G_String.md).
+- [Help in downloading and installing the newest version of G_String](../../tree/main/Support/get_G_String.md).
 - Resources for G_String in [Wiki](../../wiki).
 - An open-source [work bench](../../tree/main/workbench/workbench.md) to keep G_String alive.
 - [A way to join **G-String-Legacy**](../../blob/main/Support/membership.md).

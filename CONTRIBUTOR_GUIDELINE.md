@@ -1,6 +1,6 @@
 ### What do I need to know to help?
 
-If you are looking to help to with a code contribution our project uses Oracle Java 8 with JavaFX. If you don't feel ready to make a code contribution yet, no problem! You can also check out documentation issues [G_String Manual](../../tree/main/Support/Manual.md) or visit one of the [discussion boards](../../discussions), be it to ask a question or for help, but also to assist other members of the community with their problems.
+If you are looking to help with a code contribution our project uses Oracle Java 8 with JavaFX. If you don't feel ready to make a code contribution yet, no problem! You can also check out documentation issues [G_String Manual](../../tree/main/Support/Manual.md) or visit one of the [discussion boards](../../discussions), be it to ask a question or for help, but also to assist other members of the community with their problems.
 If you do identify an issue that needs to be addressed, raise it on the [issue tracker](../../issues) under the appropriate label.
 
 If you are interested in making a code contribution and would like to learn more about the technologies that we use, here are some relevant sources:
@@ -28,8 +28,8 @@ Never made an open source contribution before? Wondering how contributions work 
 
 ### Where can I go for help?
 
-If you need help, you can ask questions gy visting one of the appropriate [discussion forums](../../discussions).
+If you need help, you can ask questions by visting one of the appropriate [discussion forums](../../discussions).
 
 ### What does the Code of Conduct mean for me?
 
-Our Code of Conduct means that you are responsible for treating everyone on the project with respect and courtesy regardless of their identity. If you are the victim of any inappropriate behavior or comments as described in our Code of Conduct, we are here for you and will do the best to ensure that the abuser is reprimanded appropriately, per our code.
+Our Code of Conduct means that you are responsible for treating everyone on the project with respect and courtesy. If you are the victim of any inappropriate behaviour or comments as described in our Code of Conduct, we are here for you and will do our best to address the issue.

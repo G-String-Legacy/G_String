@@ -10,4 +10,4 @@ Scott Chacon in 2008 created a socio-technological infrastructure which is now c
 
 Thus, GitHub provides an ideal platform, not only for sharing functioning versions of G_String, their source code and supportive information, but also for interactive collaboration in developing the software further, and to deepen and widen the expertise in Generalizability analysis.
 
-But that requires user buy-in. It costs no money, but curiosity, and an urge to learn.
+But that requires user buy-in. It costs no money - but curiosity, and an urge to learn.

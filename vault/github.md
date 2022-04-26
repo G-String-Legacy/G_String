@@ -1,4 +1,4 @@
-### Why is G_String on GitHub?
+## Why is G_String on GitHub? 
 G_String is a tool of science; science is dynamic, collaborative, and universal. Manuscripts, books and journals, based on their technologies and economies, are static, monopolistic and costly.
 
 The advent of the Internet opened the door for dynamic, collaborative, universal, and affordable communication and work. But the unrestrained, and profit driven explosion of Internet based media has encouraged a dilution of solid, evidence-based knowledge in the society at large, and together with intentionally misleading infusions, has also destabilized social cohesion.

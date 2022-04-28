@@ -5,7 +5,7 @@ The above mentioned guide also suggests that any true blooded open source projec
 
 For the past ten year I have designed, coded, debugged, maintained, upgraded, and supported the **G_String** series of Generalizability Analysis programs as a retirement project for free. But the moment is rapidly approaching, where I no longer will be able to do so.
 
-> My **goal**, therefore, is to create an infrastructure enabling the members of the user community of **GS_L**, the most uptodate version of G_String, to gradually take over the responsibility for, and 'ownership' of the **GS_L Open Source Project**. The project is hosted by **GitHub**.
+> My **goal**, therefore, is to create an infrastructure enabling the members of the user community of **GS_L**, the most up-to-date version of G_String, to gradually take over the responsibility for, and 'ownership' of the **GS_L Open Source Project**. The project is hosted by **GitHub**.
 
 To this end, I am trying to make any information and tools for the future maintenance and support of G_String available in one place as user-friendly as possible.
 

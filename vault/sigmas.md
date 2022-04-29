@@ -10,9 +10,9 @@ Anyhow, here are the accepted definitions:
 Now we can calculate these variances from the variance components provided by urGenova for the simple  's x q' case, according to Brennan's rules derived from page 10 of '*Generalizability Theory*'.
 > 'student' (s) is the facet of differentiation, thus:
 > 
-> $\sigma^{2} ( \tau ) = VC(s) \equiv 1.0539$
+> <img style="transform: translateY(0.1em); background: white;" src="svg/yhpP9HljQr.svg">
 >
-> $\mathbb{Brennan}\;\mathbb{Rule}\;\mathbb{1.}$
+> <img style="transform: translateY(0.1em); background: white;" src="svg/pZrTgjenKt.svg">
 >    &sigma;<sup>2</sup>(&tau;) = the variance component of the facet of differentiation.
 
 Next we have to look at the variance of the relative error score:

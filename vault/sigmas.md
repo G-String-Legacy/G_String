@@ -28,7 +28,7 @@ And finally, the variance of the absolute error score:
 >
 > <img style="transform: translateY(0.1em); background: white;" src="svg/f781Qyfzbv.svg">
 >
-> Brennan Rule 3.</br>
+> <span style="font-family:Papyrus; font-size:4em;">Brennan Rule 3.</span></br>
 >    &sigma;<sup>2</sup>(&Delta;) = the sum of all normalized variance components except for  the variance component of the facet of differentiation.
 
 That leaves us with explaining, what is meant by 'normalized variance components'. Each variance component has been calculated for a specific configuration of facets. To normalize a given variance component, you divide it by the product of factors for each of its facets. For the facet of differentiation this factor is 1.0. For the facets of generalization and stratification it is 'the average' of the sample size. In case a facet is crossed, that makes it simple - it is the unique sample size for that facet. For nested facets it is a bit more complicated. for simple nested facets of level one, this average is equal to the arithmetic mean. For facets nested more highly, the average is equal to the harmonic mean. I am not sure, if this choice is based on hard mathematical derivations, or on empirics.

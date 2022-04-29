@@ -12,7 +12,7 @@ Now we can calculate these variances from the variance components provided by ur
 > 
 > <img style="transform: translateY(0.1em); background: white;" src="svg/yhpP9HljQr.svg">
 >
-> <span style="font-family:Papyrus; font-size:4em;">Brennan Rule 1.</span></br>
+> ![[img/Brennan_1.png]]</br>
 >    &sigma;<sup>2</sup>(&tau;) = the variance component of the facet of differentiation.
 
 Next we have to look at the variance of the relative error score:

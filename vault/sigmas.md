@@ -10,7 +10,7 @@ Anyhow, here are the accepted definitions:
 Now we can calculate these variances from the variance components provided by urGenova for the simple  's x q' case, according to Brennan's rules derived from page 10 of '*Generalizability Theory*'.
 > 'student' (s) is the facet of differentiation, thus:
 > 
-> <div style="text-align: center;"><img style="transform: translateY(0.1em); background: white;" src="svg/yhpP9HljQr.svg"></div>
+> <img style="transform: translateY(0.1em); background: white;" src="svg/yhpP9HljQr.svg">
 >
 > Brennan Rule 1.</br>
 >    &sigma;<sup>2</sup>(&tau;) = the variance component of the facet of differentiation.
@@ -18,7 +18,7 @@ Now we can calculate these variances from the variance components provided by ur
 Next we have to look at the variance of the relative error score:
 > The only facet of generalization is 'question' (q):
 >
-> <img style="transform: translateY(0.1em); background: white;" src="svg/zKkfY1e4lK.svg"></br>
+> <img style="transform: translateY(0.1em); background: white;" src="svg/zKkfY1e4lK.svg">
 >
 > Brennan Rule 2.</br>
 >    &sigma;<sup>2</sup>(&delta;) = the sum of all normalized variance components involving facets of generalization, but not of differentiation.
@@ -26,7 +26,7 @@ Next we have to look at the variance of the relative error score:
 And finally, the variance of the absolute error score:
 > Here VC(q) and VC(qs) meet Brennan's criteria:
 >
-> <img style="transform: translateY(0.1em); background: white;" src="svg/f781Qyfzbv.svg"></br>
+> <img style="transform: translateY(0.1em); background: white;" src="svg/f781Qyfzbv.svg">
 >
 > Brennan Rule 3.</br>
 >    &sigma;<sup>2</sup>(&Delta;) = the sum of all normalized variance components except for  the variance component of the facet of differentiation.

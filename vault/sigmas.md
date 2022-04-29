@@ -10,25 +10,25 @@ Anyhow, here are the accepted definitions:
 Now we can calculate these variances from the variance components provided by urGenova for the simple  's x q' case, according to Brennan's rules derived from page 10 of '*Generalizability Theory*'.
 > 'student' (s) is the facet of differentiation, thus:
 > 
-> <img style="transform: translateY(0.1em); background: white;" src="svg/yhpP9HljQr.svg">
+> <img style="transform: translateY(0.1em); background: white;" src="svg/yhpP9HljQr.svg"></br>
 >
-> <img style="transform: translateY(0.1em); background: white;" src="svg/pZrTgjenKt.svg">
+> <img style="transform: translateY(0.1em); background: white;" src="svg/pZrTgjenKt.svg"></br>
 >    &sigma;<sup>2</sup>(&tau;) = the variance component of the facet of differentiation.
 
 Next we have to look at the variance of the relative error score:
 > The only facet of generalization is 'question' (q):
 >
-> <img style="transform: translateY(0.1em); background: white;" src="svg/zKkfY1e4lK.svg">
+> <img style="transform: translateY(0.1em); background: white;" src="svg/zKkfY1e4lK.svg"></br>
 >
-> <img style="transform: translateY(0.1em); background: white;" src="svg/bjUx7ZbvLA.svg">
+> <img style="transform: translateY(0.1em); background: white;" src="svg/bjUx7ZbvLA.svg"></br>
 >    &sigma;<sup>2</sup>(&delta;) = the sum of all normalized variance components involving facets of generalization, but not of differentiation.
 
 And finally, the variance of the absolute error score:
 > Here VC(q) and VC(qs) meet Brennan's criteria:
 >
-> <img style="transform: translateY(0.1em); background: white;" src="svg/f781Qyfzbv.svg">
+> <img style="transform: translateY(0.1em); background: white;" src="svg/f781Qyfzbv.svg"></br>
 >
-> <img style="transform: translateY(0.1em); background: white;" src="svg/BtPfNV423G.svg">
+> <img style="transform: translateY(0.1em); background: white;" src="svg/BtPfNV423G.svg"></br>
 >    &sigma;<sup>2</sup>(&Delta;) = the sum of all normalized variance components except for  the variance component of the facet of differentiation.
 
 That leaves us with explaining, what is meant by 'normalized variance components'. Each variance component has been calculated for a specific configuration of facets. To normalize a given variance component, you divide it by the product of factors for each of its facets. For the facet of differentiation this factor is 1.0. For the facets of generalization and stratification it is 'the average' of the sample size. In case a facet is crossed, that makes it simple - it is the unique sample size for that facet. For nested facets it is a bit more complicated. for simple nested facets of level one, this average is equal to the arithmetic mean. For facets nested more highly, the average is equal to the harmonic mean. I am not sure, if this choice is based on hard mathematical derivations, or on empirics.

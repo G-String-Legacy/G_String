@@ -20,7 +20,6 @@ The G_String output for a synthetic dataset simulating the s x q design looks li
 
 <div align="center"><img style="background: white;" src="svg/YXBiJDYAn5.svg"></div>
 and <img style="transform: translateY(0.1em); background: white;" src="svg/94hGmtOsFS.svg">, the absolute variance fraction due to students:
-
 <div align="center"><img style="background: white;" src="svg/JlCzFposAT.svg"></div>
 In other words, the results affirm that we can rely this study.
 

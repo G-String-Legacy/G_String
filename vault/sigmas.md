@@ -20,7 +20,7 @@ Next we have to look at the variance of the relative error score:
 >
 > <img style="transform: translateY(0.1em); background: white;" src="svg/zKkfY1e4lK.svg">
 >
-> Brennan Rule 2.</br>
+> <span style = "font-family:Papyrus; font-size:4em;">Brennan Rule 2.</span></br>
 >    &sigma;<sup>2</sup>(&delta;) = the sum of all normalized variance components involving facets of generalization, but not of differentiation.
 
 And finally, the variance of the absolute error score:

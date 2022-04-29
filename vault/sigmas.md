@@ -10,7 +10,7 @@ Anyhow, here are the accepted definitions:
 Now we can calculate these variances from the variance components provided by urGenova for the simple  's x q' case, according to Brennan's rules derived from page 10 of '*Generalizability Theory*'.
 > 'student' (s) is the facet of differentiation, thus:
 > 
-> <img style="transform: translateY(0.1em); background: white;" src="svg/yhpP9HljQr.svg"></br>
+> <div style="text-align: center;"><img style="transform: translateY(0.1em); background: white;" src="svg/yhpP9HljQr.svg"></div>
 >
 > Brennan Rule 1.</br>
 >    &sigma;<sup>2</sup>(&tau;) = the variance component of the facet of differentiation.

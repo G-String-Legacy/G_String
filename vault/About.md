@@ -25,4 +25,4 @@ In addition, **GS_L** is also capable of generating synthetic data sets for any 
 
 ### The Anatomy and Physiology of GS_L
 
-In computing as in medicine structure and function are closely related. But let's start with [GS_L Structure](Structure), from there, as well directly from here we can branch anytime to [GS_L Function](Function).
+In computing as in medicine structure and function are closely related. But let's start with [GS_L Structure](Structure.md), from there, as well directly from here we can branch anytime to [GS_L Function](Function.md).

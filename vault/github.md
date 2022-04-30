@@ -1,3 +1,4 @@
+[Return](../../../)
 ## Why is G_String on GitHub? 
 G_String is a tool of science; science is dynamic, collaborative, and universal. Manuscripts, books and journals, based on their technologies and economies, are static, monopolistic and costly.
 

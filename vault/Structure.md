@@ -17,4 +17,4 @@ The source code is arranged functionally in seven folders that function as 'Java
 - [utilities](utilities.md)
 - [view](view.md)
 
-The relationships between the various program part is illustrated in the [Block Diagram](img/block.png).
+The relationships between the various program parts is illustrated in the [Block Diagram](img/block.png).

@@ -1,4 +1,4 @@
-[Return](../../README.md)
+[Return](../../../)
 ## About GS_Legacy
 
 ### Purpose

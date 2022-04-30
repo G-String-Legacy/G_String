@@ -1,4 +1,4 @@
-[Return](about.md)
+[Return](About.md)
 
 ## GS_L Structure ##
 G_String has evolved over a period of about 12 years. The first versions were coded in C# on early Visual Studio Versions. Their main function was to make it easier to use Brennan's [urGenova](https://education.uiowa.edu/casma/computer-programs).

@@ -8,4 +8,4 @@ Generally, variables have prefixes indicating their type. Early in the developme
 
 The code is extensively commented. Additionally, complicated algorithms are explained further in the Mind Map.
 
-Finally, I have to thank [Marco Jacob](https://code.makery.ch/library/javafx-tutorial/) , a superb Swiss teacher of design and programming. I owe him the efficient, basic structure of an archetypal, user-friendly, JavaFX based GUI.
+Finally, I have to thank [Marco Jakob](https://code.makery.ch/library/javafx-tutorial/) , a superb Swiss teacher of design and programming. I owe him the efficient, basic structure of an archetypal, user-friendly, JavaFX based GUI.

@@ -1,4 +1,4 @@
-[Return](../../READ.me)
+[Return](../../../)
 ## About GS_Legacy
 
 ### Purpose

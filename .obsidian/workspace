@@ -1,0 +1,93 @@
+{
+  "main": {
+    "id": "1f7ac1260880d186",
+    "type": "split",
+    "children": [
+      {
+        "id": "da25b65a8dc43e39",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "vault/application.md",
+            "mode": "preview"
+          }
+        }
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "92a10e250edc85c4",
+    "type": "split",
+    "children": [
+      {
+        "id": "8a944c11097ce959",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "7e16760db9949a27",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "15f80645aabe1665",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "b1fc5bda6e6773ad",
+    "type": "split",
+    "children": [
+      {
+        "id": "b173ceb2e84d3acd",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ed74dae4c9ec63e3",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "vault/application.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "active": "da25b65a8dc43e39",
+  "lastOpenFiles": [
+    "vault/application.md"
+  ]
+}

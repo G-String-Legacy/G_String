@@ -8,7 +8,7 @@ Package ['utilities'](../../../tree/main/workbench/GS_L/src/utilities) contains 
 
 ['CompConstrct.java'](../../../blob/main/workbench/GS_L/src/utilities/CompConstrct.java) constructs the various facet combinations for each of the configurations that has a separate variance component. It is used in ['SynthGroups.java'](../../../blob/main/workbench/GS_L/src/steps/SynthGroups.java), line 889.
 
-['constructSimulation,java'](../../../blob/main/workbench/GS_L/src/utilities/constructSimulation,java) assembles the synthetic data file from the random configuration components. It is used in ['SynthGroups.java'](../../../blob/main/workbench/GS_L/src/steps/SynthGroups.java), line 168.
+['constructSimulation,java'](../../../blob/main/workbench/GS_L/src/utilities/constructSimulation.java) assembles the synthetic data file from the random configuration components. It is used in ['SynthGroups.java'](../../../blob/main/workbench/GS_L/src/steps/SynthGroups.java), line 168.
 
 ['FacetModView.java'](../../../blob/main/workbench/GS_L/src/utilities/FacetModView.java) provides the JavaFX snippet allowing to change the facet levels for D-Studies in  ['AnaGroups.java'](../../../blob/main/workbench/GS_L/src/steps/AnaGroups.java) in line 1151.
 

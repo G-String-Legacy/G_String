@@ -27,7 +27,7 @@ public class TextStack
 {
 	/**
 	 * Utility for G_String Help
-	 * Reads help markup file and converts it to javafx Text
+	 * Reads 'help markup' file and converts it to javafx Text VBox
 	 */
 
 	private ArrayList<String> salLines = new ArrayList<String>();
@@ -78,7 +78,6 @@ public class TextStack
 		bullet = new VBox();
 		bullet.setPrefWidth(80.0);
 		bullet.setAlignment(Pos.TOP_LEFT);
-		//bullet.getChildren().add(tb);
         for (String sLine: salLines)
         {
         	for (String s : sOpts)

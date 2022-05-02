@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.prefs.Preferences;
@@ -51,7 +50,6 @@ public class Filer {
 	private Integer iMaxColumns = 0;
 	private Preferences prefs = null;
 	private WebEngine webEngine = null;
-	private ArrayList<inTuple> rawData = null;
 	private String[] sHeaders = null;
 	private Filer self;
 	private Integer iMaxColCount = null; // tentative limit for number of
@@ -401,8 +399,6 @@ public class Filer {
 		myNest.setGrandMeans(dGrandMeans);
 
 		String sDataPath = prefs.get("Working Directory", null) + File.separator + sDataFileName;
-		// String sDataPath =
-		// "/home/ralph/Documents/Work/G-Theory/G_String_VI/Clean/TestOutput.txt";
 		File fData = new File(sDataPath);
 		fData.setReadable(true, false);
 		PrintStream ps = null;
@@ -456,7 +452,6 @@ public class Filer {
 		 * 'VarianceComponent array (in Nest)
 		 */
 		String sLine = null;
-		// myNest.G_setFacets();
 		String sUrOutput = prefs.get("Working Directory", null) + "/~control.txt.lis";
 		File file = new File(sUrOutput);
 		iOutputPointer = 0;
@@ -495,10 +490,6 @@ public class Filer {
 
 	public Integer getHighlight() {
 		return iHilight;
-	}
-
-	public ArrayList<inTuple> getTuples() {
-		return rawData;
 	}
 
 	public Integer getHeader() {

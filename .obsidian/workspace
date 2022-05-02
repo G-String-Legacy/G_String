@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "vault/utilities.md",
+            "file": "vault/view.md",
             "mode": "preview"
           }
         }
@@ -68,7 +68,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "vault/utilities.md",
+                "file": "vault/view.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -88,6 +88,7 @@
   },
   "active": "da25b65a8dc43e39",
   "lastOpenFiles": [
+    "vault/view.md",
     "vault/utilities.md",
     "vault/steps.md",
     "vault/resources.md",

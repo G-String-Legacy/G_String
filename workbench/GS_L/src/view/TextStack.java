@@ -27,7 +27,7 @@ public class TextStack
 {
 	/**
 	 * Utility for G_String Help
-	 * Reads html file and converts it to javafx Text
+	 * Reads help markup file and converts it to javafx Text
 	 */
 
 	private ArrayList<String> salLines = new ArrayList<String>();
@@ -50,7 +50,6 @@ public class TextStack
 
 		String sResource = "/resources/help/" + filename;
 		InputStream stIn = Main.class.getResourceAsStream(sResource);
-		//InputStream stIn = mainApp.class.getResourceAsStream("resources/help/Help_0.tf");
         BufferedReader reader = new BufferedReader(new InputStreamReader(stIn));
         String line;
         while ((line = reader.readLine()) != null) {

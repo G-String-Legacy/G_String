@@ -2,7 +2,7 @@
 ## About GS_Legacy
 
 ### Purpose
-The purpose of this mind map is to support future users and maintainers of G_String (**GS_L**), a computer program for Generalizability Analysis (GA), by providing a coherent collection of in depth information on the Why's and How's of GA with **GS_L**. It is also intended to support software professionals in finding and fixing bugs and other problems with **GS_L**, and to improve it further, according to the expressed needs of the user community.
+The purpose of this [mind map](mindmap.md) is to support future users and maintainers of G_String (**GS_L**), a computer program for Generalizability Analysis (GA), by providing a coherent collection of in depth information on the Why's and How's of GA with **GS_L**. It is also intended to support software professionals in finding and fixing bugs and other problems with **GS_L**, and to improve it further, according to the expressed needs of the user community.
 
 ### What is Generalizability Analysis
 Generalizability Analysis is a statistical method of reducing the  [[Uncertainty]] in quantitative performance assessments, establishing criteria of confidence, and identifying potential confounding aspects. 

@@ -1,2 +1,2 @@
 ## Mind Map ##
-[[map.png]]
+[map.png](img/map.png)

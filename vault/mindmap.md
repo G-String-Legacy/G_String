@@ -1,0 +1,2 @@
+## Mind Map ##
+[[map.png]]

@@ -8,9 +8,9 @@ Sometimes the link needs to show a whole Java object, but sometimes a particular
 
 
 |               |               |
-| ------------- | ------------- |
-|![[/img/button.png]]  | In the upper right corner of the screen are two buttons​.  |
-|![[/img/choice.png]]   | When you click on the three dots, you get a choice between jumping to named method, or two a specific line number.  |  |
+| -------------------- | ------------- |
+| ![[/img/button.png]] | In the upper right corner of the screen are two buttons​.  |
+| ![[/img/choice.png]] | When you click on the three dots, you get a choice between jumping to named method, or two a specific line number.  |  |
 
 
 Once you are done, use the regular browser 'left arrow' to return to the previous page.

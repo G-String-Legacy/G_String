@@ -15,7 +15,7 @@ Each of these two goals can be achieved in one of two ways:
   <li>for a recurring problem a script with manual override can relieve the tedium.</li>
 </ol>
 
-Consequently, G_String has two main work horses - [AnaGroups.java](../../../blob/main/workbench/GS_L/src/steps/AnaGroups.java) for analysis, and [SynthGroups.java](../../../blob/main/workbench/GS_L/src/SynthGroups.java) for synthesis. Both are constructed similarly, enforcing a step-by-step workflow that leads to the desired result. The method to look for in either is called '**getGroup**'.
+Consequently, G_String has two main work horses - [AnaGroups.java](../../../blob/main/workbench/GS_L/src/steps/AnaGroups.java) for analysis, and [SynthGroups.java](../../../blob/main/workbench/GS_L/src/steps/SynthGroups.java) for synthesis. Both are constructed similarly, enforcing a step-by-step workflow that leads to the desired result. The method to look for in either is called '**getGroup**'.
 
 The code of 'getGroup' is straight forward:
 ```

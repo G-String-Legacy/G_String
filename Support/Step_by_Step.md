@@ -12,6 +12,6 @@ Each of these two goals can be achieved in one of two ways:
 
 <ol type="a">
   <li>for a totally new problem, parameters are entered manually;</li>
-  <li>for a recurring problem a script with manual override</li>
+  <li>for a recurring problem a script with manual override can relieve the tedium.</li>
 </ol>
 

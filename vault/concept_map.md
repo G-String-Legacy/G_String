@@ -4,5 +4,4 @@ A concept map graphically represents the logical relationships between ideas, co
 That makes concept maps particularly useful for passing on thoughts and concepts beyond the life time of their creator.  For this reason we present the logic, structure, and function of G_String as a concept map: [About GS-Legacy](About.md), with its [graphical representation](img/map.png) showing the connections. This concept map is integrated with the source code of GS_L where appropriate.
 
 Sometimes the link needs to show a whole Java object, but sometimes a particular method or even a numbered line is of interest.  GitHub  allows you to hone in. Here is how to do it: </br>
-<img style = {text-align:top}  src = "img/button.png">The upper right corner of the screen shows two buttons.  When you click on the thre dots, you are offered a choice:</br>
-<img style = {text-align:top}  src = "img/choice.png">. Once you are done with that code, just use the usual browser 'left arrow' to return to the previous screen.</div>
+<div style = {text-align:center}><img src = "img/button.png">The upper right corner of the screen shows two buttons.  When you click on the thre dots, you are offered a choice: <img src = "img/choice.png">. Once you are done with that code, just use the usual browser 'left arrow' to return to the previous screen.</div>

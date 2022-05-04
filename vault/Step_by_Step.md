@@ -33,3 +33,5 @@ switch (iStep) {
 
 The stepping is controlled by method 'stepUp' in [Main](../../../blob/main/workbench/GS_L/src/application/Main.java). The groups go back to Main, where they are passed by method 'show' to the GUI. When the user has entered the responses appropriate to the step, he or she clicks on 'Next', signaling to 'stepUp' in 'Main' to proceed to the next step.
 
+If the user has selected to use a script, 'startUp ' will set a switch ''getDoOver'. In step 1 'getGroup' , method 'setTitle' checks that switch, which would be 'true' in that case. At each step then,  'getGroup' first will fill in the data from the script, before handing the screen to the user for potential changes.
+

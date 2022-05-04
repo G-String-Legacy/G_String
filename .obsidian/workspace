@@ -7,8 +7,11 @@
         "id": "d58222836ff81e99",
         "type": "leaf",
         "state": {
-          "type": "empty",
-          "state": {}
+          "type": "markdown",
+          "state": {
+            "file": "vault/Step_by_Step.md",
+            "mode": "preview"
+          }
         }
       }
     ],
@@ -65,6 +68,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "vault/Step_by_Step.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -84,6 +88,7 @@
   },
   "active": "d58222836ff81e99",
   "lastOpenFiles": [
+    "vault/Step_by_Step.md",
     "vault/concept_map.md",
     "vault/img/button.png",
     "vault/view.md",

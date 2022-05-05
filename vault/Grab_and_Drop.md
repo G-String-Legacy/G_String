@@ -7,4 +7,4 @@ The user orders and nests the facets entirely by picking up graphical objects us
 
 'orderFacets' exhibits a single 'ListView' (lvFacets). Its items, or 'cells' are created in a 'cellFactory'. The cells respond to a series of mouse events, such as: 'onDragEntered', or 'onMouseClicked' with specific actions. These cells are linked to an '[observableList](https://docs.oracle.com/javase/8/javafx/api/javafx/collections/ObservableList.html)' containing the facets.
 
-'setNestingGroups' exhibits two 'ListViews' side-by-side: 'lvNested', and 'lvCrossed'. 'lvNested' initially contains the nested facets and 'lvCrossed' the crossed facets. But 'lvCrossed' is intended for the crossed effects, that is, the nested facets are moved my 'Grab-and-Drop' over to 'lvCrossed' and dropped on the facet, they are nested in.
+'setNestingGroups' exhibits two 'ListViews' side-by-side: 'lvNested', and 'lvCrossed'. 'lvNested' initially contains the nested facets and 'lvCrossed' the crossed facets. But 'lvCrossed' is intended for the crossed effects, that is, the nested facets are moved by 'Grab-and-Drop' over to 'lvCrossed' and dropped on the facet, they are nested in.

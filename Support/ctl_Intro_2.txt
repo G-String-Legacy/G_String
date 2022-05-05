@@ -1,0 +1,15 @@
+GSTUDY    Intro sample
+COMMENT   Comments
+COMMENT*  Candidate    (c)
+COMMENT*  Day    (d)
+COMMENT*  Circuit    (t)
+COMMENT*  Station    (s)
+COMMENT*  Item    (i)
+OPTIONS   NREC 5 "*.lis" TIME NOBANNER
+EFFECT       d           5 
+EFFECT       t:d         5 5 5 5 5 
+EFFECT       * c:t:d       10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 
+EFFECT       s           10 
+EFFECT       i:s         8 8 8 8 8 8 8 8 12 12 
+FORMAT       32  8
+PROCESS      "~data.txt"

@@ -3,11 +3,11 @@
 
 <map name="mindmap">
 
-<area shape = "circle" coords = "414,308,500" alt="About" href="About.md">
+<area shape = "circle" coords = "414,308,40" alt="About" href="About.md">
 
-<area shape = "circle" coords = "290, 100, 500" alt = "About" href="Open_Source.md">
+<area shape = "circle" coords = "290, 100, 40" alt = "About" href="Open_Source.md">
 
-<area shape = "circle" coords = " 459 62, 40" alt = "About" href = "[ ](Function.md)">
+<area shape = "circle" coords = " 459 62, 40" alt = "About" href = "Function.md">
 
 <area shape = "circle" coords = " 590, 130, 40" alt = "About" href = "[ ](Uncertainty.md)">
 

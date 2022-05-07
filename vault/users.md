@@ -1,4 +1,4 @@
-[Return]()
+[Return](../../../)
 ## Information for G_String Users ##
 - [About GS-Legacy](About.md)
 - [Help in downloading and installing the newest version of G_String](../../../tree/main/Support/get_G_String.md).

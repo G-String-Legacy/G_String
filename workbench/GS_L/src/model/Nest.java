@@ -40,14 +40,16 @@ public class Nest {
 	private ArrayList<Facet> facets = null;
 	private Facet[] farFacets = null;
 	private SampleSizeTree myTree = null;
-	private String[] sarNestedNames;
-								// array of final, nested arrays in hierarchical order
-	private String sDictionary; // simple simulation of one character dictionary
-								// as concatenation of member characters
-	private String sHDictionary; 	// the hierarchical dictionary orders the
-									// facets in the
-									// sequence they have to be processed 
-									// according to the nesting hierarchy.
+	private String[] sarNestedNames;	// array of final, nested arrays in hierarchical order
+	
+	private String sDictionary; 		// simple simulation of one character dictionary
+										// as concatenation of member characters in the original order
+										// the facets were entered.
+	
+	private String sHDictionary; 		// the hierarchical dictionary orders the
+										// facets in the order the data appear in
+										// the data file.
+	
 	private Integer iNestCount = 0; // number of nested facets
 	private Scene scene = null; 	// standard empty display scene for use in
 									// objects

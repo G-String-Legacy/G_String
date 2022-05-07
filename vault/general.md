@@ -1,4 +1,4 @@
-[Return](Structure.md)
+[Return](Block_Diagram.md)
 ## General Remarks ##
 The author has acquired his programming skills informally over more than 60 years in academic and clinical pursuits. As a consequence, the programming style, while attempting to keep to general rules, lacks the discipline observed by professional programmers.
 
@@ -8,4 +8,4 @@ Generally, variables have prefixes indicating their type. Early in the developme
 
 The code is extensively commented. Additionally, complicated algorithms are explained further in the Mind Map.
 
-Finally, I have to thank [Marco Jakob](https://code.makery.ch/library/javafx-tutorial/) , a superb Swiss teacher of software design and programming. I owe him the efficient, basic structure of an archetypal, user-friendly, JavaFX based GUI.
+Finally, I have to thank [Marco Jacob](https://code.makery.ch/library/javafx-tutorial/) , a superb Swiss teacher of design and programming. I owe him the efficient, basic structure of an archetypal, user-friendly, JavaFX based GUI.

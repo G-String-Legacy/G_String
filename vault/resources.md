@@ -1,4 +1,4 @@
-[Return](Structure.md)
+[Return](Block_Diagram.md)
 ## resources ##
 [Block Diagram of G_String](img/block.png)  
 

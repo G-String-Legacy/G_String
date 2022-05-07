@@ -1,8 +1,8 @@
-[Return](Structure.md)
+[Return](Block_Diagram.md)
 ## steps ##
 [Block Diagram of G_String](img/block.png)  
 
-The package 'steps' contains the three major work horses of GS_L: ['AnaGroups.java'](../../../blob/main/workbench/GS_L/src/steps/AnaGroups.java), ['SynthGroups.java'](../../../blob/main/workbench/GS_L/src/steps/SynthGroups.java), and ['gSetup.java'](../../../blob/main/workbench/GS_L/src/steps/gSetup.java).
+The package 'steps' contains the three major work horses of GS_L: ['AnaGroups.java'](../../../blob/main/workbench/GS_L/src/steps/AnaGroups.java), ['SynthGroups.java'](../../../blob/main/workbench/GS_L/src/SynthGroups.java), and ['gSetup.java'](../../../blob/main/workbench/GS_L/src/gSetup.java).
 
 'AnaGroups' and 'SynthGroups' share an identical overall structure. They are based on one big 'switch case: iStep' ladder. The first serves analysis, the second generates synthetic data files. Both use the same graphical input strategy for collecting the design information.
 

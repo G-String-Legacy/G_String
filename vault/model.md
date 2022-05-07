@@ -1,4 +1,4 @@
-[Return](Structure.md)
+[Return](Block_Diagram.md)
 ## model ##
 [Block Diagram of G_String](img/block.png)  
 

@@ -1,5 +1,5 @@
 [Return](professionals.md)
-
+## Block Diagram ##
 ![Block Diagram](img/block.png)
 
 

@@ -1,4 +1,4 @@
-[Return](users.md)
+[Return](About.md)
 ## Open Source ##
 The [Open Source Guide](https://opensource.guide/starting-a-project/) defines **Open Source** as: "When a project is open source, that means **anybody is free to use, study, modify, and distribute your project for any purpose.** These permissions are enforced through [an open source license](https://opensource.org/licenses)."
 

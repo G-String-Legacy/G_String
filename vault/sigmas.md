@@ -1,3 +1,4 @@
+[Return](Partitioning)
 ## The Sigmas, &tau;, &delta;, and &Delta; ##
 You are justified in complaining, that &sigma;, &tau;, &delta; and &Delta; all sound Greek to you. I haven't found a good explanation or justification for the central choice of these symbols in Generalizability Theory either. It is true that &sigma;<sup>2</sup> is commonly used as symbol for variance in statistics, which is equal to the "*mean **s**quare difference between variable values and their mean*". And '&sigma;' is Greek for '**s**'. The letter '&tau;' follows '&sigma;' in the Greek alphabet. The letters '&delta;' and '&Delta;', finally correspond to our letters 'd' and 'D', which might stand for 'difference'. But I won't blame you, if you scoff at this explanation.
 

@@ -1,4 +1,4 @@
-[Return](users.md
+[Return](users.md)
 ## Uncertainty ##
 
 In a November 1789 letter to Jean-Baptiste Le Roy, Benjamin Franklin wrote: 

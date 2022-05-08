@@ -1,3 +1,4 @@
+[Return}(Variance.md)
 ## Partitioning the Variance ##
 There are two steps to partition the data variance into its components:
 1.	Identifying how the variance has to be partitioned, and

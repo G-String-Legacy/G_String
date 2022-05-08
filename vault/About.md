@@ -10,7 +10,7 @@ Generalizability Analysis is a statistical method of reducing the  [Uncertainty]
 ### What is GS_L?
 **GS_L** is the most recent incarnation of a computer program that allows investigators to efficiently perform Generalization Analysis, without requiring extensive mathematical and statistical knowledge. 
 
-**GS_L**, like this whole project is **[Open_Source]()Open_Source.md**. That means not only that the software is free, and the code is in the public domain, but it also means that the onus for sustaining open source projects lies implicitly on the user community.
+**GS_L**, like this whole project is **[Open_Source](Open_Source.md)**. That means not only that the software is free, and the code is in the public domain, but it also means that the onus for sustaining open source projects lies implicitly on the user community.
 
 **GS_L** guides the user with the help of a graphical user interface in a stepwise fashion to:
 - name and describe the assessment in dense prose;

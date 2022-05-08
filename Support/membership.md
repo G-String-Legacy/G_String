@@ -1,4 +1,5 @@
-## Membership in 'G-String-Legacy'
+[Return](users.md)
+## Membership in 'G-String-Legacy' ##
 
 Anybody with an interest in Generalizability Theory and/or G_String can become a member. There is no cost, and in fact, we encourage people to join. The 'open source' nature of the G_String project allows anybody free read access to the information on its repository.
 

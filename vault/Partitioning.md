@@ -29,11 +29,11 @@ That leaves us with [understanding &sigma;<sup>2</sup>(&tau;), &sigma;<sup>2</su
 ### With 'Nesting' it is the same, only more so! ###
 For example, let us take a typical OSCE design with four groups (g) of ten candidates (c) each. The parcours consists of five stations (s), each with two raters (r) marking on three items (i). The G_String design looks such:
 
- ![[img/Design.png]]
+<img src="img/Design.png">
  
 This design gives rise to many more configurations. But don't worry, you won't have to figure them all out by yourself. G_String will do it for you:
 
-![[img/Configurations.png]]
+<img src = "img/Configurations.png">
 
 The final G_String result output tells you, among other:
 

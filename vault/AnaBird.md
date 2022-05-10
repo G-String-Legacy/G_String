@@ -3,7 +3,7 @@
 <TABLE>
 	<TR>
 		<TD>
-			![Bird's Eye View of Analysis](img/AnaBird.png)
+			<img src = "img/AnaBird.png">
 		</TD>
 		<TD>
 			This is descriptive text.

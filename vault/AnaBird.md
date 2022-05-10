@@ -15,5 +15,6 @@
 			GS picks up the urGENOVA output file, copies the content to its own collective
 			output, and interprets it. Specifically, it extracts the configurations and values of the
 			individual variance components, and uses them o calculate &sigma;<sup>2</sup>(&tau;),
-			&sigma;<sup>2</sup>(&delta;), and &sigma;<sup>2</sup>(&Delta;)
+			&sigma;<sup>2</sup>(&delta;), and &sigma;<sup>2</sup>(&Delta;).</BR></BR>
+			From these it calculates &Phi;, and E&rho;<sup>2</sup>, the generalizability coefficients.
 </TABLE>

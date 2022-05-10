@@ -3,7 +3,7 @@
 <TABLE>
 	<TR>
 		<TD>
-			<img src = "img/AnaBird.png" width="400">
+			<img src = "img/AnaBird.png" style="width:350px;height:600px;">
 		</TD>
 		<TD>
 			This Bird's eye view is important for IT professionals, in order to

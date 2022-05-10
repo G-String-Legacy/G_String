@@ -12,7 +12,7 @@ The source code is arranged functionally in seven folders that function as 'Java
 ### [General Remarks](general.md)
 ### [application](application.md)
 ### [model](model.md)
-### [resources](vault/resources.md)
+### [resources](resources.md)
 ### [steps](steps.md)
 ### [utilities](utilities.md)
 ### [view](view.md)

@@ -9,11 +9,11 @@ The final extension with GS_6 added the ability to generate synthetic data files
 
 The source code is arranged functionally in seven folders that function as 'Java packages'. Of those, two folders contain only resource files, to be used by the source code. These are listed together as 'resources'. We will next describe the structure of GS_L systematically:
 
-- [General Remarks](general.md)
-- [application](application.md)
-- [model](model.md)
-- [resources](vault/resources.md)
-- [steps](steps.md)
-- [utilities](utilities.md)
-- [view](view.md)
+### [General Remarks](general.md)
+### [application](application.md)
+### [model](model.md)
+### [resources](vault/resources.md)
+### [steps](steps.md)
+### [utilities](utilities.md)
+### [view](view.md)
 

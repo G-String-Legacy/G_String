@@ -2,10 +2,10 @@
 ## Analysis, the Bird's Eye View ##
 <TABLE>
 	<TR>
-		<TD>
+		<TD width = "50%">
 			<img src = "img/AnaBird.png" style="width:350px;height:600px;">
 		</TD>
-		<TD>
+		<TD width = "50%">
 			This Bird's eye view is important for IT professionals, in order to
 			understand the code.</BR></BR>
 			The first part of the step-by-Step workflow is straightforward.

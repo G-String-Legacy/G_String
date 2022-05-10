@@ -12,4 +12,5 @@ This line of pages is intended for professionals, called in to deal with specifi
  -    [Block Diagram](Block_Diagram.md)
  -    [Components](Structure.md)
 ### Specific Algorithms ###
+-    [Preprocessing score data](preprocessing.md)
 -    to follow

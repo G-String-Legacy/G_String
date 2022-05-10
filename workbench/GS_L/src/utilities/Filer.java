@@ -300,8 +300,8 @@ public class Filer {
 	public void readDataFileNew(File _inFile) {
 		/*
 		 * Reads and parses datafile, stores possible header in 'headers',
-		 * stores data in 'rawDataNew' structure', i.e. an array of arrays
-		 * Int[][] in several passes: Pass 1: counts valid lines and counts
+		 * stores data in 'sRawData' structure', i.e. an array of arrays
+		 * String[][] in several passes: Pass 1: counts valid lines and counts
 		 * lines with Double content Pass 2: creates outer array with
 		 * appropriate number of lines, then chops lines, creates inner arrays
 		 * and stores Double numbers Also, initialize summing for means and
@@ -344,15 +344,10 @@ public class Filer {
 						// split on tab
 						sChoppedLine = sLine.split("\t");
 					} else {
-						// split on whitespace
+						// split on whitespace	// not recommended if there are missing data
 						sChoppedLine = sLine.split("\\s+");
 					}
 					iNumberFields = sChoppedLine.length;
-					/*
-					 * dChoppedLine = new Double[iNumberFields]; iFieldCount =
-					 * 0; for (String s : sChoppedLine)
-					 * dChoppedLine[iFieldCount++] = Double.parseDouble(s);
-					 */
 					sRawData[iLineIndex++] = sChoppedLine;
 
 					if (iNumberFields > iMaxColumns)

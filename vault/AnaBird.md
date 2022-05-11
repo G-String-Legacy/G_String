@@ -7,7 +7,7 @@
 		</TD>
 		<TD width = "50%">
 			This Bird's eye view is important for IT professionals, in order to
-			understand the code of 'AnaGroups.java'.<BR/><BR/>
+			understand the code of ['AnaGroups.java'](../../../blob/main/workbench/GS_L/src/steps/AnaGroups.java).<BR/><BR/>
 			The first part of the step-by-Step workflow is straightforward.
 			It eventually leads to GS creating two files, a control file '~control.txt',
 			and a data file '~data.txt', both of which are placed into the working directory,

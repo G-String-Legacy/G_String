@@ -7,7 +7,7 @@
 		</TD>
 		<TD width = "50%">
 			This Bird's eye view is important for IT professionals, in order to
-			understand the code of [SynthGroups.java](../../../blob/main/workbench/GS_L/src/SynthGroups.java).</BR></BR>
+			understand the code of 'SynthGroups.java'.<BR/><BR/>
 			The first part of the step-by-Step workflow is straightforward.<BR/><BR/>
 			Based on these design parameters, GS generates the permitted 'Variance
 			Component' configurations, and presents them to the user, who then enters the estimated 'Variance Component' values for each configuration.<BR/><BR/>

@@ -57,7 +57,7 @@ public class AnaGroups {
 	/**
 	 * AnaGroups manages the process of analyzing data file by taking the user step-by-step
 	 * through the whole procedure from entering the project title to
-	 * printing out the resulting pseudo data file.  Altogether there are 9 steps,
+	 * printing out the result file.  Altogether there are 9 steps,
 	 * and proceeding to the next step is only possible after 'grammatically'
 	 * correct input. Obviously, users can still enter parameters that do not correspond to
 	 * their actual study. At each step a context specific help screen is available.
@@ -105,11 +105,12 @@ public class AnaGroups {
 		 * and proceeding to the next step is only possible after 'grammatically'
 		 * correct input. Obviously, users can still enter parameters that do not correspond to
 		 * their actual study. At each step a context specific help screen is available.
-		 * As result of the user responses at a given step, the entered data are stored, and the GUI scene
-		 * for the next step is generated, and handed via 'main' back to the GUI.
+		 * As result of the user responses at a given step, the entered data are stored, and the GUI
+		 * scene for the next step is generated, and handed via 'main' back to the GUI.
 		 * Users can step through the analysis either manually, by entering the design information
 		 * via keyboard and mouse, or they can pick the 'do-over' mode, where the program
-		 * reads a control file, prepared in a previous analysis run, and the user just has to enter changes.
+		 * reads a control file (script), prepared in a previous analysis run, and the user just has 
+		 * to enter changes.
 		 */
 		
 		myNest = _nest;
@@ -141,6 +142,12 @@ public class AnaGroups {
 		 * The 'popup' call at each step collects ongoing status
 		 * information, that can be optionally fed to a log file
 		 * for diagnostic use.
+		 * At each step 'getGroup' returns a JavaFX Group object, constructed
+		 * as result of the the cumulative information entered. The 'Group'
+		 * goes to 'Main', where it is packaged into a JavaFX 'Scene',
+		 * which is then handed to the 'rootLayoutController'.
+		 * Some steps can generate their 'Group' directly, others
+		 * need the assistance of further methods contained in this package
 		 */
 		
 		bDownStep = _bDownStep;

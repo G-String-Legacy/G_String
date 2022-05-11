@@ -14,4 +14,5 @@ This line of pages is intended for professionals, called in to deal with specifi
 ### Specific Algorithms ###
 #### [Preprocessing score data](preprocessing.md)
 #### [Bird's Eye View of Analysis](AnaBird.md)
+#### [Bird's Eye View of Synthesis](SynBird.md)
 #### to follow

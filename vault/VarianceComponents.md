@@ -9,3 +9,4 @@ Next it specifies some default urGENOVA parameters, which can actually be altere
 <table><tr>
 <td width = "40%">Based on the above control input and the data, 'urGENOVA' generates, among other output, an ANOVA table of estimated variance components for each of the possible direct and crossed 'EFFECTs'.<br>
 The estimated variance components appear in the last column. But, mathematically speaking, variances are quadratic entities, and can't actually take on negative values. The accepted practice, therefore, is to set all negative values equal to 0.0 in the calculations of the variances of 'universe score' &sigma;<sup>2</sup>(&tau;), 'relative error' &sigma;<sup>2</sup>(&delta;), and 'absolute error' &sigma;<sup>2</sup>(&Delta;). </td><td><img src="img/ANOVA_Table.png"></td></tr></table>
+confirm

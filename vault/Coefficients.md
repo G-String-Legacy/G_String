@@ -8,7 +8,7 @@ Let us start by defining a few variables, we are going to need for our calculati
 <LI>B<sub>&kappa;</sub>(E) is a bit like a boolean, it takes on the values 0 or 1 depending on the subscript &kappa; (to be defined later), and the facets within E.</LI>
 <LI>A<sub>f</sub> is the 'average' sample size for F<sub>f</sub> (to be defined later).</LI>
 </UL>
-</td></tr></table><table><tr><td>
+</td></tr></table><table><tr><td width = "40%">
 
 <div align="center"><img style="background: white;" src="svg/xkaC3xEuCx.svg"></div>
-</td></tr></table>
+</td><td></td></tr></table>

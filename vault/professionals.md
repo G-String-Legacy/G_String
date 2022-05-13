@@ -15,5 +15,6 @@ This line of pages is intended for professionals, called in to deal with specifi
 #### [Preprocessing score data](preprocessing.md)
 #### [Bird's Eye View of Analysis](AnaBird.md)
 #### [Using Variance Components](VarianceComponents.md)
+#### [Calculating Coefficients](Coefficients.md)
 #### [Bird's Eye View of Synthesis](SynBird.md)
 #### to follow

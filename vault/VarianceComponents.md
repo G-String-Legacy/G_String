@@ -7,4 +7,4 @@ Next it specifies some default urGENOVA parameters, which can actually be altere
 </td></tr></table>
 <br>
 <table><tr>
-<td width = "40%">Based on the above control input and the data, 'urGENOVA' generates, among other output, a table of estimated variance coefficients for each 'EFFECT'.</td><td><img src="img/Variances.png"></td></tr></table>
+<td width = "40%">Based on the above control input and the data, 'urGENOVA' generates, among other output, a table of estimated variance coefficients for each 'EFFECT'.</td><td><img src="img/ANOVA_Table.png"></td></tr></table>

@@ -10,4 +10,5 @@ Let us start by defining a few variables, we are going to need for our calculati
 </UL>
 </td></tr></table><table><tr><td>
 
+<div align="center"><img style="background: white;" src="svg/xkaC3xEuCx.svg"></div>
 </td></tr></table>

@@ -7,7 +7,7 @@ This line of pages is intended for professionals, called in to deal with specifi
 ### Housekeeping  ###
 #### [Preferences](Preferences.md)
 #### [Exception Handling](Exceptions.md)
-#### [Special Directories](Directories.md.md)
+#### [Special Directories](Directories.md)
 ### The Structure of G_String ###
 #### [Block Diagram](Block_Diagram.md)
 #### [Components](Structure.md)

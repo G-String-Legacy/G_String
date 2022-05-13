@@ -10,7 +10,8 @@ Let us start by defining a few variables, we are going to need for our calculati
 <LI>A<sub>f</sub> is the 'average' sample size for F<sub>f</sub> (to be defined below).</LI>
 </UL>
 </td></tr></table>
-<table><tr><td width = "40%">
+<table><tr><td width = "60%">
 
-<div align="center"><img style="background: white;" src="svg/xkaC3xEuCx.svg"></div>
-</td><td>   </td></tr></table>
+
+</td><td> <div align="center"><img style="background: white;" src="svg/xkaC3xEuCx.svg"></div>
+  </td></tr></table>

@@ -1,7 +1,7 @@
 [Return](professionals.md)
 ## Calculating Coefficients ##
+#### Continuing with the previous example: ####
 <table><tr><td width = "40%"><img src="img/VCOR.png"></td><td>
-#### Continuing with the previous example: ####<br>
 Let us start by defining a few variables, we are going to need for our calculations. We have 14 different effects in this example. <UL>
 <LI>'E<sub>e</sub>' will stand for an effect, where 'e' is an index 0..13. </LI>
 <LI>'V<sub>e</sub>' stands for the corresponding corrected variance components 'VCOR' in the table.</LI>

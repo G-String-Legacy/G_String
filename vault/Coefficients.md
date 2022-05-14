@@ -11,17 +11,16 @@ Let us start by defining a few variables, we are going to need for our calculati
 </UL>
 </td></tr></table>
 <table><tr><td width = "60%">
-The purpose of the whole effort is to find E&rho;<sup>2</sup>, the relative variance fraction due to students as:
-
-<div align="center"><img style="background: white;" src="svg/YXBiJDYAn5.svg"></div>
-and the absolute variance fraction due to students:
-<div align="center"><img style="background: white;" src="svg/JlCzFposAT.svg"></div>
- 
+We classify facets thus:<br>
+'facet of differentiation (d)':  the primary subject of interest;<br>
+'facets of generalization (g)':  components of the measurement process;<br>
+'facets of stratification (s)':  categories of primary subjects.<br>
 </td><td> 
 <!-- $$
 \sigma^{2}(\kappa) = \sum\limits_{e}\frac{B_{\kappa}(E_{e})\times V_{e}}{\prod\limits_{F_{f}\;\in\;E_{e}}A_{f}}
 $$ --> 
 
-<div align="center"><img style="background: white;" src="svg/4q6av6gncI.svg"></div>
+<div align="center"><img style="background: white;" src="svg/4q6av6gncI.svg"></div><br>
+Where &kappa; can be one of &tau;, &delta;, or &Delta;<br>
 
  </td></tr></table>

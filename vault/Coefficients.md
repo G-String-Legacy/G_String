@@ -11,7 +11,11 @@ Let us start by defining a few variables, we are going to need for our calculati
 </UL>
 </td></tr></table>
 <table><tr><td width = "60%">
+The purpose of the whole effort is to find E&rho;<sup>2</sup>, the relative variance fraction due to students as:
 
+<div align="center"><img style="background: white;" src="svg/YXBiJDYAn5.svg"></div>
+and the absolute variance fraction due to students:
+<div align="center"><img style="background: white;" src="svg/JlCzFposAT.svg"></div>
  
 </td><td> 
 <!-- $$

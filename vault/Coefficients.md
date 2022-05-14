@@ -30,7 +30,7 @@ We classify facets thus:<ul>
 $$ --> 
 
 <div align="center"><img style="background: white;" src="svg/4q6av6gncI.svg"></div>
-Where &kappa; can be one of &tau;, &delta;, or &Delta;<br>
+Where &kappa; can be one of &tau;, &delta;, or &Delta;<br><br>
 <b>Generalizability coefficient</b?>:<br>
 <!-- $$
 E\rho^2 = \frac{\sigma^2(\tau)}{\sigma^2(\tau)+ \sigma^2(\delta)}

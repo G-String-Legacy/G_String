@@ -13,6 +13,7 @@ Let us start by defining a few variables, we are going to need for our calculati
 <table><tr><td width = "60%">
 
 <div align="center"><img style="background: white;" src="svg/R1XoTeRD0E.svg"></div>
+ 
 </td><td> 
 
  </td></tr></table>

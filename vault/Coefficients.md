@@ -14,7 +14,11 @@ Let us start by defining a few variables, we are going to need for our calculati
 We classify facets thus:<ul>
 <li>'facet of differentiation (d)':  the primary subject of interest;</li>
 <li>'facets of generalization (g)':  components of the measurement process;</li>
-<li>'facets of stratification (s)':  categories of primary subjects.</li></ul>
+<li>'facets of stratification (s)':  categories of primary subjects.</li></ul><br>
+Brennan's Rules can be expressed: B<sub>&kappa;</sub>(E) = 1, 0 otherwise if effect E contains:<ul>
+<li>a 'd', but no 'g' facet, B<sub>&tau;</sub>(E) = 1, 0 otherwise;</li>
+<li>not 'd', but a least one 'g' facet, B<sub>&delta;</sub>(E) = 1, 0 otherwise;</li>
+<li>at least one 'g' facet, B<sub>&Delta;</sub>(E) = 1, 0 otherwise.</li>
 </td><td> 
 <!-- $$
 \sigma^{2}(\kappa) = \sum\limits_{e}\frac{B_{\kappa}(E_{e})\times V_{e}}{\prod\limits_{F_{f}\;\in\;E_{e}}A_{f}}

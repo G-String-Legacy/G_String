@@ -15,7 +15,7 @@ We classify facets thus:<ul>
 <li>'facet of differentiation (d)':  the primary subject of interest;</li>
 <li>'facets of generalization (g)':  components of the measurement process;</li>
 <li>'facets of stratification (s)':  categories of primary subjects.</li></ul><br>
-Brennan's Rules can be expressed: B<sub>&kappa;</sub>(E) = 1, 0 otherwise if effect E contains:<ul>
+<b>Brennan's Rules</b> for B<sub>&kappa;</sub>(E) state, that if effect E contains:<ul>
 <li>a 'd', but no 'g' facet, B<sub>&tau;</sub>(E) = 1, 0 otherwise;</li>
 <li>not 'd', but a least one 'g' facet, B<sub>&delta;</sub>(E) = 1, 0 otherwise;</li>
 <li>at least one 'g' facet, B<sub>&Delta;</sub>(E) = 1, 0 otherwise.</li>

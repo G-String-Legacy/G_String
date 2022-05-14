@@ -12,9 +12,9 @@ Let us start by defining a few variables, we are going to need for our calculati
 </td></tr></table>
 <table><tr><td width = "60%">
 We classify facets thus:<br>
-'facet of differentiation (d)':  the primary subject of interest;<br>
-'facets of generalization (g)':  components of the measurement process;<br>
-'facets of stratification (s)':  categories of primary subjects.<br>
+- 'facet of differentiation (d)':  the primary subject of interest;<br>
+- 'facets of generalization (g)':  components of the measurement process;<br>
+- 'facets of stratification (s)':  categories of primary subjects.<br>
 </td><td> 
 <!-- $$
 \sigma^{2}(\kappa) = \sum\limits_{e}\frac{B_{\kappa}(E_{e})\times V_{e}}{\prod\limits_{F_{f}\;\in\;E_{e}}A_{f}}

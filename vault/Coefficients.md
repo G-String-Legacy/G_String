@@ -11,8 +11,12 @@ Let us start by defining a few variables, we are going to need for our calculati
 </UL>
 </td></tr></table>
 <table><tr><td width = "60%">
+<!-- $$
+\sigma^{2}(\kappa) = \sum\limits_{e}\frac{B_{\kappa}(E_{e})\times V_{e}}{\prod\limits_{F_{f}\;\in\;E_{e}}A_{f}}
+$$ --> 
 
-<div align="center"><img style="background: white;" src="svg/R1XoTeRD0E.svg"></div>
+<div align="center"><img style="background: white;" src="svg/4q6av6gncI.svg"></div>
+
  
 </td><td> 
 

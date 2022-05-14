@@ -18,3 +18,5 @@
 			&sigma;<sup>2</sup>(&delta;), and &sigma;<sup>2</sup>(&Delta;).</BR></BR>
 			From these it calculates &Phi;, and E&rho;<sup>2</sup>, the generalizability coefficients.
 </TABLE>
+
+[Next](VarianceComponents.md)

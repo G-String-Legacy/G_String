@@ -8,7 +8,7 @@ We classify facets thus:<ul>
 <li>'facet of differentiation (d)':  the primary subject of interest;</li>
 <li>'facets of generalization (g)':  random components of the measurement process;</li>
 <li>'fixed facets (f)':  fixed components of the measurement process, i.e. identical to the model;</li>
-<li>'facets of stratification (s)':  categories of primary subjects.</li></ul><br>
+<li>'facets of stratification (s)':  categories of primary subjects.</li></ul>
 Brennan's Rules need to be only minimally adjusted in that the rules still apply to random facets of generalization, but ignore the fixed facets of generalization. And sample sizes are no longer calculated through an averaging process, but are entered by the user.<br>
 <b>Brennan's Rules</b> for B<sub>&kappa;</sub>(E) state, that if effect E contains:<ul>
 <li>a 'd', but no 'g' facet, B<sub>&tau;</sub>(E) = 1, otherwise 0;</li>

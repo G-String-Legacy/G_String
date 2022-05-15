@@ -64,6 +64,10 @@ public class CompConstrct {
 		 * Step 2: now start counting up the binary integer iCount
 		 * until it reaches 2 to the power 'iSize', the number of facets in
 		 * a given configuration of facets.
+		 * Note: we call the resulting set of nested and crossed facets 'Configurations'
+		 * This should be kept in mind. In fact, in urGENOVA terms, they are also called 'EFFECT'.
+		 * This could otherwise lead to confusions, since the original 'EFFECTs' in the control file 
+		 * are only the original facets, where appropriate in their nested context.
 		 */
 		
 		while (iCount < iRange) {

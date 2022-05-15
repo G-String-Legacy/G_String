@@ -46,4 +46,4 @@ $$ -->
 
  </td></tr></table>
  
-[Next](D_Studies.md)
+[Next](D_Study.md)

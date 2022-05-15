@@ -45,3 +45,4 @@ $$ -->
 <div align="center"><img style="background: white;" src="svg/WwGt6gruxi.svg"></div>
 
  </td></tr></table>
+ [Next](D_Studies.md)

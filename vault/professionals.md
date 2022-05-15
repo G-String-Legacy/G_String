@@ -16,5 +16,6 @@ This line of pages is intended for professionals, called in to deal with specifi
 #### [Bird's Eye View of Analysis](AnaBird.md)
 #### [Using Variance Components](VarianceComponents.md)
 #### [Calculating Coefficients](Coefficients.md)
+#### [D-Studies](D_Studies.md)
 #### [Bird's Eye View of Synthesis](SynBird.md)
 #### to follow

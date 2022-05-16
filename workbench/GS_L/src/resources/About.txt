@@ -1,6 +1,6 @@
 Application = G_String_L
-Version = 2.0.3
-Build Date = 2022-04-12
+Version = 2.0.5
+Build Date = 2022-05-16
 Copyright = Ralph Bloch (2020)
 Support = ralph@papaworx.com
 Institution = McMaster University

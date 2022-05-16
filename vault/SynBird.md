@@ -9,8 +9,8 @@
 			This Bird's eye view is important for IT professionals, in order to
 			understand the code of <a href="https://github.com/G-String-Legacy/G_String/blob/main/workbench/GS_L/src/steps/SynthGroups.java">'SynthGroups.java'</a>.<BR/><BR/>
 			The first part of the step-by-Step workflow is straightforward.<BR/>
-			Based on these design parameters, GS generates the permitted 'Variance
-			Component' configurations, and presents them to the user, who then enters the estimated 'Variance Component' values for each 				configuration.<BR/><BR/>
+			Based on these design parameters, GS generates the permitted Effects corresponding to the different 'Variance
+			Components', and presents them to the user, who then enters the estimated 'Variance Component' values for each 				Effect.<BR/><BR/>
 			GS then generates the synthetic data file based on these parameters, 
 			and stores the results as a properly formated GS data file.
 </TABLE>

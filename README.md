@@ -6,6 +6,7 @@ Specifically, it provides:
 #### [A discussion forum for technical issues with G_String](../../discussions/12). ####
 #### [Access to G_String Source Code](../../tree/main/workbench/GS_L/src) ####
 #### [Starting out with G_String](../../tree/main/vault/users.md). ####
+#### [How G_String works](../../tree/main/vault/professionals.md). ####
 #### [Understanding G_String](../../tree/main/vault/professionals.md). ####
- 
+
 The deeper purpose of this site is to develop an [Open Source](../../tree/main/vault/Open_Source.md) community of Generalizabilty users who will ensure long term G_String maintenance support for future generations. Ultimately, it is **you**, a member of the user community, who will have to depend on the viability of this platform. If **we all contribute**, G_String will be around for many years to come!

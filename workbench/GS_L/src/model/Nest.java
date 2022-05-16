@@ -619,9 +619,8 @@ public class Nest {
 		dConsistency = dFactual / dAbsolute;
 		try {
 			sbResult.append(reCode("\nGENERALIZABILITY COEFFICIENTS:\n\n"));
-			sbResult.append(reCode("Consistency   = " + String.format("%.2f", dConsistency) + "\n"));
 			sbResult.append(reCode("Eρ\u00B2      	  = " + String.format("%.2f", dRel) + "\n"));
-			sbResult.append(reCode("Φ             = " + String.format("%.2f", dAbs) + "\n"));
+			sbResult.append(reCode("Φ           = " + String.format("%.2f", dAbs) + "\n"));
 		} catch (Exception e) {
 			popup.tell("formatResults_b", e);
 		}

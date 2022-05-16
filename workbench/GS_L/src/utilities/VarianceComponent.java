@@ -42,6 +42,8 @@ public class VarianceComponent {
 		farFacets = myNest.getFacets();
 		String[] sWords = _line.split("\\s+");
 		dVC = Double.parseDouble(sWords[5]);
+		if (dVC < 0.0)			// ignore negative variance components
+			dVC = 0.0;
 		sPattern = sWords[0];
 		cPattern = sPattern.toCharArray();
 		sPlatform = _sPlatform;
@@ -58,8 +60,9 @@ public class VarianceComponent {
 		for (char c : cPattern) {
 			if (c != ':') {
 				Facet f = farFacets[sDictionary.indexOf(c)];
-				if (f.getFacetType() == 'd') // no factor from level of
-												// differentiation
+				if (f.getFacetType() == 'd') 		// no factor from level of differentiation
+					dFactor = 1.00;
+				else if (f.getFacetType() == 's')	// no factor from level of stratification
 					dFactor = 1.00;
 				else
 					dFactor = f.dGetLevel();
@@ -84,8 +87,8 @@ public class VarianceComponent {
 		// tau: always has to contain d-type, may also contain fixed facet, but
 		// no random facets
 		b_tau = has('d') && !has('g'); // Norman's rule 5.1.1*
-		b_delta = has('d') && (has('g'));
-		b_Delta = (has('g') || has('s') && !has('d'));
+		b_delta = !has('d') && (has('g'));
+		b_Delta = has('g');
 		String sTarget = null;
 		if (b_tau)
 			sTarget = "τ only";

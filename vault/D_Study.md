@@ -40,4 +40,4 @@ $$ -->
 
  </td></tr></table>
  ### D-Study Results ###
- ![[img/D_Study.png]]
+<img src="img/D_Study.png">

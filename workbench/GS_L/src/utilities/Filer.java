@@ -178,38 +178,6 @@ public class Filer {
 		return sbLine.toString();
 	}
 
-	public void writeSynthControlFile(File file) {
-		// writes new synthetics control file
-		String sTemp = null;
-		SampleSizeTree myTree = myNest.getTree();
-		PrintStream writer = null;
-		try {
-			writer = new PrintStream(file);
-		} catch (FileNotFoundException e) {
-			popup.tell("writeSynthControlFile_a", e);
-		}
-		// Facets
-		for (Facet f : myNest.getFacets()) {
-			writer.println("COMMENT* \t" + f.getName() + "    (" + f.getDesignationString() + ")");
-		}
-		// Effects
-		Integer iLevels = myTree.getEffectCount();
-		for (Integer i = 0; i < iLevels; i++) {
-			sTemp = myTree.getEffect(i);
-			writer.println(sTemp);
-		}
-		// Anchors
-		sTemp = "ANCHORS  \t" + myNest.getFloor().toString() + "\t" + myNest.getMean().toString() + "\t"
-				+ myNest.getCeiling().toString();
-		writer.println(sTemp);
-		// Variances
-		sTemp = "VARIANCES";
-		for (int i = 0; i < myNest.vCCount(); i++)
-			sTemp += "\t" + myNest.getVarianceCoefficient(i).toString();
-		writer.println(sTemp);
-		writer.close();
-	}
-
 	public Group showTableNew() {
 		/**
 		 * This method displays the experimental scores, as read in from the data

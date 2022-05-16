@@ -1162,14 +1162,6 @@ public class AnaGroups {
 		;
 		Double dRho = myNest.getRho();
 		Double dPhi = myNest.getPhi();
-		Double dCons = myNest.getCons();
-		HBox consistencyBox = new HBox();
-		Label lbConsistency = new Label("Consistency =  ");
-		lbConsistency.setStyle("-fx-font-size: 18");
-		Label lbConsRes = new Label(formatDouble(dCons));
-		lbConsRes.setStyle("-fx-font-size: 18");
-		consistencyBox.setPadding(new Insets(20, 0, 0, 10));
-		consistencyBox.getChildren().addAll(lbConsistency, lbConsRes);
 		HBox rhoBox = new HBox();
 		Label lbRhoRes = new Label(formatDouble(dRho));
 		lbRhoRes.setStyle("-fx-font-size: 18");
@@ -1183,9 +1175,9 @@ public class AnaGroups {
 		phiBox.setPadding(new Insets(10, 0, 0, 90));
 		phiBox.getChildren().addAll(imvPhi, lbPhiRes);
 		if (dPhi.equals(0.0))
-			rightBox.getChildren().addAll(consistencyBox, rhoBox);
+			rightBox.getChildren().addAll(rhoBox);
 		else
-			rightBox.getChildren().addAll(consistencyBox, rhoBox, phiBox);
+			rightBox.getChildren().addAll(rhoBox, phiBox);
 		taOutput.setText(sbResult.toString());
 		taOutput.setPrefWidth(400);
 		taOutput.setPadding(new Insets(20, 20, 20, 20));

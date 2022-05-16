@@ -39,5 +39,6 @@ $$ -->
 <div align="center"><img style="background: white;" src="svg/WwGt6gruxi.svg"></div>
 
  </td></tr></table>
+ 
  ### D-Study Results ###
 <img src="img/D_Study.png">

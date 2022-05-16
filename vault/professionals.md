@@ -1,6 +1,6 @@
 [Return](../../../)
-## For Software Professionals ##
-This line of pages is intended for professionals, called in to deal with specific program issues, be they to fix a bug, to improve functionality, or to add new features to G_String.  
+## How G_String works ##
+This line of pages is intended for for people who want to understand how G_String works, both professionals, called in to deal with specific program issues, be they to fix a bug, to improve functionality, or to add new features to G_String. or serious G_String users.  
 ### Orientation ###
 #### [What is G_String?](What_is_G_String.md)
 #### [What resources are in this Repository](resources_prof.md)

@@ -1,7 +1,7 @@
 [Return](professionals.md)
 ## D-Studies ##
 The formulae we showed in the 'Coefficients' page apply to so called G-Studies; where we estimate the variance components of the various direct and crossed effects from actual observed models in order to calculate the generalizability coefficients as measures of reliability of the data.<br><br>
-But Generalizability Theory offers yet another tool: a method of improving assessment tools using variance components from earlier or trial data sets. This approach is called 'D-Studies'. It allows users trying different sample sizes for facets of generalisation, and/or making them identical to the facets used in the model (fixed facet).
+But Generalizability Theory offers yet another opportunity: a method of improving assessment tools using variance components from earlier or trial data sets. This approach is called 'D-Studies'. It allows users trying different sample sizes for facets of generalisation, and/or making them identical to the facets used in the model (fixed facet).
 
 <table><tr><td width = "60%">
 We classify facets thus:<ul>

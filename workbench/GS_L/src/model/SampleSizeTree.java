@@ -740,7 +740,7 @@ public class SampleSizeTree {
 	
 	public int factorConfigurations(int _iConf) {
 		/**
-		 * Returns the current count for Configuration 'iConf', given indices.
+		 * Returns the current count for Configuration ('Effect') 'iConf', given indices.
 		 */
 		int iConf = _iConf;
 		int iCount = 0;

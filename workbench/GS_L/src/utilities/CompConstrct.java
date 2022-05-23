@@ -19,6 +19,8 @@ public class CompConstrct {
 	 *  upon with Java's bitwise logic operations.
 	 *     All that is left to do, is to filter out combinations, where there are 
 	 *  nested facets, but not the facet, in which they are nested.
+	 *  
+	 *  The class 'Component' is defined within this class, further down.
 	 */
 	
 	private Component[] components;
@@ -55,7 +57,7 @@ public class CompConstrct {
 		int iRange = (int) Math.pow(2, iSize);
 		components = new Component[iSize];
 		for (int j = 0; j < iNests; j++) {
-			sConstruct = myNest.getNestedName(j);
+			sConstruct = myNest.getNestedName(j);	// = 'primary Effect'
 			tempComponent = new Component(sConstruct, sDictionary);
 			components[tempComponent.getOrder()] = tempComponent;
 		}
@@ -68,6 +70,7 @@ public class CompConstrct {
 		 * This should be kept in mind. In fact, in urGENOVA terms, they are also called 'EFFECT'.
 		 * This could otherwise lead to confusions, since the original or primary  'EFFECTs' in the 
 		 * control file are only the original facets, where appropriate in their nested context.
+		 * The term 'Configuration' stands for the more general 'EFFECT'.
 		 */
 		
 		while (iCount < iRange) {
@@ -101,7 +104,7 @@ public class CompConstrct {
 		}
 		
 		for (int i = 0; i <tree.getConfigurationCount(); i++) {
-			tree.factorConfigurations(i);
+			tree.factorConfigurations(i);	
 		}
 		tree.consolidateSplits();
 		tree.initCounter();
@@ -109,7 +112,7 @@ public class CompConstrct {
 	}
 	
 	public int getComp() {
-		return tree.getConfigurationCount();
+		return tree.getConfigurationCount();	// could also be called 'Effect count'
 	}
 }
 	

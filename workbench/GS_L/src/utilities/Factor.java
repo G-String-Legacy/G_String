@@ -18,9 +18,8 @@ public class Factor {
 	
 	/**
 	 * This class encapsulates design factors ('factors')
-	 * within a configuration. It  calculates the absolute size
-	 * of this factor. That makes it easier to calculate size 
-	 * for the whole configuration.
+	 * within a configuration. It  calculates the absolute size, i.e. the number of states
+	 * of this factor. That makes it easier to calculate size for the whole configuration.
 	 * Factor is used extensively in SampleSizeTree.
 	 */
 	
@@ -34,6 +33,14 @@ public class Factor {
 		iarSizes = new int[iFloors][][];
 	}
 	
+	/**
+	 * Critical method:
+	 * It is trivial, if a factor corresponds to a 'primary Effect',
+	 * then it is simply equal to the cumulative sample size of the deepest facet.
+	 * However, if facets, nested under the same 'Nestor', are crossed, it
+	 * becomes somewhat more involved.
+	 */
+	
 	public int getSize() {
 		int iF = -1;
 		int[] iProducts = null;
@@ -41,7 +48,7 @@ public class Factor {
 		int iSum = 0;
 		int iL = 0;
 		char cN0 = '$';			// previous Nestor designation
-		char cN = '@';				// current Nestor designation
+		char cN = '@';			// current Nestor designation
 		int iFloor = iFloors - 1;
 		sFloor = sarFloors[iFloor];
 		iarSizes[iFloor] = new int [iDL][];

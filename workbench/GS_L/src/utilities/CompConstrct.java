@@ -66,8 +66,8 @@ public class CompConstrct {
 		 * a given configuration of facets.
 		 * Note: we call the resulting set of nested and crossed facets 'Configurations'
 		 * This should be kept in mind. In fact, in urGENOVA terms, they are also called 'EFFECT'.
-		 * This could otherwise lead to confusions, since the original 'EFFECTs' in the control file 
-		 * are only the original facets, where appropriate in their nested context.
+		 * This could otherwise lead to confusions, since the original or primary  'EFFECTs' in the 
+		 * control file are only the original facets, where appropriate in their nested context.
 		 */
 		
 		while (iCount < iRange) {

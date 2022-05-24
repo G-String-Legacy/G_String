@@ -18,4 +18,5 @@ This line of pages is intended for for people who want to understand how G_Strin
 #### [Calculating Coefficients](Coefficients.md)
 #### [D-Studies](D_Study.md)
 #### [Bird's Eye View of Synthesis](SynBird.md)
+#### [Effects](Effects.md)
 #### to follow

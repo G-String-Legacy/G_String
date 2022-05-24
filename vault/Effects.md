@@ -1,0 +1,16 @@
+[Return](professionals.md)
+
+## Constructing the Effects ##
+The list of 14 effects that we saw in Analysis were provided by urGENOVA, based on the five primary effects, we had entered in step 6. In fact, the first five effects are the same; the other 9 result from crossing the primary effects, constrained by the nesting.<br>
+In Synthesis we have to figure out these crossed effects ourselves. G_String uses an amazingly simple algorithm that consists of four steps:
+### 1. Find all possible combinations of the facets ###
+Combinatorics teaches us that n items  can be combined in N ways, ignoring ordering, and requiring at least one item: $$N = 2^{n}-1$$ Expressing the numbers from 1 to N in binary form requires 'n' digits, each being either '0' or '1'. Associating each position of the binary number with a specific facet, then gives us all possible combinations of the 'n' facets.
+### 2. Eliminate all combinations that violate nesting rules ###
+But not all N combinations meet the nesting constraints. In fact, a given facet can only occur in the combination, if all the facets, it is nested in, also appear in the Effect. We have to eliminate all effects, where a nested facet ('Nestee') appears without its immediate container facet ('Nestor'). This happens in ['CompConstr'](../../../workbench/GS_L/src/utilities/CompConstrct.java) from line 65 on.
+<table><tr><td>
+### 3. Break Effects into Factors ###
+Before we can calculate the number of states, each Effect can assume, we have to break down the Effects
+into <a href = "../../../workbench/GS_L/src/utilities/Factor.java">Factors</a>, where the number of states ('size') is determined easily from line 44 on.
+</td><td><img src= "img/>factors.png"></tr><tr><td>
+### 4. States of Effects ###
+The number of states for each Effect is calculated as the <a href = "../../../workbench/GS_L/src/model/SampleSizeTree.java">product of sizes of its constituent Factors</a>. 

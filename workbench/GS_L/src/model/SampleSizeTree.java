@@ -801,10 +801,7 @@ public class SampleSizeTree {
 		return sReturn;
 	}
 	public void consolidateSplits() {
-		int L = salFactors.size();
-		sarFactors = new String[L][];
-		for (int i = 0; i < L; i++)
-			sarFactors[i] = salFactors.get(i);
+		sarFactors = salFactors.toArray(new String[0][]);
 	}
 	
 	public int getFactorConf(String sFactor) {

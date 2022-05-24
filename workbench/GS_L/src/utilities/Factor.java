@@ -82,6 +82,7 @@ public class Factor {
 				iSum += i;
 			iProduct *= iSum;
 		}
+		System.out.println(sFactor + ": " + iProduct);
 		return iProduct;
 	}
 }

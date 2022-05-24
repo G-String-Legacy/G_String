@@ -14,3 +14,4 @@ into <a href = "../../../workbench/GS_L/src/utilities/Factor.java">Factors</a>, 
 </td><td><img src= "img/>factors.png"></tr><tr><td>
 ### 4. States of Effects ###
 The number of states for each Effect is calculated as the <a href = "../../../workbench/GS_L/src/model/SampleSizeTree.java">product of sizes of its constituent Factors</a>. 
+</td><td><img src= "img/>factors.png"></tr></table>

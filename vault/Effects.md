@@ -15,5 +15,6 @@ into <a href = "../workbench/GS_L/src/utilities/Factor.java">Factors</a>, where 
 
 ### 4. States of Effects ###
 <table><tr><td width = "50%">
-The number of states for each Effect is calculated as the <a href = "../workbench/GS_L/src/model/SampleSizeTree.java">product of sizes of its constituent Factors</a>. 
+The number of states for each Effect is calculated as the <a href = "../workbench/GS_L/src/model/SampleSizeTree.java"> product of sizes of its constituent Factors (line 815)</a>.<br>
+The term 'States' indicates the number of ANOVA error terms &epsilon; are required for a given Effect considering the respective sample sizes.
 </td><td><img src= "img/effects.png"></tr></table>

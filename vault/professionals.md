@@ -12,8 +12,8 @@ This line of pages is intended for for people who want to understand how G_Strin
 #### [Block Diagram](Block_Diagram.md)
 #### [Components](Structure.md)
 ### Specific Algorithms ###
-#### [Preprocessing score data](preprocessing.md)
 #### [Bird's Eye View of Analysis](AnaBird.md)
+#### [Preprocessing score data](preprocessing.md)
 #### [Using Variance Components](VarianceComponents.md)
 #### [Calculating Coefficients](Coefficients.md)
 #### [D-Studies](D_Study.md)

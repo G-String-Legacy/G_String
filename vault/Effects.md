@@ -1,7 +1,7 @@
 [Return](professionals.md)
 
 ## Constructing the Effects ##
-The list of 14 effects that we saw in Analysis were provided by urGENOVA, based on the five primary effects, we had entered in step 6. In fact, the first five effects are the same; the other 9 result from crossing the primary effects, constrained by the nesting. We will illustrate the synthesis algorithms, using the same model.<br>
+The list of 14 effects that we saw in Analysis were provided by urGENOVA, based on the five primary effects, we had entered in step 6. In fact, the first five effects are the same; the other 9 result from crossing the primary effects, constrained by the nesting. We will illustrate the synthesis algorithms, using the same model.<br><br>
 In Synthesis we have to figure out these crossed effects ourselves. G_String uses an amazingly simple algorithm that consists of four steps:
 ### 1. Find all possible combinations of the facets ###
 Combinatorics teaches us that n items  can be combined in N ways, ignoring ordering, and requiring at least one item: $$N = 2^{n}-1$$ Expressing the numbers from 1 to N in binary form requires 'n' digits, each being either '0' or '1'. Associating each position of the binary number with a specific facet, then gives us all possible combinations of the 'n' facets.

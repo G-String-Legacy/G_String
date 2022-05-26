@@ -4,8 +4,6 @@ The synthetic data set is constructed by a [Monte Carlo process](../../workbench
 Next, for each Effect e we generate $s_{e}$ randomly distributed values $\epsilon_{e}(i_{e})$ with a defined variance $\sigma^{2}_{e}$, and a mean of 0 ([code]()). The complete set of indices <!-- $\hat{I}_{e}$ --> <img style="transform: translateY(0.1em); background: white;" src="svg/aN8BeynKWE.svg"> too can be mapped to the integer index i<sub>l</sub> of the last Effect containing all Facets.
 
 With this terminology we can then calculate the simulated score S as:
-<!-- $$S(i_{l}) = \mu + \sum_{e}\epsilon_{e}(i_{e})$$ --> 
-
 <div align="center"><img style="background: white;" src="svg/XnJhLOiuf3.svg"></div>
  
 

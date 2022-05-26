@@ -9,3 +9,5 @@ With this terminology we can then calculate the simulated score S as:
  
 
 where &mu; is the specified grand mean of all the scores ([code]()).
+
+<div align="center"><img style="background: white;" src="svg/4q6av6gncI.svg"></div>

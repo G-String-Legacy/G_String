@@ -7,6 +7,6 @@ With this terminology we can then calculate the simulated score S as:
 
 <!-- $$S(i_{l}) = \mu + \sum_{e}\epsilon_{e}(i_{e})$$ --> 
 
-<div align="center"><img style="background: white;" src="https://render.githubusercontent.com/render/math?math="></div>
+<div align="center"><img style="background: white;" src="svg/co8OMHEv2T.svg"></div>
 
 where &mu; is the specified grand mean of all the scores ([code]()).

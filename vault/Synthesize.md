@@ -5,9 +5,7 @@ Next, for each Effect e we generate $s_{e}$ randomly distributed values $\epsilo
 
 With this terminology we can then calculate the simulated score S as:
 
-<!-- $$S(i_{l}) = \mu + \sum_{e}\epsilon_{e}(i_{e})$$ --> 
-
-<div align="center"><img style="background: white;" src="svg/cSlUuoMFan.svg"></div>
+<div align="center"><img style="background: white;" src="svg/CodeCogsEqn.svg"></div>
 
 where &mu; is the specified grand mean of all the scores ([code]()).
 

@@ -3,5 +3,7 @@ The synthetic data set is constructed by a [Monte Carlo process](../../workbench
 ![](svg/Synthesize_1.svg). We designate the total set of all Facet indices at a given point as $\hat{I} $.  But each set $\hat{I}_{e}$ can actually be uniquely mapped to an  integer 0 &lt; i<sub>e</sub> &lt; s<sub>e</sub>.  In fact, the total set of all facet indices $\hat{I} $ corresponds to the Effect involving all Facets, and can therefore be mapped accordingly. This mapping is based on the order and nesting of the facets, since the the sequence of facet indices is not random, but also corresponds to the sequence of scores in the data file ([code]()).
 Next, for each Effect e we generate $s_{e}$ randomly distributed values $\epsilon_{e}(i_{e})$ with a defined variance $\sigma^{2}_{e}$, and a mean of 0 ([code]()).
 With this terminology we can then calculate the simulated score S as:
+
 $$S(\hat{I}) = S(i_{h}) = \mu + \sum_{e}\epsilon_{e}(i_{e})$$
+
 where i<sub>h</sub> equals the integer index of the highest effect, and $\mu$ is the specified grand mean of all the scores ([code]()).

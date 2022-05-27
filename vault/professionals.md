@@ -19,4 +19,5 @@ This line of pages is intended for for people who want to understand how G_Strin
 #### [D-Studies](D_Study.md)
 #### [Bird's Eye View of Synthesis](SynBird.md)
 #### [Effects](Effects.md)
+#### [Synthesize](Synthesis.md)
 #### to follow

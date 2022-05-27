@@ -8,12 +8,13 @@ import model.SampleSizeTree;
 public class constructSimulation {
 	/**
 	 * 'constructSimulation' (cS) builds the synthetic data according to
-	 * the general linear model of statistics.
+	 * the ANOVA random model.
 	 *   On the basis of the specified facets and their nesting, the program
 	 * has identified the potential sources of variability (variance components)
 	 * in terms of crossed and nested facets, as well as due to their interactions
-	 * (see CompConstrct), expressed as strings, designated 'Configurations'.
-	 * For each configuration it then gets the number of possible states 
+	 * (see CompConstrct), expressed as strings, designated 'Configurations'
+	 * - the general 'Effects' of the model.
+	 * For each configuration (i.e.'Effect') it then gets the number of possible states 
 	 * (from 'SampleSizeTree.getSize), over the allowed range of facet indices. 
 	 * For each configuration it generates 'synthetic error' values, distributed 
 	 * according to the variance component corresponding to its configuration. It then 
@@ -91,7 +92,12 @@ public class constructSimulation {
 	}
 
 	private Double[] C_Vector(Integer l, Double vc) {
-		// Stub for synthesizing G_String data file
+		/**
+		 * 
+		 * Generates a set of 'l' randomly distributed Double values with
+		 * a nominal standard distribution of 'vc'. The method returns an
+		 * array of 'l' double values with a mean of 0.0.
+		 */
 
 		Double stdDev = 0.0;
 		Double dS = 0.0;

@@ -5,7 +5,7 @@ Next, for each Effect e we generate $s_{e}$ randomly distributed values $\epsilo
 
 With this terminology we can then calculate the simulated score S as:
 
-<div align="center"><img style="background: white;" src="svg/CodeCogsEqn.svg"></div>
+<div align="center"><img style="background: white;" src="svg/Synthesize_x.svg"></div>
 
 where &mu; is the specified grand mean of all the scores ([code]()).
 

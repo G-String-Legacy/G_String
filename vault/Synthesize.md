@@ -5,6 +5,4 @@ Next, for each Effect e we generate $s_{e}$ randomly distributed values $\epsilo
 
 With this terminology we can then calculate the simulated score S as:
 $$S(\hat{I}) = S(i_{h}) = \mu + \sum_{e}\epsilon_{e}(i_{e})$$
- 
-<div align="center"><img style="background: white;" src="svg/Synthesize_x.svg"></div>
 where i<sub>h</sub> equals the integer index of the highest effect, and $\mu$ is the specified grand mean of all the scores ([code]()).

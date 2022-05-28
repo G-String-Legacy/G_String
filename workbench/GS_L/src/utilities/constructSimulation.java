@@ -66,6 +66,12 @@ public class constructSimulation {
 		for (int i = 1; i <= iAsterisk; i++)
 			sb.append("\t" + "0");
 		sOut = sb.toString();
+		/**
+		 * This is the main working loop. As it assembles the output 'darOutput',
+		 * it increments both Facet index sets, and linear Effect indices, using
+		 * the method 'increment' in 'SampleSizeTree.
+		 */
+		
 		do { // increment indices
 			indices = myTree.getIndices();
 			if (indices[iAsterisk] != iChange) { // new line

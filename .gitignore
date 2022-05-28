@@ -1,0 +1,11 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+.obsidian
+.gitignore
+.vscode
+Git.code-workspace
+process.sh
+bash
+/bin/

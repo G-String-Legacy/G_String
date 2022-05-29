@@ -5,8 +5,6 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER"/>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry excluding="src/" kind="src" path=""/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="src" path="workbench/GS_L/src"/>
+	<classpathentry kind="output" path="workbench/GS_L/bin"/>
 </classpath>

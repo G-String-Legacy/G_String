@@ -1,10 +1,11 @@
 [Return](What_is_G_String.md)
 
 ## Step by Step Workflow ##
-Software professionals like to endow their products with all the functional bells and whistles they can think of. That is great for the expert user. But occasional users frequently get confused, if there are too many different ways of solving a problem. G_String is used for only two purposes: 
+Software professionals like to endow their products with all the functional bells and whistles they can think of. That is great for the expert user. But occasional users frequently get confused, if there are too many different ways of solving a problem. G_String is used for three purposes: 
 
 <ol type="1">
   <li>analyzing experimental data (scores) from a performance assessment to determine its reliability; </li>
+  <li>D-Studies in planning further studies;
   <li>generating a synthetic set of scores for teaching, learning, or experimenting. </li>
 </ol>
 

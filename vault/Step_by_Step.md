@@ -9,7 +9,7 @@ Software professionals like to endow their products with all the functional bell
   <li>generating a synthetic set of scores for teaching, learning, or experimenting. </li>
 </ol>
 
-Each of these two goals can be achieved in one of two ways:
+Each of these three goals can be achieved in one of two ways:
 
 <ol type="a">
   <li>for a totally new problem, parameters are entered manually;</li>

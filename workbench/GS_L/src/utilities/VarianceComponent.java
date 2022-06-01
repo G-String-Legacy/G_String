@@ -16,6 +16,8 @@ public class VarianceComponent {
 	 * For each variance component it thus determines three booleans (b_tau, b_delta, 
 	 * and b_Delta to signify that this variance component gets added to the corresponding
 	 * sigma squares. This step then occurs in Nest.formatResults.
+	 * During D-Studies it changes the signature item of fixed facets to 'f', thus
+	 * excluding them from contributing to the error terms delta and Delta.
 	 */
 	
 	private String sPattern; // nesting pattern
@@ -89,10 +91,9 @@ public class VarianceComponent {
 		 *   delta: at least one 'g', but no 'd';
 		 *   Delta: at least one 'g' facet
 		 */
-		// b_tau = has('d') && !has('g'); // Norman's rule 5.1.1*
-		b_tau = !has('g') && has('d'); // Norman's rule 5.1.1*
-		b_delta = !has('d') && (has('g'));
-		b_Delta = has('g');
+		b_tau = !has('g') && has('d');
+		b_delta = has('g') && has('d');
+		b_Delta = !has('d') && (has('g'));
 		String sTarget = null;
 		if (b_tau)
 			sTarget = "τ only";
@@ -108,7 +109,7 @@ public class VarianceComponent {
 				sbOut.append("Variance component '" + sPattern + "' (" + sSignature + ") is " + dVC
 						+ "; denominator is " + sDenominator + ";  " + reCode(sTarget) + "\n");
 			} catch (Exception ioe) {
-				popup.tell("doCoefficienta", ioe);
+				popup.tell("doCoefficient_a", ioe);
 			}
 		}
 	}
@@ -147,7 +148,7 @@ public class VarianceComponent {
 				Integer iFacet = myNest.getDictionary().indexOf(c);
 				Facet f = farFacets[iFacet];
 				cTemp = f.getFacetType();
-				if (f.getFixed())
+				if (f.getFixed())		// that excludes them from error terms
 					cTemp = 'f';
 				sb.append(cTemp);
 			}

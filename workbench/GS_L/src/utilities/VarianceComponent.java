@@ -82,11 +82,15 @@ public class VarianceComponent {
 				bFirst = false;
 			}
 		}
-		// now analyze contribution to tau, delta and Delta.
-		// in words:
-		// tau: always has to contain d-type, may also contain fixed facet, but
-		// no random facets
-		b_tau = has('d') && !has('g'); // Norman's rule 5.1.1*
+		/**
+		 * now analyze contribution to tau, delta and Delta.
+		 * in words:
+		 *   tau: always has to contain d-type,  but no random facets;
+		 *   delta: at least one 'g', but no 'd';
+		 *   Delta: at least one 'g' facet
+		 */
+		// b_tau = has('d') && !has('g'); // Norman's rule 5.1.1*
+		b_tau = !has('g') && has('d'); // Norman's rule 5.1.1*
 		b_delta = !has('d') && (has('g'));
 		b_Delta = has('g');
 		String sTarget = null;

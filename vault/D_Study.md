@@ -15,7 +15,7 @@ We classify facets thus:<ul>
 Brennan's Rules need to be only minimally adjusted in that the rules still apply to random facets of generalization, but ignore the fixed facets of generalization. And sample sizes are no longer calculated through an averaging process, but are entered by the user.<br>
 <b>Brennan's Rules</b> for B<sub>&kappa;</sub>(E) state, that if effect E contains:<ul>
 <li>a 'd', but no 'g' or 'f' facets, B<sub>&tau;</sub>(E) = 1, otherwise 0;</li>
-<li>a 'd', and a least one 'r' facet, B<sub>&delta;</sub>(E) = 1, otherwise 0;</li>
+<li>a 'd', and a least one 'g' (is random) facet, B<sub>&delta;</sub>(E) = 1, otherwise 0;</li>
 <li>at least one 'g' facet, B<sub>&Delta;</sub>(E) = 1, otherwise 0.</li></ul>
 <b>Brennan's Rules</b> for A<sub>f</sub> require that if the facet F<sub>f</sub> is:<ul>
 <li>a 'd' or 's' facet, A<sub>f</sub> = 1.0;</li>

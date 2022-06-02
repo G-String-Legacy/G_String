@@ -3,7 +3,7 @@ This repository serves as community platform for investigators applying G_String
 Specifically, it provides:
 #### [An answer to the question Why G_String on GitHub](../../tree/main/vault/github.md)? ####
 #### [A discussion forum for methodological issues in Generalizability Analysis](../../discussions/1). ####
-#### [A discussion forum for technical issues with G_String](../../discussions/12). ####
+#### [A discussion forum for technical issues with G_String](../../discussions/19). ####
 #### [Access to G_String Source Code](../../tree/main/workbench/GS_L/src) ####
 #### [Starting out with G_String](../../tree/main/vault/users.md). ####
 #### [Understanding G_String](../../tree/main/vault/professionals.md). ####

@@ -15,11 +15,11 @@ We classify facets thus:<ul>
 <li>'facet of differentiation (d)':  the primary subject of interest;</li>
 <li>'facets of generalization (g)':  components of the measurement process;</li>
 <li>'facets of stratification (s)':  categories of primary subjects.</li></ul><br>
-<b>Brennan's Rules</b> for B<sub>&kappa;</sub>(E) state, that if effect E contains:<ul>
+<b>Brennan's Rules</b>
+(<a href="../workbench/GS_L/src/utilities/VarianceComponent.java">code</a>, line 94) for B<sub>&kappa;</sub>(E) state, that if effect E contains:<ul>
 <li>a 'd', but no 'g' facet, B<sub>&tau;</sub>(E) = 1, otherwise 0;</li>
 <li>a 'd', and at least one 'g' facet, B<sub>&delta;</sub>(E) = 1, otherwise 0;</li>
-<li>at least one 'g' facet, B<sub>&Delta;</sub>(E) = 1, otherwise 0.</li></ul>
-(<a href="../workbench/GS_L/src/utilities/VarianceComponent.java">code</a>, line 94)<p>
+<li>at least one 'g' facet, B<sub>&Delta;</sub>(E) = 1, otherwise 0.</li></ul><br>
 <b>Brennan's Rules</b> for A<sub>f</sub> state that if the facet F<sub>f</sub> is:<ul>
 <li>a 'd' or 's' facet, A<sub>f</sub> = 1.0;</li>
 <li>a crossed 'g' facet, A<sub>f</sub> = the sample size of that facet;</li>

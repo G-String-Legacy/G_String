@@ -26,7 +26,7 @@ We classify facets thus:<ul>
 <li>a crossed 'g' facet, A<sub>f</sub> = the sample size of that facet;</li>
 <li>a 'g' facet, nested once, A<sub>f</sub> = the arithmetic mean of sample sizes;</li>
 <li>a 'g' facet, nested deeper, A<sub>f</sub> = the harmonic mean of sample sizes;</li></ul>
-</td><td> (see Brennan, Generalizability Theory, 2001; p. 122)<br>
+</td><td> (see Brennan, Generalizability Theory, 2001; p. 122)<br><br>
 <!-- $$
 \sigma^{2}(\kappa) = \sum\limits_{e}\frac{B_{\kappa}(E_{e})\times V_{e}}{\prod\limits_{F_{f}\;\in\;E_{e}}A_{f}}
 $$ --> 

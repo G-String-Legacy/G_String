@@ -18,7 +18,8 @@ We classify facets thus:<ul>
 <b>Brennan's Rules</b> for B<sub>&kappa;</sub>(E) state, that if effect E contains:<ul>
 <li>a 'd', but no 'g' facet, B<sub>&tau;</sub>(E) = 1, otherwise 0;</li>
 <li>a 'd', and at least one 'g' facet, B<sub>&delta;</sub>(E) = 1, otherwise 0;</li>
-<li>at least one 'g' facet, B<sub>&Delta;</sub>(E) = 1, otherwise 0.</li></ul><br>
+<li>at least one 'g' facet, B<sub>&Delta;</sub>(E) = 1, otherwise 0.</li></ul>
+([code](../workbench/GS_L/src/utilities/VarianceComponent.java), line 94)<br>
 <b>Brennan's Rules</b> for A<sub>f</sub> state that if the facet F<sub>f</sub> is:<ul>
 <li>a 'd' or 's' facet, A<sub>f</sub> = 1.0;</li>
 <li>a crossed 'g' facet, A<sub>f</sub> = the sample size of that facet;</li>

@@ -44,7 +44,7 @@ $$ -->
 \Phi = \frac{\sigma^2(\tau)}{\sigma^2(\tau)+ \sigma^2(\Delta)}
 $$ --> 
 <div align="center"><img style="background: white;" src="svg/WwGt6gruxi.svg"></div>
-<br> <a href="../workbench/GS_L/src/model/Nest.java">(code, line 566)</a>
+<br> </b><a href="../workbench/GS_L/src/model/Nest.java">(code, line 566)</a>
 
  </td></tr></table>
  

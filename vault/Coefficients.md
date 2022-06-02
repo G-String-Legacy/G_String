@@ -20,7 +20,8 @@ We classify facets thus:<ul>
 <li>a 'd', but no 'g' facet, B<sub>&tau;</sub>(E) = 1, otherwise 0;</li>
 <li>a 'd', and at least one 'g' facet, B<sub>&delta;</sub>(E) = 1, otherwise 0;</li>
 <li>at least one 'g' facet, B<sub>&Delta;</sub>(E) = 1, otherwise 0.</li></ul><br>
-<b>Brennan's Rules</b> for A<sub>f</sub> state that if the facet F<sub>f</sub> is:<ul>
+<b>Brennan's Rules</b> 
+(<a href="../workbench/GS_L/src/utilities/VarianceComponent.java">code</a>, line 56) for A<sub>f</sub> state that if the facet F<sub>f</sub> is:<ul>
 <li>a 'd' or 's' facet, A<sub>f</sub> = 1.0;</li>
 <li>a crossed 'g' facet, A<sub>f</sub> = the sample size of that facet;</li>
 <li>a 'g' facet, nested once, A<sub>f</sub> = the arithmetic mean of sample sizes;</li>

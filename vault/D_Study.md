@@ -3,7 +3,7 @@
 The formulae we showed in the 'Coefficients' page apply to so called G-Studies; where we estimate the variance components of the various direct and crossed effects from actual observed models in order to calculate the generalizability coefficients as measures of reliability of the data.<br><br>
 But Generalizability Theory offers yet another opportunity: a method of improving assessment tools using variance components from earlier or trial data sets. This approach is called 'D-Studies'. It allows users trying different sample sizes for facets of generalisation, and/or making them identical to the facets found in the original example (fixed facets). This leads us from Random Effect to Mixed Effect ANOVA, i.e. it considers both random and fixed effects.
 
-Like G-Studies, D-Studies are handled by method <a href = "../workbench/GS_L/src/steps/AnaGroups.java">(Analysis, line 1111)</a>. But via <a href = "../workbench/GS_L/src/utilities/FacetModView.java">FavetModView</a> the user can change facet type and average sample size.
+Like G-Studies, D-Studies are handled by method <a href = "../workbench/GS_L/src/steps/AnaGroups.java">(Analysis, line 1111)</a>. But via <a href = "../workbench/GS_L/src/utilities/FacetModView.java">FacetModView</a> the user can change facet type and average sample size.
 
 
 <table><tr><td width = "60%">

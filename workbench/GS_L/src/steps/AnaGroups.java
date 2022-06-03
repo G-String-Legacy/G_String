@@ -1130,7 +1130,7 @@ public class AnaGroups {
 		/**
 		 * This is step 10. 'Analysis' extracts the means and estimated variance coefficients
 		 * from the urGenova output file, and uses them to calculate G-Study and D-Study results
-		 * see '[Algorithms](../../../../VarianceComponents.md)'
+		 * see <a href = "../../../../VarianceComponents.md">'Algorithms'</a>.
 		 */
 		
 		final ImageView imvErho = new ImageView();

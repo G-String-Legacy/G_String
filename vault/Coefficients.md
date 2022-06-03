@@ -21,7 +21,7 @@ We classify facets thus:<ul>
 <li>a 'd', and at least one 'g' facet, B<sub>&delta;</sub>(E) = 1, otherwise 0;</li>
 <li>at least one 'g' facet, B<sub>&Delta;</sub>(E) = 1, otherwise 0.</li></ul><br>
 <b>Brennan's Rules</b> 
-(<a href="../workbench/GS_L/src/utilities/VarianceComponent.java">code</a>, line 56) for A<sub>f</sub> state that if the facet F<sub>f</sub> is:<ul>
+(<a href="../workbench/GS_L/src/utilities/VarianceComponent.java#L56">code</a>) for A<sub>f</sub> state that if the facet F<sub>f</sub> is:<ul>
 <li>a 'd' or 's' facet, A<sub>f</sub> = 1.0;</li>
 <li>a crossed 'g' facet, A<sub>f</sub> = the sample size of that facet;</li>
 <li>a 'g' facet, nested once, A<sub>f</sub> = the arithmetic mean of sample sizes;</li>
@@ -44,7 +44,7 @@ $$ -->
 \Phi = \frac{\sigma^2(\tau)}{\sigma^2(\tau)+ \sigma^2(\Delta)}
 $$ --> 
 <div align="center"><img style="background: white;" src="svg/WwGt6gruxi.svg"></div>
-<br> </b><a href="../workbench/GS_L/src/model/Nest.java">(code, line 566)</a>
+<br> </b><a href="../workbench/GS_L/src/model/Nest.java#L566">(code)</a>
 
  </td></tr></table>
  

@@ -1,6 +1,8 @@
 [Return](Block_Diagram.md)
 ## utilities ##
+
 [Block Diagram of G_String](img/block.png)
+
 Package ['utilities'](../../../tree/main/workbench/GS_L/src/utilities) contains a collection of ten smaller objects that provide specific functions to various other parts of G_String.
 #### ['About.java'](../../../blob/main/workbench/GS_L/src/utilities/About.java) is a short function to display  'AboutXX.txt' files ####
 #### ['CompConstrct.java'](../../../blob/main/workbench/GS_L/src/utilities/CompConstrct.java) constructs the various facet combinations for each of the configurations that has a separate variance component. It is used in ['SynthGroups.java'](../../../blob/main/workbench/GS_L/src/steps/SynthGroups.java), line 889. ####

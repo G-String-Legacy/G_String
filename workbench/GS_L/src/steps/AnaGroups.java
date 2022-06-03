@@ -54,19 +54,6 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 public class AnaGroups {
-	/**
-	 * AnaGroups manages the process of analyzing data file by taking the user step-by-step
-	 * through the whole procedure from entering the project title to
-	 * printing out the result file.  Altogether there are 9 steps,
-	 * and proceeding to the next step is only possible after 'grammatically'
-	 * correct input. Obviously, users can still enter parameters that do not correspond to
-	 * their actual study. At each step a context specific help screen is available.
-	 * As result of the user responses at a given step, the entered data are stored, and the GUI scene
-	 * for the next step is generated, and handed via 'main' back to the GUI.
-	 * Users can step through the analysis either manually, by entering the design information
-	 * via keyboard and mouse, or they can pick the 'do-over' mode, where the program
-	 * reads a control file, prepared in a previous analysis run, and the user just has to enter changes.
-	 */
 
 	private rootLayoutController myController;
 	private String customBorder;
@@ -234,7 +221,19 @@ public class AnaGroups {
 		String projectTitle = null;
 		if (bDownStep)							// in case of back stepping
 			projectTitle = myNest.getTitle();
-		if (myNest.getDoOver()) {				// reads existing control file in case of 'do over'
+		
+		/**
+		 * In both Analysis and Synthesis users have the choice to
+		 * either enter all the design variables manually, or by
+		 * recalling them from the control file, prepared earlier,
+		 * as one of the two input files for urGENOVA. This is set
+		 * in the menu as the boolean 'bDoOver'.
+		 * But throughout, users can always change parameters along
+		 * the way, which then get recorded again in the resulting
+		 * new control file.
+		 */
+		
+		if (myNest.getDoOver()) {
 			selectedFile = flr.getFile(true, "Select Analysis Control File");
 			if (selectedFile != null) {
 				String sFileName = selectedFile.getName();
@@ -252,6 +251,7 @@ public class AnaGroups {
 		tf.setEditable(true);
 		tf.setPromptText("Project Title");
 		tf.setFont(Font.font("ARIAL", 20));
+		
 		/**
 		 * The following construct appears over and over in the code,
 		 * but we will only explain it here once:
@@ -276,7 +276,12 @@ public class AnaGroups {
 
 	private Group addComments() throws IOException {
 		/*
-		 * Step 2: Prompts for comments to describe the project
+		 * Step 2: Prompts for comments to describe the project. These comments
+		 * form the leading lines of the 'COMMENT' section in the control file.
+		 * Thes lines appear in the control file with the header 'COMMENT '.
+		 * G_String then adds the facet names and their 1 char designations
+		 * in the original facet order. These lines appear in the control file
+		 * with the header 'COMMENT*'.
 		 */
 		
 		Group group = new Group();
@@ -309,8 +314,9 @@ public class AnaGroups {
 
 	private Group mainSubjectGroup() {
 		/*
-		 * Step 3: Prompts for the main subject facet and number of facets,
-		 * and allows entry.
+		 * Step 3: Prompts for the main subject facet name, designation, and a choice
+		 * between crossed and nested status. This method uses one 'facetSubForm' and one 
+		 * 'facetCountSubForm.
 		 */
 		
 		Group content = new Group();
@@ -331,8 +337,10 @@ public class AnaGroups {
 	private Group subjectsGroup() {
 		/*
 		 * Step 4: Prompts for the features of each additional facet,
-		 * and allows entry.
+		 * again in original facet order. This method uses as many facetSubForms
+		 * as necessary.
 		 */
+		
 		Group content = new Group();
 		VBox vb = new VBox(20);
 		// vb.setPrefHeight(600);
@@ -350,10 +358,11 @@ public class AnaGroups {
 
 	private Group facetSubForm(String sCue, Integer iFacetID) {
 		/*
-		 * generates bound GUI sub form to specify one specific facet.
+		 * generates bound GUI sub form to specify each specific facet.
 		 * iFacetID provides an index for the specific facet.
-		 * Is used in both 'mainSubjectGroup' (x 1), and 'subjectsGroup' (x1 to many).
+		 * It is used in both 'mainSubjectGroup' (x 1), and 'subjectsGroup' (x1 to many).
 		 */
+		
 		Facet currentFacet = myNest.getNewFacet();
 		currentFacet.setOffset(-1);
 		Boolean isNested = false;
@@ -429,6 +438,7 @@ public class AnaGroups {
 		 * additional facets.
 		 * Is used once in 'subjectsGroup'.
 		 */
+		
 		Group fc = new Group();
 		HBox hb = new HBox(50);
 		hb.setLayoutY(50);
@@ -457,7 +467,7 @@ public class AnaGroups {
 
 	private Group headerSubForm(String _sColumnHeader) {
 		/**
-		 * Generates the subform for the header line in all groups.
+		 * Generates the subform for the header line in all subject forms.
 		 */
 		
 		Group header = new Group();
@@ -498,12 +508,17 @@ public class AnaGroups {
 		 * see e.g. http://tutorials.jenkov.com/javafx/drag-and-drop.html
 		 * In this, and the following group, items are moved from one cell in a list
 		 * to another.
+		 * Based on the new facet order, G_String creates a new dictionary 'sHdictionary',
+		 * which lists the facet characters in hierarchical order, in contrast to 'sDictionary',
+		 * which lists the facets in the original order, as they have been entered.
+		 * The distinction is important for GS. The original order helps calling up facet
+		 * properties, while the hierachical order is used for the algorithmic sequences!
 		 */
 
 		myNest.createDictionaries();
 		lvFacets = new ListView<String>();
 		ObservableList<String> orderedData = FXCollections.observableArrayList();
-				// see a short discussion of 'ObservableList' in the 'FilteredFacetList' method
+				// see a short discussion of 'ObservableList' in the 'FilteredFacetList' method below.
 
 		Group returnGroup = new Group();
 
@@ -516,7 +531,6 @@ public class AnaGroups {
 		lbTitle.setAlignment(Pos.TOP_CENTER);
 		vbOuter.getChildren().add(lbTitle);
 		sDictionary = myNest.getDictionary();
-		//sHDictionary = myNest.getHDictionary();
 		if ((sHDictionary == null) || bDownStep) {
 			sHDictionary = sDictionary;
 			myNest.setHDictionary(sDictionary);
@@ -683,7 +697,7 @@ public class AnaGroups {
 	private Group setNestingGroup() {
 		/*
 		 * Step 6 arranges nesting details, again using 'drag and drop'.
-		 * But while in step 5 items were moved in the same list, in
+		 * But while in step 5 items were moved within the same list, in
 		 * step 6 items are moved from the list on the left (nested facets) 
 		 * to the list on the right (crossed effects). 
 		 * However, the basic mechanism stays the same.
@@ -972,8 +986,11 @@ public class AnaGroups {
 
 	public Group setSampleSize() {
 		/**
-		 * Cycles through the process of setting sample sizes, until all are set.
-		 */
+		 * G_String cycles through 'setSampleSize' until all the sample sizes
+		 * for all facets (in hierarchical order) have been collected, when the variable 'bDawdle'
+		 * turns to 'false'. The actual form is constructed as 'getPage' within 'SampleSizeTree',
+		 * where the sample sizes are being stored as well.
+		*/
 		
 		Group group = new Group();
 		// construct samples page
@@ -1060,7 +1077,8 @@ public class AnaGroups {
 		
 		/**
 		 * ...... urGenova has finished.
-		 * The program now reads the urGenova output file and formats it into s stringBuilder.
+		 * The program now reads the urGenova output file and formats it into stringBuilder
+		 * 'sbResult'.
 		 */
 		
 		BufferedReader buf = new BufferedReader(new InputStreamReader(is));
@@ -1112,6 +1130,7 @@ public class AnaGroups {
 		/**
 		 * This is step 10. 'Analysis' extracts the means and estimated variance coefficients
 		 * from the urGenova output file, and uses them to calculate G-Study and D-Study results
+		 * see '[Algorithms](../../../../VarianceComponents.md)'
 		 */
 		
 		final ImageView imvErho = new ImageView();

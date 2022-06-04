@@ -13,7 +13,7 @@ The G_String line of programs has been designed and coded by Ralph Bloch as a re
 ## Installation
 G_String_L runs on all major OS platforms for desktop and laptop computers. It does not run on tablets and smart phones. For all platforms the program is contained in a software package called 'G_String_L.jar. Because G_String_L.jar is not digitally signed, the actual installation differs slightly from operating system to operating system. Once the program has been installed initially, no further efforts are required for future updates.
 
-To download the latest G_String_L.jar file, [**click here**](../../../releases/tag/v2.0.3). The name of the downloaded file includes the build-number.
+To download the latest G_String_L.jar file, [**click here**](../../../releases). The name of the downloaded file includes the build-number.
 
 To download the G_String_VI manual, [**click here**](../Support/Manual.pdf).
 

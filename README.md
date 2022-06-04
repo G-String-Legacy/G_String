@@ -1,7 +1,7 @@
 ## Generalizability Analysis with G_String
 This repository serves as community platform for investigators applying G_String software for Generalizability Analysis of performance assessments.
 Specifically, it provides:
-#### [An answer to the question 'Why G_String on GitHub'](../../tree/main/vault/github.md)? ####
+#### [An answer to the question 'Why G_String on GitHub?'](../../tree/main/vault/github.md) ####
 #### [Discussion fora for user questions and contributions](../../discussions). ####
 #### [Access to G_String Source Code](../../tree/main/workbench/GS_L/src) ####
 #### [Starting out with G_String](../../tree/main/vault/users.md). ####

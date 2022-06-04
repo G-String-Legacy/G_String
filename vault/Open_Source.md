@@ -2,6 +2,8 @@
 ## Open Source ##
 The [Open Source Guide](https://opensource.guide/starting-a-project/) defines **Open Source** as: "When a project is open source, that means **anybody is free to use, study, modify, and distribute your project for any purpose.** These permissions are enforced through [an open source license](https://opensource.org/licenses)."
 
+**Open Source**, actually, has become a social movement with its own mythology, or rather [real life stories](https://www.opensourcestories.org/).
+
 The above mentioned guide also suggests that any true blooded open source project starts with a definition of its **goal**. So let me, [Ralph Bloch](https://papaworx.com), get this out of the way:
 
 For the past ten year I have designed, coded, debugged, maintained, upgraded, and supported the **G_String** series of Generalizability Analysis programs as a retirement project for free. But the moment is rapidly approaching, where I no longer will be able to do so.

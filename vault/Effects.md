@@ -10,7 +10,7 @@ But not all N combinations meet the nesting constraints. In fact, a given facet 
 ### 3. Break Effects into Factors ###
 <table><tr><td width = "50%">
 Before we can calculate the number of states, each Effect can assume, we have to break down the Effects
-into <a href = "../workbench/GS_L/src/utilities/Factor.java">Factors</a>, where the number of states ('size') is determined easily from line 44 on.
+into <a href = "../workbench/GS_L/src/utilities/Factor.java#L44">Factors</a>, where the number of states ('size') is determined easily.
 </td><td><img src= "img/factors.png"></td></tr></table>
 
 ### 4. States of Effects ###

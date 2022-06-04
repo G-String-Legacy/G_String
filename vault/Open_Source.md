@@ -13,6 +13,7 @@ For the past ten year I have designed, coded, debugged, maintained, upgraded, an
 To this end, I am trying to make any information and tools for the future maintenance and support of G_String available in one place as user-friendly as possible.
 
 In keeping with this goal, here is a list of resources of use for people who will manage an Open Source project:
+- https://opensource.com/about
 - https://opensource.org/
 - https://opensource.guide/starting-a-project/
 - https://opensource.guide/https://opensource.guide/

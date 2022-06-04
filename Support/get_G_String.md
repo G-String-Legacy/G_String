@@ -15,7 +15,7 @@ G_String_L runs on all major OS platforms for desktop and laptop computers. It d
 
 To download the latest GS_L.jar file, [**click here**](../../../releases). Make sure to overwrite older versions.
 
-To download the G_String_VI manual, [**click here**](../Support/Manual.pdf).
+To download the G_String manual, [**click here**](../Support/Manual.pdf).
 
 But before you download G_String_L.jar, make sure that you have installed the [Java Runtime JRE 8](https://www.java.com/en/download/manual.jsp) on your computer.
 

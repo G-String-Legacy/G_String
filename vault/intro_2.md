@@ -18,13 +18,17 @@ The variability can be expressed mathematically as a variance, which generalizab
 The variance component attributed to the subjects is designated '$\tau$', while the variance component resulting from all the other aspects of the measurement is referred to as '$\sigma^{2}(\delta)$' or '$\sigma^{2}( \Delta )$' respectively. The '$\delta$'-component is called **relative** or **norm referenced**, the '$\Delta$'-component is called **absolute** or **criteria referenced**.
 
 The ratio between the subject variance component and the relative total variance, '$E\rho^{2}$' is called the ‘_generalizability coefficient_’, while '$\Phi$', the ratio between the subject variance component and the absolute total variance is called the ‘_index of dependability_’:
+
 $$
 E\rho^{2} = \frac{\sigma^{2}(\tau )}{\sigma^{2}(\tau ) + \sigma^{2}(\delta )}
 $$
+
 and
+
 $$
 \Phi = \frac{\sigma^{2}(\tau )}{\sigma^{2}(\tau ) + \sigma^{2}(\Delta )}
 $$
+
 The individual aspects of the measurement design are customarily referred to as '_facets_'. The facet corresponding to the subjects under investigation is referred to as '_facet of differentiation_', the other aspects are called '_facets of generalization_'. If the facet of differentiation is nested in some other facet (for example, students within classrooms) the nesting facet (classroom) is called a '_facet of stratification_'.
 
 '$\sigma^{2}(\tau)$', '$\sigma^{2}(\delta )$', '$\sigma^{2}(\Delta )$', '$E\rho^{2}$', and '$\Phi$' are calculated by G_String from the variance components corresponding to the various facets and their appropriate combinations, provided automatically by Brennan's urGenova contained in G_String Legacy. The actual calculations are detailed in the printout.

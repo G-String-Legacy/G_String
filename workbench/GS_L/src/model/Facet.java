@@ -18,8 +18,8 @@ public class Facet {
 													 * 'd' - Differentiation
 													 * 's' - Stratification
 													 * 'g' - Generalization
+													 * 'f' - Fixed
 													 **/
-	
 	private Character cNestor = '$';				/**
 													 * the designation char for the facet in which 
 													 * this facet is nested. The default is '$'

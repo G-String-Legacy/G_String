@@ -20,4 +20,5 @@ This line of pages is intended for for people who want to understand how G_Strin
 #### [Bird's Eye View of Synthesis](SynBird.md)
 #### [Effects](Effects.md)
 #### [Synthesize](Synthesize.md)
+#### [Signature](Signature.md) ####
 

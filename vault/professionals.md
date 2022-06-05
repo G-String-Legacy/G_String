@@ -17,8 +17,8 @@ This line of pages is intended for for people who want to understand how G_Strin
 #### [Using Variance Components](VarianceComponents.md)
 #### [Calculating Coefficients](Coefficients.md)
 #### [D-Studies](D_Study.md)
+#### [Signature](Signature.md) ####
 #### [Bird's Eye View of Synthesis](SynBird.md)
 #### [Effects](Effects.md)
 #### [Synthesize](Synthesize.md)
-#### [Signature](Signature.md) ####
 

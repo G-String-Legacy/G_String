@@ -8,23 +8,30 @@ G_String is written in Java 8 on the Linux platform. It can run on Macintosh or 
 Generalizability theory (G theory) is complex, and readers interested in a deeper understanding should consult the resources listed in the [Bibliography](https://github.com/G-String-Legacy/G_String/wiki/3.-G-School:-G_String-Resources#bibliography). We will here only explain some essential terms superficially. For novices in G theory the [YouTube video](https://www.youtube.com/watch?v=uLMrHCTP65Q) provides a good eye opener, and the [AMEE Guide #68](https://doi.org/10.3109/0142159X.2012.703791) may be particularly helpful.
 
 The purpose of a generalizability study is to estimate the reliability of a specific behavioral measurement with the intent of generalizing its findings, and to identify potential sources of measurement error. Behavioral measurements require defined methods to elicit and collect responses
+
 from subjects of interest to a set of stimuli such as statements on a questionnaire, observations of performance, or almost any psychometric measurement. The responses will typically vary widely, depending on the individual subject, as well as other factors such as the rater, the specific question, or other sources of error. G theory is a statistical strategy to identify and quantify these various sources of error.
 
-The variability can be expressed mathematically as a variance, which generalizability analysis subdivides into a variance component attributable to the subjects and variance components associated with various errors associated with the measurement process. Until GitHub fully implements displaying math formulae in Wiki pages, we recommend installing the [xhub plugin](https://github.com/nschloe/xhub) for the Chrome browser to correctly display the math below.
+  
 
-The variance component attributed to the subjects is designated `$\sigma^{2}\left( \tau \right)$`, while the variance component resulting from all the other aspects of the measurement is referred to as `$\sigma^{2}\left( \delta \right)$` or `$\sigma^{2}\left( \Delta \right)$` respectively. The `$\delta$`-component is called **relative** or **norm referenced**, the `$\Delta$`-component is called **absolute** or **criteria referenced**.
+The variability can be expressed mathematically as a variance, which generalizability analysis subdivides into a variance component attributable to the subjects and variance components associated with various errors associated with the measurement process.
 
-The ratio between the subject variance component and the relative total variance is called the ‘_generalizability coefficient_’, while the ratio between the subject variance component and the absolute total variance is called the ‘_index of dependability_’:
+The variance component attributed to the subjects is designated '$\tau$', while the variance component resulting from all the other aspects of the measurement is referred to as '$\sigma^{2}(\delta)$' or '$\sigma^{2}( \Delta )$' respectively. The '$\delta$'-component is called **relative** or **norm referenced**, the '$\Delta$'-component is called **absolute** or **criteria referenced**.
 
-<div align="center"><img style="background: white;" src="../../blob/main/svg/78zZhCsGJg.svg)"></div>
+The ratio between the subject variance component and the relative total variance, '$E\rho^{2}$' is called the ‘_generalizability coefficient_’, while '$\Phi$', the ratio between the subject variance component and the absolute total variance is called the ‘_index of dependability_’:
 
-```math
-\Phi = \frac{\sigma^{2}\left( \tau \right)}{\sigma^{2}{\left( \tau \right) + \sigma^{2}}\left( \Delta \right)} \quad \text{Index of Dependability}
-```
+$$
+E\rho^{2} = \frac{\sigma^{2}(\tau )}{\sigma^{2}(\tau ) + \sigma^{2}(\delta )}
+$$
+
+and
+
+$$
+\Phi = \frac{\sigma^{2}(\tau )}{\sigma^{2}(\tau ) + \sigma^{2}(\Delta )}
+$$
 
 The individual aspects of the measurement design are customarily referred to as '_facets_'. The facet corresponding to the subjects under investigation is referred to as '_facet of differentiation_', the other aspects are called '_facets of generalization_'. If the facet of differentiation is nested in some other facet (for example, students within classrooms) the nesting facet (classroom) is called a '_facet of stratification_'.
 
-`$\sigma^{2}\left( \tau \right)$`, `$\sigma^{2}\left( \delta \right)$`, `$\sigma^{2}\left( \Delta \right)$`, `$E\rho^{2}$`, and `$\Phi$` are calculated by G_String from the variance components corresponding to the various facets and their appropriate combinations, provided automatically by Brennan's urGenova contained in G_String Legacy. The actual calculations are detailed in the printout.
+'$\sigma^{2}(\tau)$', '$\sigma^{2}(\delta )$', '$\sigma^{2}(\Delta )$', '$E\rho^{2}$', and '$\Phi$' are calculated by G_String from the variance components corresponding to the various facets and their appropriate combinations, provided automatically by Brennan's urGenova contained in G_String Legacy. The actual calculations are detailed in the printout.
 
 G theory is based on the linear regression model of statistics. The analysis solves for the parameter variances in a data set collected under a specific experimental design.
 

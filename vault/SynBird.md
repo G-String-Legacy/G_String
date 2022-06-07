@@ -3,7 +3,7 @@
 <TABLE>
 	<TR>
 		<TD width = "50%">
-			<img src = "img/SynBird.png" style="width:450px;height:800px;">
+			<img src = "img/SynBird.png" style="width:500px;height:800px;">
 		</TD>
 		<TD width = "50%">
 			This Bird's eye view is important for IT professionals, in order to

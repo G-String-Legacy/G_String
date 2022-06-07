@@ -11,7 +11,7 @@ where i<sub>h</sub> equals the integer index of the highest effect, and $\mu$ is
 
 In reality, 'constructSimulation' only calculates the sums. The results 'darOutput' are then passed on in the Double array getter ['getData'](../workbench/GS_L/src/utilities/constructSimulation.java#L164) to the ['saveSynthetics'](../workbench/GS_L/src/steps/SynthGroups.java#L1161) method of ['SynthGroups'](../workbench/GS_L/src/steps/SynthGroups.java#L168). Also passed on is a string list array ['salCarriageReturn'](../workbench/GS_L/src/utilities/constructSimulation.java#L168) containing the leading index columns for the data output.
 
-The [&mu; gets added](../workbench/GS_L/src/steps/SynthGroups.java#L1215), and the value gets restrained within the limits of the specified score range.
+The [&mu; gets added](../workbench/GS_L/src/steps/SynthGroups.java#L1215), and the value is restrained within the limits of the specified score range.
 
 
 **Important**  

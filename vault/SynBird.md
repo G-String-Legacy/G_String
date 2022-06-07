@@ -5,7 +5,6 @@
 		<TD width = "50%">
 			<img src = "img/SynBird.png" style="width:350px;height:600px;">
 		</TD>
-	</TR><TR>
 		<TD width = "50%">
 			This Bird's eye view is important for IT professionals, in order to
 			understand the code of <a href="https://github.com/G-String-Legacy/G_String/blob/main/workbench/GS_L/src/steps/SynthGroups.java">'SynthGroups.java'</a>.<BR/><BR/>

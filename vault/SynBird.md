@@ -14,4 +14,5 @@
 
 			GS then generates the synthetic data file based on these parameters, 
 			and stores the results as a properly formated GS data file.
+		</td></tr>
 </TABLE>

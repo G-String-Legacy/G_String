@@ -1,6 +1,6 @@
 [Return](../../../)
 ## Open Source ##
-![youTube](img/WatchThis.png)
+[![youTube](img/WatchThis.png)](https://www.youtube.com/watch?v=SpeDK1TPbew)
 
 The [Open Source Guide](https://opensource.guide/starting-a-project/) defines **Open Source** as: "When a project is open source, that means **anybody is free to use, study, modify, and distribute your project for any purpose.** These permissions are enforced through [an open source license](https://opensource.org/licenses)."
 

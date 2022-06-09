@@ -18,3 +18,4 @@ into <a href = "../workbench/GS_L/src/utilities/Factor.java#L44">Factors</a>, wh
 By 'number of States' we mean the number of ANOVA error terms &epsilon; required for a given Effect considering the respective sample sizes. This number is calculated for each Effect as the <a href = "../workbench/GS_L/src/model/SampleSizeTree.java#L815"> product of sizes of its constituent Factors</a>.
  
 </td><td><img src= "img/effects.png"></tr></table>
+[Next](Synthesize.md)

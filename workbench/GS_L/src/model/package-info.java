@@ -1,5 +1,5 @@
 /**
- * Package @code(model) contains 3 classes:
+ * Package <code>model</code> contains 3 classes:
  * <UL>
  * <LI><code>Facet</code> encapsulates each constituent component of an assessment.<LI>
  * <LI><code>Nest</code> encapsulates the various parameters of the assessment design.</LI>

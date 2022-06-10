@@ -851,6 +851,8 @@ public class SynthGroups {
 	 * this group collects and/or displays the user specified
 	 * variance components. But firstly, it has to determine
 	 * the number of variance components needed.
+	 * 
+	 * @return Group  VarianceComponentsGroup
 	 */
 	private Group VarianceComponentsGroup() {
 		myNest.doComponents();
@@ -920,6 +922,9 @@ public class SynthGroups {
 	/**
 	 * Subform to handle variance components in VarianceComponentsGroup
 	 * for empty fields.
+	 * 
+	 * @param iPos  Integer
+	 * @return Group  vcGroup
 	 */
 	private Group vcGroup(Integer iPos) {		
 		Group group = new Group();
@@ -965,6 +970,10 @@ public class SynthGroups {
 	/**
 	 * Subform to handle variance components in VarianceComponentsGroup
 	 * for script driven data entry.
+	 * 
+	 * @param iPos integer
+	 * @param sVC string
+	 * @return Group vcGroup
 	 */
 	private Group vcGroup(Integer iPos, String sVC) {
 		Group group = new Group();
@@ -1015,6 +1024,9 @@ public class SynthGroups {
 	 * This construct is used in the method 'setNestingGroup' for both the list 
 	 * of crossed and nested facets. That makes the visual arranging
 	 * of facet nesting possible. Identical to the one in 'AnaGroups'.
+	 * 
+	 * @param isNested Boolean
+	 * @return filteredFacetList  ObservableList
 	 */
 	private ObservableList<String> filteredFacetList(Boolean isNested) {		
 		Integer iMax = 0;
@@ -1154,6 +1166,10 @@ public class SynthGroups {
 
 	/**
 	 * Sets up data file to save the synthetic data.
+	 * 
+	 * @param _darData Double[]
+	 * @param _salCarriageReturn ArrayList
+	 * @return saveSynthetics  Group
 	 */
 	private Group saveSynthetics(Double[] _darData, ArrayList<String> _salCarriageReturn) {		
 		Group group = new Group();
@@ -1172,6 +1188,10 @@ public class SynthGroups {
 	 * between maximum and minimum boundaries. Values get formatted and bundled into lines,
 	 * each with an appropriate leader (that later will be ignored again in the analysis), and, finally, 
 	 * saved in a file with the chosen file name. A summary of the file will be displayed on the screen.
+	 * 
+	 * @param _sFileName String
+	 * @param _darData  Double[]
+	 * @param _salCarriageReturn  ArrayList
 	 */
 	private void saveDataFile(String _sFileName, Double[] _darData, ArrayList<String> _salCarriageReturn) {		
 		File fout = new File(_sFileName);
@@ -1238,6 +1258,8 @@ public class SynthGroups {
 	/**
 	 * A special javafx construct to defer operation until ready.
 	 * See: https://riptutorial.com/javafx/example/7291/updating-the-ui-using-platform-runlater
+	 * 
+	 * @param node Node
 	 */
 	private void repeatFocus(Node node) {		
 		Platform.runLater(() -> {

@@ -173,10 +173,10 @@ public class SynthGroups {
 		}
 	}
 
+	/*
+	 * Step 2: Specifies comments to describe the project
+	 */
 	private Group addComments() throws IOException {
-		/*
-		 * Step 2: Specifies comments to describe the project
-		 */
 		
 		Group group = new Group();
 		VBox vb = new VBox(20);
@@ -225,10 +225,10 @@ public class SynthGroups {
 		return content;
 	}
 
+	/*
+	 * Step 4: Specifies the features of each additional facet
+	 */
 	private Group subjectsGroup() {
-		/*
-		 * Step 4: Specifies the features of each additional facet
-		 */
 		Group content = new Group();
 		VBox vb = new VBox(20);
 		Label lb = new Label("Now specify each of the remaining facets.");
@@ -243,12 +243,12 @@ public class SynthGroups {
 		return content;
 	}
 
+	/*
+	 * generates bound GUI addition to specify one specific facet. -
+	 * iFacetID provides an index for the specific facet. - bAutoIndex makes
+	 * the column selector field visible (true)
+	 */
 	private Group facetGroup(String sCue, Integer iFacetID) {
-		/*
-		 * generates bound GUI addition to specify one specific facet. -
-		 * iFacetID provides an index for the specific facet. - bAutoIndex makes
-		 * the column selector field visible (true)
-		 */
 		Facet currentFacet = myNest.getNewFacet();
 		Boolean isNested = false;
 		Group facetGroup = new Group();
@@ -378,11 +378,10 @@ public class SynthGroups {
 		return header;
 	}
 
+	/*
+	 * Step 5 Group to set facet order and line change position.
+	 */
 	private Group orderFacets() {
-		/*
-		 * Step 5 Group to set facet order and line change position.
-		 */
-
 		myNest.createDictionaries();
 		lvFacets = new ListView<String>();
 		ObservableList<String> orderedData = FXCollections.observableArrayList();
@@ -557,11 +556,10 @@ public class SynthGroups {
 		return returnGroup;
 	}
 
+	/*
+	 * Step 6 arranges nesting details
+	 */
 	private Group setNestingGroup() {
-		/*
-		 * Step 6 arranges nesting details
-		 */
-		// final
 		if (bDownStep)
 			myNest.setNests(null);
 		String dataFormat = "-fx-font-size: 1.5em ;";
@@ -759,13 +757,13 @@ public class SynthGroups {
 		return group;
 	}
 
+	/*
+	 * generates bound GUI addition to specify one specific name - value
+	 * pair and deposits the integer value in a designated target location.
+	 * sType has to be either "Integer" or "Double". The result of
+	 * appropriate type, however, is passed as a string to myNest.
+	 */
 	private Group simpleVariableGroup(String _sType, String _sName, String _sTarget) {
-		/*
-		 * generates bound GUI addition to specify one specific name - value
-		 * pair and deposits the integer value in a designated target location.
-		 * sType has to be either "Integer" or "Double". The result of
-		 * appropriate type, however, is passed as a string to myNest.
-		 */
 		Group simpleGroup = new Group();
 		HBox layout = new HBox(20);
 		layout.setStyle("-fx-padding: 10;-fx-border-color: silver;-fx-border-width: 1;");
@@ -804,13 +802,13 @@ public class SynthGroups {
 		return simpleGroup;
 	}
 
+	/*
+	 * generates bound GUI addition to specify one specific name - value
+	 * pair and deposits the integer value in a designated target location.
+	 * sType has to be either "Integer" or "Double". The result of
+	 * appropriate type, however, is passed as a string to myNest.
+	 */
 	private Group simpleVariableGroup(String _sType, String _sName, String _sTarget, String sValue) {
-		/*
-		 * generates bound GUI addition to specify one specific name - value
-		 * pair and deposits the integer value in a designated target location.
-		 * sType has to be either "Integer" or "Double". The result of
-		 * appropriate type, however, is passed as a string to myNest.
-		 */
 		Group simpleGroup = new Group();
 		HBox layout = new HBox(20);
 		layout.setStyle("-fx-padding: 10;-fx-border-color: silver;-fx-border-width: 1;");
@@ -849,12 +847,12 @@ public class SynthGroups {
 		return simpleGroup;
 	}
 
+	/**
+	 * this group collects and/or displays the user specified
+	 * variance components. But firstly, it has to determine
+	 * the number of variance components needed.
+	 */
 	private Group VarianceComponentsGroup() {
-		/**
-		 * this group collects and/or displays the user specified
-		 * variance components. But firstly, it has to determine
-		 * the number of variance components needed.
-		 */
 		myNest.doComponents();
 		Group group = new Group();
 		VBox vb = new VBox();
@@ -919,12 +917,11 @@ public class SynthGroups {
 		return group;
 	}
 
-	private Group vcGroup(Integer iPos) {
-		/**
-		 * Subform to handle variance components in VarianceComponentsGroup
-		 * for empty fields.
-		 */
-		
+	/**
+	 * Subform to handle variance components in VarianceComponentsGroup
+	 * for empty fields.
+	 */
+	private Group vcGroup(Integer iPos) {		
 		Group group = new Group();
 		String sVC = "";
 		if (myNest.getDoOver())
@@ -965,12 +962,11 @@ public class SynthGroups {
 		return group;
 	}
 
+	/**
+	 * Subform to handle variance components in VarianceComponentsGroup
+	 * for script driven data entry.
+	 */
 	private Group vcGroup(Integer iPos, String sVC) {
-		/**
-		 * Subform to handle variance components in VarianceComponentsGroup
-		 * for script driven data entry.
-		 */
-
 		Group group = new Group();
 		String sCompDesig = myTree.getConfiguration(iPos);
 		String sLevel = String.valueOf(myTree.getDepth(iPos));
@@ -1012,16 +1008,15 @@ public class SynthGroups {
 		return group;
 	}
 
-	private ObservableList<String> filteredFacetList(Boolean isNested) {
-		/**
-		 * An 'ObservableList' is a Javafx construct that enables listeners 
-		 * to track changes in the list, when they occur. A ListChangeListener is 
-		 * an interface that receives notifications of changes to an ObservableList.
-		 * This construct is used in the method 'setNestingGroup' for both the list 
-		 * of crossed and nested facets. That makes the visual arranging
-		 * of facet nesting possible. Identical to the one in 'AnaGroups'.
-		 */
-		
+	/**
+	 * An 'ObservableList' is a Javafx construct that enables listeners 
+	 * to track changes in the list, when they occur. A ListChangeListener is 
+	 * an interface that receives notifications of changes to an ObservableList.
+	 * This construct is used in the method 'setNestingGroup' for both the list 
+	 * of crossed and nested facets. That makes the visual arranging
+	 * of facet nesting possible. Identical to the one in 'AnaGroups'.
+	 */
+	private ObservableList<String> filteredFacetList(Boolean isNested) {		
 		Integer iMax = 0;
 		String sTemp = null;
 		if (myNest.getDoOver() && !bDownStep)
@@ -1070,10 +1065,10 @@ public class SynthGroups {
 		return group;
 	}
 
+	/*
+	 * Step 6: Specifies score limits and mean
+	 */
 	private Group baseScaleGroup() {
-		/*
-		 * Step 6: Specifies score limits and mean
-		 */
 		Group content = new Group();
 		iTFonPage = 0;
 		VBox vb = new VBox(20);
@@ -1157,11 +1152,10 @@ public class SynthGroups {
 		}
 	}
 
-	private Group saveSynthetics(Double[] _darData, ArrayList<String> _salCarriageReturn) {
-		/**
-		 * Sets up data file to save the synthetic data.
-		 */
-		
+	/**
+	 * Sets up data file to save the synthetic data.
+	 */
+	private Group saveSynthetics(Double[] _darData, ArrayList<String> _salCarriageReturn) {		
 		Group group = new Group();
 		File selectedFile = flr.getFile(false, "Select data file to be saved");
 		if (selectedFile != null) {
@@ -1173,14 +1167,13 @@ public class SynthGroups {
 		return group;
 	}
 
-	private void saveDataFile(String _sFileName, Double[] _darData, ArrayList<String> _salCarriageReturn) {
-		/**
-		 * Takes the abstract synthetic data set 'darData', adds the mean value, and constrains the output
-		 * between maximum and minimum boundaries. Values get formatted and bundled into lines,
-		 * each with an appropriate leader (that later will be ignored again in the analysis), and, finally, 
-		 * saved in a file with the chosen file name. A summary of the file will be displayed on the screen.
-		 */
-		
+	/**
+	 * Takes the abstract synthetic data set 'darData', adds the mean value, and constrains the output
+	 * between maximum and minimum boundaries. Values get formatted and bundled into lines,
+	 * each with an appropriate leader (that later will be ignored again in the analysis), and, finally, 
+	 * saved in a file with the chosen file name. A summary of the file will be displayed on the screen.
+	 */
+	private void saveDataFile(String _sFileName, Double[] _darData, ArrayList<String> _salCarriageReturn) {		
 		File fout = new File(_sFileName);
 		PrintStream writer = null;
 		Double dTemp = 0.0;
@@ -1242,12 +1235,11 @@ public class SynthGroups {
 		System.exit(0);
 	}
 
-	private void repeatFocus(Node node) {
-		/**
-		 * A special javafx construct to defer operation until ready.
-		 * See: https://riptutorial.com/javafx/example/7291/updating-the-ui-using-platform-runlater
-		 */
-		
+	/**
+	 * A special javafx construct to defer operation until ready.
+	 * See: https://riptutorial.com/javafx/example/7291/updating-the-ui-using-platform-runlater
+	 */
+	private void repeatFocus(Node node) {		
 		Platform.runLater(() -> {
 			if (!node.isFocused()) {
 				node.requestFocus();

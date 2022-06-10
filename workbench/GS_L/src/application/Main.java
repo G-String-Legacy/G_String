@@ -67,8 +67,6 @@ public class Main extends Application {
 	/**
 	 * <code>bSynthesize</code> - acts as switch, whether G_String analyzes data (false),
 	 * or generates a synthetic data set (true).
-	 * 
-	 * @see rootLayout;
 	 */
 	private Boolean bSynthesize = false;
 	
@@ -81,24 +79,18 @@ public class Main extends Application {
 	/**
 	 * Object <code>myNest</code> - encapsulates all experimental model descriptors (excepts
 	 * sample sizes, and methods to generate logical derivatives.
-	 * 
-	 * @see Nest;
 	 */
 	private static Nest myNest;
 	
 	/**
 	 * <code>mySteps</code> - guides the user through all the input steps for performing
 	 * a Generalizability Analysis.
-	 * 
-	 * @see AnaGroups;
 	 */
 	private AnaGroups mySteps;
 	
 	/**
 	 * <code>mySynthSteps</code> - guides the user through all the input steps for generating
 	 * a synthetic dataset, on which Generalizability Analysis can be practiced.
-	 * 
-	 * @see SynthGroups;
 	 */
 	private SynthGroups mySynthSteps;
 	
@@ -111,7 +103,6 @@ public class Main extends Application {
 	/**
 	 * controller - Object that controls the GUI.
 	 * 
-	 * @see rootLayoutController;
 	 */
 	private rootLayoutController controller;
 	
@@ -133,7 +124,7 @@ public class Main extends Application {
 	private Scene storedScene = null;
 	
 	/**
-	 * <root>root</root> - serves a root for current Preferences.
+	 * <code>root</code> - serves a root for current Preferences.
 	 */
 	private Preferences root = Preferences.userRoot();
 	
@@ -149,15 +140,11 @@ public class Main extends Application {
 	
 	/**
 	 * Object <code>flr</code> handles most file input/output.
-	 * 
-	 * @see Filer;
 	 */
 	private Filer flr;
 	
 	/**
 	 * <code>popup</code> - handles exception communication.
-	 * 
-	 * @see Popup;
 	 */
 	private Popup popup;
 	
@@ -411,10 +398,10 @@ public class Main extends Application {
 	}
 
 	/**
-	 * Set up the standard 'help' scene
+	 * Sets up the standard 'help' scene
 	 * 
-	 * @param String, help screen title;
-	 * @param String, help text file location;
+	 * @param _sTitle  string	the Help screen title;
+	 * @param _sSource string	the help text file location;
 	 * @return Scene to be displayed;
 	 */
 	private Scene helpScene(String _sTitle, String _sSource) {
@@ -617,8 +604,8 @@ public class Main extends Application {
 	/**
 	 * helper in Preferences, displays individual preference.
 	 * 
-	 * @param String, key;
-	 * @param String, value;
+	 * @param _sKey		string	the key for a particular preference item
+	 * @param _sValue	string	the new value for that preference item
 	 * @return HBox, to be displayed in <code>prefChanger</code>;
 	 */
 	private HBox hbKeyValue(String _sKey, String _sValue) {

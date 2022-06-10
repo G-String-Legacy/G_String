@@ -1,180 +1,214 @@
 package model;
 
+/*
+ *  the class 'Facet' encapsulates the various parameters for each facet;
+ *  as well as the various methods required
+ */
 public class Facet {
-	/*
-	 *  the class 'facet' encapsulates the various parameters for each facet;
-	 *  as well as the various methods required
-	 */
 
+	/**
+	 * <code>sName</code> descriptive Name of facet.
+	 */
 	private String sName = null;
+	
+	/**
+	 * <code>cDesignation</code> formal, symbolic name of facet
+	 */
 	private char cDesignation = ' ';
+	
+	/**
+	 * Boolean, indicating whether facet is nested or crossed
+	 */
 	private Boolean bIsNested = false;
+	
+	/**
+	 * Boolean exclusive, marking the facet for which a carriage return
+	 * in the data file occurs.
+	 */
 	private Boolean bAsterisk = false;
-	private Integer iColumnOffset = null;			// for auto-indexing, indicates column, where that facet index occurs
-	private Integer iOrder = -1;					// order of facet in sDictionary
+
+	/**
+	 * Hierarchical order of facet in sHDictionary
+	 */
+	private Integer iOrder = -1;
 	
-	private char cFacetType = 'x';					/**
-													 * 'x' - not specified
-													 * 'd' - Differentiation
-													 * 's' - Stratification
-													 * 'g' - Generalization
-													 * 'f' - Fixed
-													 **/
-	private Character cNestor = '$';				/**
-													 * the designation char for the facet in which 
-													 * this facet is nested. The default is '$'
-													 * which indicates a crossed facets, i.e. 
-													 * facets without a 'Nestor'
-													 **/
-	private int iNestingRank = 0;					// depth of nesting 
-	private String sNestees = null;					/**
-	 												 * 'Nestees' are the facets nested in the current facet.
-	 												 * Since multiple facets can be nested within the current
-	 												 * facet, they form a string of facet designations (char)
-	 												 **/
+	/**
+	 * 'x' - not specified
+	 * 'd' - Differentiation
+	 * 's' - Stratification
+	 * 'g' - Generalization
+	 * 'f' - Fixed
+	 */
+	private char cFacetType = 'x';					
+
+	/**
+	 * the designation char for the facet in which 
+	 * this facet is nested. The default is '$'
+	 * which indicates a crossed facets, i.e. 
+	 * facets without a 'Nestor'
+	 */
+	private Character cNestor = '$';
+
+	/**
+	 * depth of nesting
+	 */
+	private int iNestingRank = 0;					
+
+	/**
+	 * 'Nestees' are the facets nested in the current facet.
+	 * Since multiple facets can be nested within the current
+	 * facet, they form a string of facet designations (char)
+	 */
+	private String sNestees = null;					
+
+	/**
+	 * 'Average' sample size for variance coefficients calculation.
+	 */
+	private Double dFacetLevel;	
 	
-	private Double dFacetLevel;						// sample size for D - Studies
+	/**
+	 * Pointer to 'Nest' for access to design parameters stored.
+	 */
 	private Nest myNest;
-	private Boolean bFixed = false;					/**
-	 												 * differentiates between random and
-	 												 * fixed facets in D Study context.
-	 												 **/
+	
+	/**
+	 * For D-Studies, differentiates between 'Fixed' and 'Random' facets.
+	 */
+	private Boolean bFixed = false;					
+
+	/**
+	 * Pointer to 'SampleSizeTree' for access to sample size data.
+	 */
 	private SampleSizeTree myTree  = null;
 
-	public Facet(Nest _nest)
 	/**
 	 * Constructor for empty facet
+	 * 
+	 * @param _nest;
 	 */
-	
-	{
+	public Facet(Nest _nest){
 		myNest = _nest;
 		myTree = myNest.getTree();
 	}
 
-	public Facet (Nest _nest, String _sName, char _cDesignation, Boolean _bIsNested, Integer _iColumnOffset)
 	/**
-	 * Constructor for defined facet
+	 * Constructor for defined facet.
+	 * 
+	 * @param _nest;
+	 * @param _sName;
+	 * @param _cDesignation;
+	 * @param _bIsNested;
 	 */
-
-	{
+	public Facet (Nest _nest, String _sName, char _cDesignation, Boolean _bIsNested) {
 		sName = _sName;
 		cDesignation = _cDesignation;
 		bIsNested = _bIsNested;
-		iColumnOffset = _iColumnOffset;
 		myNest = _nest;
 		iOrder = myNest.getDictionary().indexOf(cDesignation);
 		myTree = myNest.getTree();
 	}
 
-	public void setName( String _sName)
 	/**
-	 * Sets facet name, descriptive single word with upper case initial.
+	 * Setter for facet name, descriptive single word with upper case initial.
+	 * 
+	 * @param _sName;
 	 */
-	
-	{
+	public void setName( String _sName) {
 		sName = _sName;
 	}
 
-	public void setDesignation (char _cDesignation)
 	/**
-	 * Sets symbolic character designating the facet, usually the lower case initial of the name
+	 * Setter for symbolic character designating the facet, usually the lower case initial of the name.
+	 * 
+	 * @param _cDesignation;
 	 */
-	
-	{
+	public void setDesignation (char _cDesignation) {
 		cDesignation = _cDesignation;
 	}
 
-	public void setNested( Boolean _bIsNested)
 	/**
-	 * Boolean value, 'true' if facet nested in another.
+	 * Setter for 'isNested', 'true' if facet nested in another.
+	 * 
+	 * @param _bIsNested;
 	 */
-	
-	{
+	public void setNested( Boolean _bIsNested) {
 		bIsNested = _bIsNested;
 	}
 
-	public void setOffset ( Integer _iColumnOffset)
 	/**
-	 * Optional, if the values are specified in a columnar document
+	 * Setter for the hierarchical order in which the facets increment 
+	 * in the data file, and it is in 'sHDictionary'.
+	 * 
+	 * @param _id;
 	 */
-	
-	{
-		iColumnOffset = _iColumnOffset;
-	}
-
-	public void setID (Integer _id)
-	/**
-	 * The order in which the facets increment in the data file.
-	 */
-	
-	{
+	public void setID (Integer _id) {
 		iOrder = _id;			// sets the hierarchical order of facets
 	}
 
-	public void setNestor (char cFacet)
-	{
-		/**
-		 * see above regarding the meaning of 'Nestor'
-		 */
-		
+	/**
+	 * Setter of 'Nestor', i.e. the facet in which the current
+	 * facet is nested.
+	 * 
+	 * @param cFacet;
+	 */
+	public void setNestor (char cFacet) {
 		cNestor = cFacet;
 		bIsNested = true;
 	}
 
-	public void setFacetType(char _cFacetType)	{
-
 	/**
-	 * As defined above in the variable list. The facet type is essential for
+	 * Setter of 'facetType', defined above in the variable list. The facet type is essential for
 	 * the calculation of variance components and G-coefficients.
+	 * 
+	 * @param _cFacetType;
 	 */
-	
+	public void setFacetType(char _cFacetType) {	
 		cFacetType = _cFacetType;
 	}
 
-	public void setAsterisk (Boolean _bAsterisk)
 	/**
-	 * When the value of the starred facet (boolean true) changes
-	 * the data file starts ba new line. !! only one starred facet
-	 * per project.
+	 * Setter of bAsterisk.
+	 * 
+	 * @param _bAsterisk;
 	 */
-	
-	{
+	public void setAsterisk (Boolean _bAsterisk) {
 		bAsterisk = _bAsterisk;
 	}
-
-	public void setFixed(Boolean _bFixed)
-	/**
-	 * While facets usually are considered random, they can be held fixed for D-Studies.
-	 */
 	
-	{
+	/**
+	 * Setter for bFixed.
+	 *
+	 * @param _bFixed;
+	 */
+	public void setFixed(Boolean _bFixed) {
 		bFixed = _bFixed;
 	}
 
-	// Getters
-	public String getName()
 	/**
-	 * Returns facet name
+	 * Getter for facet name.
+	 * 
+	 * @return sName;
 	 */
-	
-	{
+	public String getName() {
 		return sName;
 	}
 
-	public char getDesignation()
 	/**
 	 * Returns facet designation.
+	 * 
+	 * @return cDesignation;
 	 */
-	
-	{
+	public char getDesignation() {
 		return cDesignation;
 	}
 	
+	/**
+	 * Getter for facet designation, whether it is fixed or random,
+	 * and Level (average sample size).
+	 * 
+	 * @return sb.toString;
+	 */
 	public String getDiagDesignation() {
-		/**
-		 * Returns face designation and Level (mean sample size)
-		 */
-		
 		StringBuilder sb = new StringBuilder("Facet " + cDesignation);
 		if(bFixed)
 			sb.append(", fixed; level = " + dFacetLevel + ".\n");
@@ -184,38 +218,61 @@ public class Facet {
 		return sb.toString();
 	}
 
-	public String getDesignationString()				// conversion: char to string
-	{
+	/**
+	 * Getter of cDesignation as String.
+	 * 
+	 * @return String.valueOf(cDesignation);
+	 */
+	public String getDesignationString() {
 		return String.valueOf(cDesignation);
 	}
 
+	/**
+	 * Getter of 'nested status'.
+	 * 
+	 * @return bIsNested;
+	 */
 	public Boolean getNested()
+
 	{
 		return bIsNested;
 	}
 
+	/**
+	 * Getter of 'Nestor'.
+	 * 
+	 * @return cNestor;
+	 */
 	public Character getNestor()
+
 	{
 		return cNestor;
 	}
 
-	public Integer getOffset()
-	{
-		return iColumnOffset;
-	}
-
-	public Boolean getFixed()
-	{
+	/**
+	 * Getter of 'Fixed' status.
+	 * 
+	 * @return bFixed;
+	 */
+	public Boolean getFixed() {
 		return bFixed;
 	}
 
-	public Integer getOrder()
-	{
+	/**
+	 * Getter for facet order within sHDirectory.
+	 * 
+	 * @return iOrder;
+	 */
+	public Integer getOrder() {
 		return iOrder;
 	}
 
-	public char getFacetType()
-	{
+	/**
+	 * Getter for facet type.
+
+	 * @return cFacetType;
+	 */
+	public char getFacetType() {
 		return cFacetType;
 	}
 
@@ -224,19 +281,21 @@ public class Facet {
 		return dFacetLevel;
 	}
 
-	public Boolean starred()
-	{
+	/**
+	 * Getter for presence of facet asterisk.
+	 * 
+	 * @return bAsterisk;
+	 */
+	public Boolean starred() {
 		return bAsterisk;
 	}
 
-	public void setFacetLevel()
-	{
-		/**
-		 * Calculates levels for G studies for facets of generalization:
-		 * simple mean of sample sizes for 1 level of nesting, harmoniv mean
-		 * for higher levels of nesting.
-		 */
-		
+	/**
+	 * Calculates levels for G studies for facets of generalization:
+	 * simple mean of sample sizes for 1 level of nesting, harmoniv mean
+	 * for higher levels of nesting.
+	 */
+	public void setFacetLevel() {		
 		if (myTree == null)
 			myTree = myNest.getTree();
 		switch (iNestingRank) {
@@ -253,14 +312,30 @@ public class Facet {
 		}
 	}
 	
+	/**
+	 * Setter of FacetLevel (Double).
+	 * 
+	 * @param _dLevel;
+	 */
 	public void setdFacetLevel (Double _dLevel) {
 		dFacetLevel = _dLevel;
 	}
 	
+	/**
+	 * Getter of FacetLevel (Double).
+	 * 
+	 * @return dFacetLevel;
+	 */
 	public Double dGetLevel() {
 		return dFacetLevel;
 	}
 	
+	/**
+	 * Sets up nesting configuration based on the nesting input, 
+	 * this method determines the nestor/nestees relationships
+	 * 
+	 * @param sComponent;
+	 */
  	public void doNesting(String sComponent) {
  		/**
  		 * based on the nesting input, this method determines the
@@ -276,21 +351,38 @@ public class Facet {
 		}
 	}
  	
+ 	/**
+ 	 * Getter for rank in nesting hierarchy.
+ 	 * 
+ 	 * @return iNestingRank;
+ 	 */
 	public Integer getRank()
 	{
 		return iNestingRank;
 	}
 
+	/**
+	 * Getter for 'crossed' status.
+	 * 
+	 * @return !bIsNested;
+	 */
 	public Boolean isCrossed(){
 		return !bIsNested;
 	}
 
+	/**
+	 * Getter for 'Fixed' status.
+	 * 
+	 * @return bFixed;
+	 */
 	public Boolean isFixed(){
 		return bFixed;
 	}
+	
 	/**
-	 * 'Nestees' are the facets nested in the current
-	 * @param cNestee
+	 * adds 'Nestee', facets nested in the current facet.
+	 * 
+	 * @param cNestee;
 	 */
 	public void addNestee(char cNestee) {
 		if (sNestees == null)
@@ -301,13 +393,24 @@ public class Facet {
 		}		
 	}
 	
+	/**
+	 * getter for 'Nestees' as char[].
+	 * 
+	 * @return sNestees.toCharArray();
+	 */
 	public char[] getcNestees() {
 		if (sNestees == null)
 			return null;
 		else
 			return sNestees.toCharArray();
 	}
-	
+
+	/**
+	 * getter for 'Nestees' as String.
+	 * 
+	 * @return sNestees;
+	 */
+
 	public String getsNestees() {
 		return sNestees;
 	}

@@ -364,7 +364,6 @@ public class AnaGroups {
 		 */
 		
 		Facet currentFacet = myNest.getNewFacet();
-		currentFacet.setOffset(-1);
 		Boolean isNested = false;
 		Group facetGroup = new Group();
 		HBox layout = new HBox(20);

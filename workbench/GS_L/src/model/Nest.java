@@ -638,40 +638,6 @@ public class Nest {
 		return dConsistency;
 	}
 
-	public Boolean checkColOffset_1() {
-		/**
-		 * Checks if each column is only mentioned once
-		 */
-		ArrayList<Integer> ialCols = new ArrayList<Integer>();
-		Integer iFac = null;
-		for (Facet f : facets) {
-			iFac = f.getOffset();
-			if ((iFac > 0) && ialCols.contains(iFac))
-				return false;
-			else
-				ialCols.add(iFac);
-		}
-		return true;
-	}
-
-	public Integer checkColOffset_2(Integer _iHilight) {
-		/**
-		 * Checks if each column up to and including the starred facet, but only
-		 * those, is mentioned exactly once and in proper order. return: 0: OK;
-		 * 1: iAsterisk != iHilight; 2: facet offsets out of order
-		 */
-
-		if (iAsterisk != _iHilight)
-			return 1;
-		char[] cHDictionary = sHDictionary.toCharArray();
-		for (Integer i = 0; i <= _iHilight; i++) {
-			Facet f = getFacet(cHDictionary[i]);
-			if (f.getOffset() != i)
-				return 2;
-		}
-		return 0;
-	}
-
 	public void setStep(Integer _iStep) {
 		iStep = _iStep;
 	}

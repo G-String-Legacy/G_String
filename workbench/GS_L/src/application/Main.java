@@ -41,53 +41,153 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+/**
+ * <strong>Main entry point</strong> to G_String_L, stands for 'Legacy'.
+ * Uses standard structure of standard Javafx applications:
+ * main(), start(), and initRootLayout();
+ * This ensures tight integration with rootLayoutController and rootLayout.fxml in the view package.
+ * Main also steers the operations according to menu selections to the actual work routines.
+ * All traffic between the UID (rootLayout) and the working code is funneled through the 'Main' class.
+ * 
+ * @author Ralph Bloch
+ * @version %v..%
+ */
 public class Main extends Application {
+	
 	/**
-	 * Main entry point to G_String_L, stands for 'Legacy'.
-	 * Uses standard structure of standard Javafx applications:
-	 * main(), start(), and initRootLayout();
-	 * This ensures tight integration with rootLayoutController and rootLayout.fxml in the view package.
-	 * Main also steers the operations according to menu selections to the actual work routines.
-	 * 
-	 * All traffic between the UID (rootLayout) and the working code is funneled through the 'Main' class.
+	 * The primary stage of javaFX used as main window for the G_String GUI.
 	 */
 	private Stage primaryStage;
+	
+	/**
+	 * the rootLayout of the mainStage is formated as a <code>BorderPane</code>
+	 */
 	private BorderPane rootLayout;
-	private Boolean bSynthesize = false; // flag for synthesizing mode;
+	
+	/**
+	 * <code>bSynthesize</code> - acts as switch, whether G_String analyzes data (false),
+	 * or generates a synthetic data set (true).
+	 * 
+	 * @see rootLayout;
+	 */
+	private Boolean bSynthesize = false;
+	
+	/**
+	 * <code>bDawdle</code> - acts as a switch, whether <code>AnaGroups</code> resp. <code>SynthGroups</code>
+	 * should proceed to the next step (false) or repeat the current step (true).
+	 */
 	private Boolean bDawdle = false;
+	
+	/**
+	 * Object <code>myNest</code> - encapsulates all experimental model descriptors (excepts
+	 * sample sizes, and methods to generate logical derivatives.
+	 * 
+	 * @see Nest;
+	 */
 	private static Nest myNest;
+	
+	/**
+	 * <code>mySteps</code> - guides the user through all the input steps for performing
+	 * a Generalizability Analysis.
+	 * 
+	 * @see AnaGroups;
+	 */
 	private AnaGroups mySteps;
+	
+	/**
+	 * <code>mySynthSteps</code> - guides the user through all the input steps for generating
+	 * a synthetic dataset, on which Generalizability Analysis can be practiced.
+	 * 
+	 * @see SynthGroups;
+	 */
 	private SynthGroups mySynthSteps;
+	
+	/**
+	 * <code> scene0</code> acts a container to send the javaFX code <code>group</code>
+	 * to <code>primaryStage</code> for display.
+	 */
 	private Scene scene0;
+	
+	/**
+	 * controller - Object that controls the GUI.
+	 * 
+	 * @see rootLayoutController;
+	 */
 	private rootLayoutController controller;
+	
+	/**
+	 * <code>group</code> - encapsulates the various components of a javaFX,
+	 * specific for each step and condition.
+	 */
 	private Group group;
+	
+	/**
+	 * Exception logger;
+	 */
 	private Logger logger;
+	
+	/**
+	 * <code>storedScene</code> location to park current scene, when a
+	 * temporary scene has to be overlaid.
+	 */
 	private Scene storedScene = null;
+	
+	/**
+	 * <root>root</root> - serves a root for current Preferences.
+	 */
 	private Preferences root = Preferences.userRoot();
+	
+	/**
+	 * <code>prefs</code> - Preference API.
+	 */
 	final private Preferences prefs = root.node("/com/papaworx/gstring");
+	
+	/**
+	 * <code>newScene</code> - used to generate a fresh display.
+	 */
 	private Scene newScene = null;
+	
+	/**
+	 * Object <code>flr</code> handles most file input/output.
+	 * 
+	 * @see Filer;
+	 */
 	private Filer flr;
+	
+	/**
+	 * <code>popup</code> - handles exception communication.
+	 * 
+	 * @see Popup;
+	 */
 	private Popup popup;
+	
+	/**
+	 * String containing current location of log file output.
+	 */
 	private String sLogPath = null;
 
+	/**
+	 * Obligatory javafx <code>main</code>
+	 * 
+	 * @param args; Default for javaFX
+	 */
 	public static void main(String[] args) {
-		/**
-		 * Obligatory javafx main
-		 */
 		
 		launch(args);
 	}
 	
+	/**
+	 * Initializes the root layout. Standard javafx.
+	 * This system method is somewhat cryptic. It gets called by the system,
+	 * and hands a handle for the primary stage to the program.
+	 * First, setting up objects to be used throughout.
+	 * Overrides default.
+	 * 
+	 * @param primaryStage;
+	 */
 	@Override
 	public void start(Stage primaryStage) {
 
-		/**
-		 * Initializes the root layout. Standard javafx.
-		 * This system method is somewhat cryptic. It gets called by the system,
-		 * and hands a handle for the primary stage to the program.
-		 * First, setting up objects to be used throughout.
-		 */
-		
 		String homeDir = System.getProperty("user.home");
 		sLogPath = prefs.get("Home Directory", homeDir) + File.separator + "com.papaworx.gstring.Log";
 				// logger targets log output to file "com.papaworx.gstring.Log" in the user's current directory
@@ -123,16 +223,16 @@ public class Main extends Application {
 		}
 	}
 	
-		public void initRootLayout() {
-		/**
-		 * Standard javafx; loads initial root layout stage
-		 */
-			
+	/**
+	 * Standard javafx; loads initial root layout stage
+	 */
+	public void initRootLayout() {
+		
 		try {
 			URL fxmlLocation = getClass().getResource("/view/rootLayout.fxml");
 			FXMLLoader loader = new FXMLLoader(fxmlLocation);
 			rootLayout = loader.load();
-
+	
 			// Show the scene containing the root layout.
 			scene0 = new Scene(rootLayout);
 			myNest.setScene(scene0);
@@ -144,21 +244,23 @@ public class Main extends Application {
 		}
 	}
 
-	public Stage getPrimaryStage() {
+
 	/**
-	 * Makes the primary stage available by a call to 'main'
+	 * getter for primary stage available by a call to 'main'
 	 * 
+	 * @return primaryStage;
 	 */
+	public Stage getPrimaryStage() {
 		return primaryStage;
 	}
 
+	/**
+	 * Except for very localized messages, the graphical user interface (GUI) is standardized.
+	 * Throughout G_String, the objects create javafx scenes called 'groups', which are handed to the 'show' subroutine.
+	 * User interactions with the GUI are directly fed back to appropriate methods of Main.
+	 * Responds to GUI 'Next' button.
+	 */
 	public void stepUp() {
-		/**
-		 * Except for very localized messages, the graphical user interface (GUI) is standardized.
-		 * Throughout G_String, the objects create javafx scenes called 'groups', which are handed to the 'show' subroutine.
-		 * User interactions with the GUI are directly fed back to appropriate methods of Main.
-		 * Responds to GUI 'Next' button.
-		 */
 		
 		Integer iStep = myNest.getStep();
 		if (!myNest.getSimulate()) // if in analysis mode
@@ -207,10 +309,12 @@ public class Main extends Application {
 		}
 	}
 
+	/**
+	 * Central display king pin. Receives scene (group), and passes it on to the GUI.
+	 * 
+	 * @param _display;
+	 */
 	public void show(Group _display) {
-		/**
-		 * Central display king pin. Receives scene (group), and passes it on to the GUI.
-		 */
 		
 		BorderPane frame = (BorderPane) scene0.getRoot();
 		frame.setCenter(_display);
@@ -220,10 +324,10 @@ public class Main extends Application {
 		primaryStage.show();
 	}
 
+	/**
+	 * In response to GUI sets switches for manual analysis
+	 */
 	public void startFresh() {
-		/**
-		 * In response to GUI sets switches for manual analysis
-		 */
 		
 		myNest.setDoOver(false);
 		try {
@@ -233,10 +337,10 @@ public class Main extends Application {
 		}
 	}
 
+	/**
+	 * In response to GUI sets switches for script driven analysis
+	 */
 	public void startOver() {
-		/**
-		 * In response to GUI sets switches for script driven analysis
-		 */
 		
 		myNest.setDoOver(true);			// sets the 'doOver' Boolean in 'Nest'
 		try {
@@ -245,10 +349,11 @@ public class Main extends Application {
 			popup.tell("startOver", e);
 		}
 	}
+	
+	/**
+	 * In response to GUI set switches for manual simulation
+	 */
 	public void Simulate() {
-		/**
-		 * In response to GUI set switches for manual simulation
-		 */
 		
 		myNest.setDoOver(false); 		// only manual input
 		myNest.setSimulate(true); 		// simulate
@@ -259,13 +364,13 @@ public class Main extends Application {
 		}
 	}
 
+	/**
+	 * In response to GUI sets switches for script driven simulation.
+	 */
 	public void Resimulate() {
-		/**
-		 * In response to GUI sets switches for script driven simulation.
-		 */
 		
-		myNest.setDoOver(true); 		// to read input file
-		myNest.setSimulate(true);
+		myNest.setDoOver(true); 		// to read script input file
+		myNest.setSimulate(true);		// to force simulation
 		try {
 			stepUp();
 		} catch (Throwable e) {
@@ -273,27 +378,21 @@ public class Main extends Application {
 		}
 	}
 
-	public boolean getSynth() {
-		/**
-		 * returns synthesize switch
-		 */
-		
-		return bSynthesize; 
-	}
-
+	/**
+	 * Sets synthesize switch.
+	 * 
+	 * @param _bSynth;
+	 */
 	public void setSynthesize(Boolean _bSynth) {
-		/**
-		 * Sets synthesize switch
-		 */
 		
 		bSynthesize = _bSynth; 
 	}
 
 
+	/**
+	 * In response to GUI, initiates setup; to be done on first use.
+	 */
 	public void doSetup() {
-		/**
-		 * In response to GUI, initiates setup; to be done on first use.
-		 */
 		
 		gSetup setup = new gSetup(primaryStage, popup, prefs);
 		try {
@@ -303,18 +402,22 @@ public class Main extends Application {
 		}
 	}
 
+	/**
+	 * In response to GUI, exits program
+	 */
 	public void cleanExit() {
-		/**
-		 * In response to GUI, exits program
-		 */
 		
 		Platform.exit();
 	}
 
+	/**
+	 * Set up the standard 'help' scene
+	 * 
+	 * @param String, help screen title;
+	 * @param String, help text file location;
+	 * @return Scene to be displayed;
+	 */
 	private Scene helpScene(String _sTitle, String _sSource) {
-		/**
-		 * Set up the standard 'help' scene
-		 */
 		
 		BorderPane helpLayout = new BorderPane();
 		helpLayout.setPrefSize(800.0, 500.0);
@@ -346,23 +449,17 @@ public class Main extends Application {
 		helpLayout.setCenter(vb);
 		Scene helpScene = new Scene(helpLayout);
 		return helpScene;
-	}
+	}	
 
-	public void helpSwitch(String _sCommand) {
-		/**
-		 * For 'help' actions that don't require an explicit pointer to a context help screen.
-		 */
-		helpSwitch(_sCommand, null);
-	}
-	
-
-	public void helpSwitch(String sCommand, Integer iDetail) {
-		/**
-		 * In response to GUI initiates 'help' action.
-		 * This method allows context switching to help any time. The current screen
-		 * content (scene) is stored (only one level), and returned at end of help 
-		 * screen watching. If necessary, this method could be expanded to use a stack to save screens,
-		 */
+	/**
+	 * In response to GUI initiates 'help' action.
+	 * This method allows context switching to help any time. The current screen
+	 * content (scene) is stored (only one level), and returned at end of help 
+	 * screen watching. If necessary, this method could be expanded to use a stack to save screens,
+	 * 
+	 * @param sCommand;
+	 */
+	public void helpSwitch(String sCommand) {
 		
 		switch (sCommand) {
 		case "help":										// context specific help
@@ -393,11 +490,11 @@ public class Main extends Application {
 		}
 	}
 
+	/**
+	 * allows user to select logging level for current operation only.
+	 * After every new start the log level reverts to to the level set in preferences.
+	 */
 	public void SetLogLevel() {
-		/**
-		 * allows user to select logging level for current operation only.
-		 * After every new start the log level reverts to to the level set in preferences.
-		 */
 		
 		List<Level> choices = new ArrayList<>();
 		choices.add(Level.OFF);
@@ -422,10 +519,10 @@ public class Main extends Application {
 			result.ifPresent(selection -> logger.setLevel(selection));
 	}
 
+	/**
+	 * starts G_String all over again. Resets all switches and Nest to default
+	 */
 	public void freshStart() {
-		/**
-		 * starts G_String all over again. Resets all switches and Nest to default
-		 */
 		
 		myNest = null;
 		mySteps = null;
@@ -441,10 +538,11 @@ public class Main extends Application {
 		}
 	}
 
+	/**
+	 * In response GUI activates the analysis branch to save the collected results.
+	 */
 	public void saveAll() {
-		/**
-		 * In response GUI activates the analysis branch to save the collected results.
-		 */
+		
 		try {
 			mySteps.saveAll();
 		} catch (IOException e) {
@@ -452,10 +550,12 @@ public class Main extends Application {
 		}
 	}
 
+	/**
+	 * In response to GUI, allows user to set program preferences that will be stored.
+	 * 
+	 * @return, Scene for preferences control;
+	 */
 	public Scene prefChanger() {
-		/**
-		 * In response to GUI, allows user to set program preferences that will be stored.
-		 */
 		
 		BorderPane pcLayout = new BorderPane();
 		pcLayout.setPrefSize(800.0, 500.0);
@@ -496,11 +596,13 @@ public class Main extends Application {
 		return pcScene;
 	}
 
+	/**
+	 * primitive helper for 'ChangePreference',
+	 * saves or restores previous scene.
+	 * 
+	 * @param bPrefs;
+	 */
 	public void switchChangePreferences(Boolean bPrefs) {
-		/**
-		 * primitive helper for 'ChangePreference',
-		 * saves or restores previous scene.
-		 */
 		
 		if (bPrefs) {
 			storedScene = primaryStage.getScene();
@@ -512,10 +614,14 @@ public class Main extends Application {
 		}
 	}
 
+	/**
+	 * helper in Preferences, displays individual preference.
+	 * 
+	 * @param String, key;
+	 * @param String, value;
+	 * @return HBox, to be displayed in <code>prefChanger</code>;
+	 */
 	private HBox hbKeyValue(String _sKey, String _sValue) {
-		/**
-		 * helper in Preferences
-		 */
 		
 		HBox hbReturn = new HBox();
 		Label lbKey = new Label(_sKey);
@@ -530,12 +636,15 @@ public class Main extends Application {
 		return hbReturn;
 	}
 
+	/**
+	 * https://stackoverflow.com/questions/941754/how-to-get-a-path-to-a-resource-in-a-java-jar-file
+	 * to display Brennan's original uRGENOVA manual pdf.
+	 * <a href="http://java-buddy.blogspot.com">see also</a>;
+	 * 
+	 * @param sName;
+	 * @return File;
+	 */
 	public File showPDF(String sName) {
-		/**
-		 * @web http://java-buddy.blogspot.com/
-		 * https://stackoverflow.com/questions/941754/how-to-get-a-path-to-a-resource-in-a-java-jar-file
-		 * to display Brennan's original uRGENOVA manual pdf.
-		 */
 		
 		String sResource = sName;
 		File docFile = null;

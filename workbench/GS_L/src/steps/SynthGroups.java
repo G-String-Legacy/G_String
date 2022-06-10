@@ -250,7 +250,6 @@ public class SynthGroups {
 		 * the column selector field visible (true)
 		 */
 		Facet currentFacet = myNest.getNewFacet();
-		currentFacet.setOffset(-1);
 		Boolean isNested = false;
 		Group facetGroup = new Group();
 		HBox layout = new HBox(20);

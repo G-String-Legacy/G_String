@@ -100,8 +100,16 @@ public class SynthGroups {
 	private Integer iNoCut = 0;
 	private Popup popup = null;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param _nest  pointer to Nest
+	 * @param _popup  pointer to Popup
+	 * @param _controller  pointer to rootLayoutController
+	 * @param _prefs pointer to Preferences
+	 * @param _flr pointer to Filer
+	 */
 	public SynthGroups(Nest _nest, Popup _popup, rootLayoutController _controller, Preferences _prefs, Filer _flr) {
-		// Constructor
 		myNest = _nest;
 		myController = _controller;
 		popup = _popup;

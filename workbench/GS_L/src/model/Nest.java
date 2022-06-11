@@ -1,13 +1,5 @@
 package model;
 
-/**
- * This class encapsulates the nesting logic.
- * It serves as a repository of all system relevant variables.
- * Thus it makes it more convenient to pass the totality of up-to-date variables
- * (including complex data structures) to an object/method that requires 
- * them for its functionality
- */
-
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.prefs.Preferences;
@@ -20,68 +12,241 @@ import javafx.stage.Stage;
 import utilities.Popup;
 import utilities.VarianceComponent;
 
+/**
+ * <h1>class Nest</h1>
+ * Encapsulates the major parameters of the assessment design, and the central variables required for analysis.
+ * <code>Nest</code> is used in most other classes as common repository to access central variables and parameters.
+ * 
+ * @author ralph
+ * @version %v..%
+*/
 public class Nest {
+	
+	/**
+	 * <code>iAsterisk</code> - the hierarchical position (sHDirectory) of
+	 * the facet carrying the asterisk, i.e. the facet associated with a carriage
+	 * return in the data input file.
+	 */
 	private Integer iAsterisk = -1; // position of asterisk
-	// which level is associated with individual lines/records
-	// of the data file.
+
+	/**
+	 * <code>iFacetCount</code> - the number of facets in the design.
+	 */
 	private Integer iFacetCount = 0;
-	private Integer iCompCount = 0; // number of Components established
-	private Integer iStep = -1; // step counter in algorithm
-	private Boolean bDoOver = false; // boolean indicating 'do over' mode
-	private Boolean bSimulate = false; // boolean indicating simulating mode
-	private String sFileName; // path of control file
-	private String title; // called 'gstudy' in urGenova
-	private ArrayList<String> comments = new ArrayList<String>();
-	private String options;
-	private String format;
-	private String process;
-	private StringBuilder sbFO; // to build basic dictionary
-	private StringBuilder sbHFO; // to build hierarchical dictionary
+	
+	/**
+	 * <code>iStep</code> - keeps count of the current step in <code>AnaGroups</code> and <code>SynthGroups</code>.
+	 */
+	private Integer iStep = -1;
+	
+	/**
+	 * <code>bDoOver</code> - <code>true</code>: parameter input from script, <code>false</code>: manual entry.
+	 */
+	private Boolean bDoOver = false;
+
+	/**
+	 * <code>bSimulate</code> - <code>false</code> (default): perform analysis, <code>true</code>: perform analysis.
+	 */
+	private Boolean bSimulate = false;
+
+	/**
+	 * <code>sFileName</code> - path of control file.
+	 */
+	private String sFileName;
+
+	/**
+	 * <code>sScriptTitle</code> - title in script; default 'gstudy'.
+	 */
+	private String sScriptTitle;
+
+	/**
+	 * <code>salComments</code> - array list containing comments for script.
+	 */
+	private ArrayList<String> salComments = new ArrayList<String>();
+	
+	/**
+	 * <code>sOptions</code> - official optionm specifications for urGenova (see urGenova manual).
+	 */
+	private String sOptions;
+	
+	/**
+	 * <code>sFormat</code> - official format specifications  for urGenova (see urGenova manual).
+	 */
+	private String sFormat;
+	
+	/**
+	 * <code>sFormat</code> - official process specifications for urGenova (see urGenova manual).
+	 */
+	private String sProcess;
+	
+	/**
+	 * <code>sbFO</code> - stringbuilder to build basic facet directory <code>sDictionary</code>, 
+	 * the order in which the facets were entered initially.
+	 */
+	private StringBuilder sbFO; 
+
+	/**
+	 * <code>sbHFO</code> - stringbuilder to build hierarchic facet directory <code>sHDictionary</code>,
+	 * the order they were arranged subsequently.
+	 */
+	private StringBuilder sbHFO;
+
+	/**
+	 * <code>facets</code> - array list of all the facets in the design.
+	 */
 	private ArrayList<Facet> facets = null;
+	
+	/**
+	 * <code>farFacets</code> - array of all facets
+	 */
 	private Facet[] farFacets = null;
+	
+	/**
+	 * <code>myTree</code> - pointer to <code>SampleSizeTree</code>.
+	 */
 	private SampleSizeTree myTree = null;
-	private String[] sarNestedNames;	// array of final, nested arrays in hierarchical order
 	
-	private String sDictionary; 		// simple simulation of one character dictionary
-										// as concatenation of member characters in the original order
-										// the facets were entered.
+	/**
+	 * <code>sarNestedNames</code> - array of final, nested arrays in hierarchical order.
+	 */
+	private String[] sarNestedNames;
 	
-	private String sHDictionary; 		// the hierarchical dictionary orders the
-										// facets in the order the data appear in
-										// the data file.
+	/**
+	 * <code>sDictionary</code> - simple simulation of one character dictionary
+	 * as concatenation of member characters in the original order,
+	 * the facets were entered. 
+	 */
+	private String sDictionary;
+
+	/**
+	 * <code>sHDictionary</code> - the hierarchical dictionary orders the
+	 * facets in the order the data appear in the data file.
+	 */
+	private String sHDictionary; 
 	
-	private Integer iNestCount = 0; // number of nested facets
-	private Scene scene = null; 	// standard empty display scene for use in
-									// objects
-	private Stage primaryStage = null;		// stage of UID
-	private Integer iFieldWidth = 0;		// data input field width
-	private Boolean bDawdle = false; 		// flag, if true, inactivates normal
-											// procedural stepping, and instead
-											// steps through
-											// sample size collection.
+	/**
+	 * <code>iNestCount</code> - number of nested facets.
+	 */
+	private Integer iNestCount = 0;
+
+	/**
+	 * <code>scene</code> - standard empty display <code>Scene</code> for use in objects.
+	 */
+	private Scene scene = null; 
+
+	/**
+	 * <code>primaryStage</code> - display stage of GUI.
+	 */
+	private Stage primaryStage = null;
+
+	/**
+	 * <code>bDawdle</code> - boolean <code>false</code> (default): proceed to normal next step; <code>true</code>: instead steps through sample size collection.
+	 */
+	private Boolean bDawdle = false; 
+
+	/**
+	 * <code>bVarianceDawdle</code> - boolean <code>false</code> (default): proceed to normal next step; <code>true</code>: instead steps through variance collection.
+	 */
 	private Boolean bVarianceDawdle = false;
-	private String sControlFileName = "~control.txt"; 	// name for internal use
-														// with urGenova
-	private String sDataFileName = "~data.txt"; 		// name for internal use with
-														// urGenova
-	private Main myMain;								// pointer to main class
+	
+	/**
+	 * <code>sControlFileName</code> - default name for urGENOVA control file.
+	 */
+	private String sControlFileName = "~control.txt";
+	
+	/**
+	 * <code>sDataFileName</code> - default name for urGENOVA data file.
+	 */
+	private String sDataFileName = "~data.txt"; 
+	
+	/**
+	 * <code>myMain</code> - pointer to class <code>Main</code>.
+	 */
+	private Main myMain;
+
+	/**
+	 * <code>dGrandMeans</code> - grand means of all scores in data file, as Double.
+	 */
 	private Double dGrandMeans = 0.0;
-	private ArrayList<VarianceComponent> VarianceComponents = null;
+	
+	/**
+	 * <code>salVarianceComponents</code> - array list of variance components.
+	 */
+	private ArrayList<VarianceComponent> salVarianceComponents = null;
+	
+	/**
+	 * <code>sTitle</code> - default header in analysis output.
+	 */
 	private String sTitle = " G Study.";
+	
+	/**
+	 * <code>dRel</code> - Generalizability Coefficient.
+	 */
 	private Double dRel = 0.0;
+	
+	/**
+	 * <code>dAbs</code> - Index of Dependability.
+	 */
 	private Double dAbs = 0.0;
-	private Double dConsistency = 0.0;
+	
+	/**
+	 * <code>prefs</code> - pointer to <code>Preferences</code> API.
+	 */
 	private Preferences prefs = null;
-	private Integer iFloor = 0; // lowest value of Score scale
-	private Double dMean = 0.0; // mean value of score
-	private Integer iCeiling = 0; // maximum value of score
+	
+	/**
+	 * <code>iFloor</code> - lowest permitted score value in synthesis.
+	 */
+	private Integer iFloor = 0;
+
+	/**
+	 * <code>dMean</code> - target value for mean in synthetic data output.
+	 */
+	private Double dMean = 0.0;
+
+	/**
+	 * <code>iCeiling</code> - highest permitted score value in synthesis.
+	 */
+	private Integer iCeiling = 0;
+
+	/**
+	 * <code>dVectors</code> - intermediate double matrix for calculation of variance components.
+	 */
 	private Double[][] dVectors = null;
+	
+	/**
+	 * <code>dVC</code> - intermediate double vector for calculation of variance components.
+	 */
 	private Double[] dVC = null;
-	private Double[] varianceCoefficients = null;	// array for Variance coefficients
-	private String sPlatform = null;				// operating system on which G_String is running
-	private Popup popup = null;						// collects and displays diagnostic information.
+	
+	/**
+	 * <code>darVarianceCoefficients</code> - double array of Variance Coefficients.
+	 */
+	private Double[] darVarianceCoefficients = null;
+
+	/**
+	 * <code>sPlatform</code> - name of current OS platform ('Linux', 'Mac', or 'Windows').
+	 */
+	private String sPlatform = null;
+	
+	/**
+	 * <code>popup</code> - pointer to <code>Popup</code>, exception handler.
+	 */
+	private Popup popup = null;
+
+	/**
+	 * <code>salNestedNames</code> - array list of nested configurations from AnaGroups step 6.
+	 */
 	private ArrayList<String> salNestedNames = new ArrayList<String>();
 
+	
+	/**
+	 * Constructor for class <code>Nest</code>
+	 * 
+	 * @param _popup - pointer to exception handler
+	 * @param _myMain - pointer to Main class
+	 * @param _prefs - pointer to Preferences API
+	 */
 	public Nest(Popup _popup, Main _myMain, Preferences _prefs) {
 		/*
 		 * Constructor
@@ -95,19 +260,37 @@ public class Nest {
 		popup.setClass("Nest");
 		myMain = _myMain;
 		prefs = _prefs;
-		VarianceComponents = new ArrayList<VarianceComponent>();
+		salVarianceComponents = new ArrayList<VarianceComponent>();
 		sPlatform = prefs.get("OS", null);
 	}
 
+	/**
+	 * facet name from char designation
+	 * 
+	 * @param c - char designation
+	 * @return - full facet name
+	 */
 	public String getName(char c) {
 		// return facet name according to cDesignation
 		return this.getFacet(c).getName();
 	}
 
+	/**
+	 * facet from order number
+	 * 
+	 * @param iOrder - order in sDictionary
+	 * @return facets.get(iOrder)- Facet object
+	 */
 	public Facet getFacet(int iOrder) {
 		return facets.get(iOrder);
 	}
 
+	/**
+	 * facet from char designation
+	 * 
+	 * @param _cDesignation - char designation
+	 * @return facets.get(index);
+	 */
 	public Facet getFacet(char _cDesignation) {
 		Integer index = sDictionary.indexOf(_cDesignation);
 		return facets.get(index);
@@ -181,8 +364,8 @@ public class Nest {
 		bSimulate = _bSimulate;
 	}
 
-	public void setTitle(String _title) {
-		title = _title;
+	public void setTitle(String _sTitle) {
+		sScriptTitle = _sTitle;
 	}
 
 	public void addFacet(Facet _facet) {
@@ -204,18 +387,18 @@ public class Nest {
 	}
 
 	public String getTitle() {
-		return title;
+		return sScriptTitle;
 	}
 
 	public String[] getComments() {
-		return comments.toArray(new String[comments.size()]);
+		return salComments.toArray(new String[salComments.size()]);
 	}
 
 	public void setComments(String _comments) {
-		comments = new ArrayList<String>();
+		salComments = new ArrayList<String>();
 		String[] lines = _comments.split("\n");
 		for (String line : lines)
-			comments.add(line);
+			salComments.add(line);
 	}
 
 	public Facet getNewFacet() {
@@ -233,11 +416,11 @@ public class Nest {
 	}
 
 	public void addComment(String commentLine) {
-		comments.add(commentLine);
+		salComments.add(commentLine);
 	}
 
 	public void setOptions(String _sOptions) {
-		options = _sOptions;
+		sOptions = _sOptions;
 	}
 
 	public void addEffect(String _sEffect) {
@@ -287,11 +470,11 @@ public class Nest {
 	}
 
 	public void addFormat(String _sFormat) {
-		format = _sFormat;
+		sFormat = _sFormat;
 	}
 
 	public void addProcess(String _sProcess) {
-		process = _sProcess;
+		sProcess = _sProcess;
 	}
 
 	public ObservableList<String> getNests() {
@@ -348,14 +531,6 @@ public class Nest {
 		return primaryStage;
 	}
 
-	public void setFieldWidth(Integer _width) {
-		iFieldWidth = _width;
-	}
-
-	public Integer getFieldWidth() {
-		return iFieldWidth;
-	}
-
 	public void setFileName(String _fName) {
 		sFileName = _fName;
 	}
@@ -387,15 +562,15 @@ public class Nest {
 	}
 
 	public String getOptions() {
-		return options;
+		return sOptions;
 	}
 
 	public String getFormat() {
-		return format;
+		return sFormat;
 	}
 
 	public String getProcess() {
-		return process;
+		return sProcess;
 	}
 
 	public void show(Group _group) {
@@ -423,7 +598,7 @@ public class Nest {
 	}
 
 	public void setVariance(String _line) {
-		VarianceComponents.add(new VarianceComponent(this, _line, sPlatform, popup));
+		salVarianceComponents.add(new VarianceComponent(this, _line, sPlatform, popup));
 	}
 
 	public void setOrder() {
@@ -595,7 +770,7 @@ public class Nest {
 			popup.tell("formatResults_a", e1);
 		}
 		sTitle = " D-Study.";
-		for (VarianceComponent vc : VarianceComponents) {
+		for (VarianceComponent vc : salVarianceComponents) {
 			vc.doCoefficient(sbResult);
 			dTemp = vc.getVarianceComponent() / vc.getDenominator();
 			dAbsolute += Math.abs(dTemp);
@@ -616,7 +791,6 @@ public class Nest {
 		sbResult.append(reCode("\u03C3\u00B2(\u0394) = " + String.format("%.4f", dS2_D) + "\n"));
 		dRel = dS2_t / (dS2_t + dS2_d);
 		dAbs = dS2_t / (dS2_t + dS2_D);
-		dConsistency = dFactual / dAbsolute;
 		try {
 			sbResult.append(reCode("\nGENERALIZABILITY COEFFICIENTS:\n\n"));
 			sbResult.append(reCode("Eρ\u00B2      	  = " + String.format("%.2f", dRel) + "\n"));
@@ -634,41 +808,12 @@ public class Nest {
 		return dAbs;
 	}
 
-	public Double getCons() {
-		return dConsistency;
-	}
-
 	public void setStep(Integer _iStep) {
 		iStep = _iStep;
 	}
 
 	public String getNestedName(Integer iSAR) {
 		return sarNestedNames[iSAR];
-	}
-
-	public void setCompCount(Integer _cc) {
-		if (iCompCount == 0) {
-			iCompCount = _cc;
-			varianceCoefficients = new Double[iCompCount];
-			for  (int i = 0; i < iCompCount; i++)
-				varianceCoefficients[i] = 0.0;
-		}
-	}
-
-	public Integer getCompCount() {
-		return iCompCount;
-	}
-
-	public Integer getCompIndex(String sComp) {
-		Integer iResult = null;
-		for (Integer i = 0; i < iCompCount; i++)
-			if (sComp.equals(sarNestedNames[i])) {
-				iResult = i;
-				break;
-			}
-		if (iResult < iFacetCount)
-			iResult = sDictionary.indexOf(sHDictionary.toCharArray()[iResult]);
-		return iResult;
 	}
 
 	public void setComponent(String sComp, Integer iComp) {
@@ -697,15 +842,15 @@ public class Nest {
 	}
 
 	public Integer vCCount() {
-		return varianceCoefficients.length;
+		return darVarianceCoefficients.length;
 	}
 
 	public void setVariancecoefficient(int i, Double _dVC) {
-		varianceCoefficients[i] = _dVC;
+		darVarianceCoefficients[i] = _dVC;
 	}
 
 	public Double getVarianceCoefficient(int i) {
-		return varianceCoefficients[i];
+		return darVarianceCoefficients[i];
 	}
 
 	public Integer getCeiling() {
@@ -746,17 +891,17 @@ public class Nest {
 	public void addVariances(String value) {
 		String[] sVariances = value.split("\\s+");
 		int ivCount = sVariances.length;
-		varianceCoefficients = new Double[ivCount];
+		darVarianceCoefficients = new Double[ivCount];
 		for (int i = 0; i < ivCount; i++)
-			varianceCoefficients[i] = Double.parseDouble(sVariances[i]);
+			darVarianceCoefficients[i] = Double.parseDouble(sVariances[i]);
 	}
 	
 	public void createVarianceCoefficients(Integer ivCount) {
-		varianceCoefficients = new Double[ivCount];	
+		darVarianceCoefficients = new Double[ivCount];	
 	}
 
 	public Integer getVcDim() {
-		Integer x = varianceCoefficients.length;
+		Integer x = darVarianceCoefficients.length;
 		return x;
 	}
 

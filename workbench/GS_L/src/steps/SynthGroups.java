@@ -57,13 +57,20 @@ import javafx.util.Callback;
  * Users can step through the synthesis either manually, by entering the design information
  * via keyboard and mouse, or they can pick the 'do-over' mode, where the program
  * reads a control file, prepared in a previous synthesis run.  The user just has to enter changes.
- */
+ * 
+  * @author Ralph Bloch
+ * @version %v..%
+*/
 public class SynthGroups {
 	
 	/**
 	 * <code>myController</code> pointer to <code>view.rootLayoutController</code>
 	 */
 	private rootLayoutController myController;
+	
+	/**
+	 * 
+	 */
 	private String customBorder;
 	private static ListView<String> lvCrossed = null;
 	private static ListView<String> lvNested = null;

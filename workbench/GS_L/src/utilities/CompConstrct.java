@@ -3,25 +3,28 @@ package utilities;
 import model.Nest;
 import model.SampleSizeTree;
 
+/**
+ *  <code>CompConstr</code> takes the original nesting constructs and builds
+ *  all possible facet combinations that have to be considered for
+ *  constructing the variance components ('Effects').
+ *     To create all possible combination a trick is used: consider an integer
+ *  represented as a binary number. As we count from 0 to maximum, 
+ *  every digit toggles between 0 and 1. In fact, since the count 
+ *  goes through all possible numbers, all possible combinations 
+ *  of  0 and 1 (or false/true) are covered. If each position (power of 2) 
+ *  stands for a particular facet character, this generates all possible
+ *  combinations of facets.
+ *     The resulting strings of 0 and 1 can then be explored and operated 
+ *  upon with Java's bitwise logic operations.
+ *     All that is left to do, is to filter out combinations, where there are 
+ *  nested facets, but not the facet, in which they are nested.
+ *  
+ *  The inner class <code>Component</code> is defined within this class, further down.
+ * 
+ *  @author Ralph Bloch
+ *  @version %v..%
+ */
 public class CompConstrct {
-	/*
-	 *     'CompConstr' takes the original nesting constructs and builds
-	 *  all possible facet combinations that have to be considered for
-	 *  constructing the variance components ('Effects').
-	 *     To create all possible combination a trick is used: consider an integer
-	 *  represented as a binary number. As we count from 0 to maximum, 
-	 *  every digit toggles between 0 and 1. In fact, since the count 
-	 *  goes through all possible numbers, all possible combinations 
-	 *  of  0 and 1 (or false/true) are covered. If each position (power of 2) 
-	 *  stands for a particular facet character, this generates all possible
-	 *  combinations of facets.
-	 *     The resulting strings of 0 and 1 can then be explored and operated 
-	 *  upon with Java's bitwise logic operations.
-	 *     All that is left to do, is to filter out combinations, where there are 
-	 *  nested facets, but not the facet, in which they are nested.
-	 *  
-	 *  The class 'Component' is defined within this class, further down.
-	 */
 	
 	private Component[] components;
 	private Nest myNest;
@@ -48,7 +51,7 @@ public class CompConstrct {
 		
 		int iNests = myNest.getNestCount();
 		String sDictionary = myNest.getSynthDictionary();
-			/**
+			/*
 			 * A specially ordered facet string, by depth of nesting first and
 			 * and data sequence second.
 			 */
@@ -62,7 +65,7 @@ public class CompConstrct {
 			components[tempComponent.getOrder()] = tempComponent;
 		}
 		
-		/**
+		/*
 		 * Step 2: now start counting up the binary integer iCount
 		 * until it reaches 2 to the power 'iSize', the number of facets in
 		 * a given configuration of facets.
@@ -121,16 +124,16 @@ public class CompConstrct {
 		 * An auxiliary object to handle each of the constructs
 		 */
 		
-		private String description;		// a descriptive string
+		private String sDescription;		// a descriptive string
 		private char facet;				// a char for the innermost facet
 		private int order;				// the final order of components by depth and data sequence
 		private int depth;				// the total nesting depth of the component
 		private int weight;				// the power of 2 for the innermost facet
 		private int prerequisite;		// the power of 2 for the encompassing facet
 		
-		public Component(String _description, String _sDictionary) {
-			description = _description;
-			char[] facets = description.toCharArray();
+		public Component(String _sDescription, String _sDictionary) {
+			sDescription = _sDescription;
+			char[] facets = sDescription.toCharArray();
 			facet = facets[0];
 			depth = 1;
 			for (char c : facets)
@@ -148,7 +151,7 @@ public class CompConstrct {
 		}
 		
 		public String getDescription() {
-			return description;
+			return sDescription;
 		}
 		
 		public int getDepth() {

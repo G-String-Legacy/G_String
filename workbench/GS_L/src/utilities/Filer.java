@@ -71,7 +71,7 @@ public class Filer {
 		myNest = _nest;
 		prefs = _prefs;
 		myStage = _stage;
-		iFieldWidth = myNest.getFieldWidth();
+		//iFieldWidth = myNest.getFieldWidth();
 		iFieldWidth = 8;
 		self = this;
 		sDataFileName = myNest.getDataFileName();

@@ -23,219 +23,219 @@ import utilities.VarianceComponent;
 public class Nest {
 	
 	/**
-	 * <code>iAsterisk</code> - the hierarchical position (sHDirectory) of
+	 * <code>iAsterisk</code> the hierarchical position (sHDirectory) of
 	 * the facet carrying the asterisk, i.e. the facet associated with a carriage
 	 * return in the data input file.
 	 */
-	private Integer iAsterisk = -1; // position of asterisk
+	private Integer iAsterisk = -1;
 
 	/**
-	 * <code>iFacetCount</code> - the number of facets in the design.
+	 * <code>iFacetCount</code> the number of facets in the design.
 	 */
 	private Integer iFacetCount = 0;
 	
 	/**
-	 * <code>iStep</code> - keeps count of the current step in <code>AnaGroups</code> and <code>SynthGroups</code>.
+	 * <code>iStep</code> keeps count of the current step in <code>AnaGroups</code> and <code>SynthGroups</code>.
 	 */
 	private Integer iStep = -1;
 	
 	/**
-	 * <code>bDoOver</code> - <code>true</code>: parameter input from script, <code>false</code>: manual entry.
+	 * <code>bDoOver</code> <code>true</code>: parameter input from script, <code>false</code>: manual entry.
 	 */
 	private Boolean bDoOver = false;
 
 	/**
-	 * <code>bSimulate</code> - <code>false</code> (default): perform analysis, <code>true</code>: perform analysis.
+	 * <code>bSimulate</code> <code>false</code> (default): perform analysis, <code>true</code>: perform analysis.
 	 */
 	private Boolean bSimulate = false;
 
 	/**
-	 * <code>sFileName</code> - path of control file.
+	 * <code>sFileName</code> path of control file.
 	 */
 	private String sFileName;
 
 	/**
-	 * <code>sScriptTitle</code> - title in script; default 'gstudy'.
+	 * <code>sScriptTitle</code> title in script; default 'gstudy'.
 	 */
 	private String sScriptTitle;
 
 	/**
-	 * <code>salComments</code> - array list containing comments for script.
+	 * <code>salComments</code> array list containing comments for script.
 	 */
 	private ArrayList<String> salComments = new ArrayList<String>();
 	
 	/**
-	 * <code>sOptions</code> - official optionm specifications for urGenova (see urGenova manual).
+	 * <code>sOptions</code> official optionm specifications for urGenova (see urGenova manual).
 	 */
 	private String sOptions;
 	
 	/**
-	 * <code>sFormat</code> - official format specifications  for urGenova (see urGenova manual).
+	 * <code>sFormat</code> official format specifications  for urGenova (see urGenova manual).
 	 */
 	private String sFormat;
 	
 	/**
-	 * <code>sFormat</code> - official process specifications for urGenova (see urGenova manual).
+	 * <code>sFormat</code> official process specifications for urGenova (see urGenova manual).
 	 */
 	private String sProcess;
 	
 	/**
-	 * <code>sbFO</code> - stringbuilder to build basic facet directory <code>sDictionary</code>, 
+	 * <code>sbFO</code> stringbuilder to build basic facet directory <code>sDictionary</code>, 
 	 * the order in which the facets were entered initially.
 	 */
 	private StringBuilder sbFO; 
 
 	/**
-	 * <code>sbHFO</code> - stringbuilder to build hierarchic facet directory <code>sHDictionary</code>,
+	 * <code>sbHFO</code> stringbuilder to build hierarchic facet directory <code>sHDictionary</code>,
 	 * the order they were arranged subsequently.
 	 */
 	private StringBuilder sbHFO;
 
 	/**
-	 * <code>facets</code> - array list of all the facets in the design.
+	 * <code>facets</code> array list of all the facets in the design.
 	 */
 	private ArrayList<Facet> facets = null;
 	
 	/**
-	 * <code>farFacets</code> - array of all facets
+	 * <code>farFacets</code> array of all facets
 	 */
 	private Facet[] farFacets = null;
 	
 	/**
-	 * <code>myTree</code> - pointer to <code>SampleSizeTree</code>.
+	 * <code>myTree</code> pointer to <code>SampleSizeTree</code>.
 	 */
 	private SampleSizeTree myTree = null;
 	
 	/**
-	 * <code>sarNestedNames</code> - array of final, nested arrays in hierarchical order.
+	 * <code>sarNestedNames</code> array of final, nested arrays in hierarchical order.
 	 */
 	private String[] sarNestedNames;
 	
 	/**
-	 * <code>sDictionary</code> - simple simulation of one character dictionary
+	 * <code>sDictionary</code> simple simulation of one character dictionary
 	 * as concatenation of member characters in the original order,
 	 * the facets were entered. 
 	 */
 	private String sDictionary;
 
 	/**
-	 * <code>sHDictionary</code> - the hierarchical dictionary orders the
+	 * <code>sHDictionary</code> the hierarchical dictionary orders the
 	 * facets in the order the data appear in the data file.
 	 */
 	private String sHDictionary; 
 	
 	/**
-	 * <code>iNestCount</code> - number of nested facets.
+	 * <code>iNestCount</code> number of nested facets.
 	 */
 	private Integer iNestCount = 0;
 
 	/**
-	 * <code>scene</code> - standard empty display <code>Scene</code> for use in objects.
+	 * <code>scene</code> standard empty display <code>Scene</code> for use in objects.
 	 */
 	private Scene scene = null; 
 
 	/**
-	 * <code>primaryStage</code> - display stage of GUI.
+	 * <code>primaryStage</code> display stage of GUI.
 	 */
 	private Stage primaryStage = null;
 
 	/**
-	 * <code>bDawdle</code> - boolean <code>false</code> (default): proceed to normal next step; <code>true</code>: instead steps through sample size collection.
+	 * <code>bDawdle</code> boolean <code>false</code> (default): proceed to normal next step; <code>true</code>: instead steps through sample size collection.
 	 */
 	private Boolean bDawdle = false; 
 
 	/**
-	 * <code>bVarianceDawdle</code> - boolean <code>false</code> (default): proceed to normal next step; <code>true</code>: instead steps through variance collection.
+	 * <code>bVarianceDawdle</code> boolean <code>false</code> (default): proceed to normal next step; <code>true</code>: instead steps through variance collection.
 	 */
 	private Boolean bVarianceDawdle = false;
 	
 	/**
-	 * <code>sControlFileName</code> - default name for urGENOVA control file.
+	 * <code>sControlFileName</code> default name for urGENOVA control file.
 	 */
 	private String sControlFileName = "~control.txt";
 	
 	/**
-	 * <code>sDataFileName</code> - default name for urGENOVA data file.
+	 * <code>sDataFileName</code> default name for urGENOVA data file.
 	 */
 	private String sDataFileName = "~data.txt"; 
 	
 	/**
-	 * <code>myMain</code> - pointer to class <code>Main</code>.
+	 * <code>myMain</code> pointer to class <code>Main</code>.
 	 */
 	private Main myMain;
 
 	/**
-	 * <code>dGrandMeans</code> - grand means of all scores in data file, as Double.
+	 * <code>dGrandMeans</code> grand means of all scores in data file, as Double.
 	 */
 	private Double dGrandMeans = 0.0;
 	
 	/**
-	 * <code>salVarianceComponents</code> - array list of variance components.
+	 * <code>salVarianceComponents</code> array list of variance components.
 	 */
 	private ArrayList<VarianceComponent> salVarianceComponents = null;
 	
 	/**
-	 * <code>sTitle</code> - default header in analysis output.
+	 * <code>sTitle</code> default header in analysis output.
 	 */
 	private String sTitle = " G Study.";
 	
 	/**
-	 * <code>dRel</code> - Generalizability Coefficient.
+	 * <code>dRel</code> Generalizability Coefficient.
 	 */
 	private Double dRel = 0.0;
 	
 	/**
-	 * <code>dAbs</code> - Index of Dependability.
+	 * <code>dAbs</code> Index of Dependability.
 	 */
 	private Double dAbs = 0.0;
 	
 	/**
-	 * <code>prefs</code> - pointer to <code>Preferences</code> API.
+	 * <code>prefs</code> pointer to <code>Preferences</code> API.
 	 */
 	private Preferences prefs = null;
 	
 	/**
-	 * <code>iFloor</code> - lowest permitted score value in synthesis.
+	 * <code>iFloor</code> lowest permitted score value in synthesis.
 	 */
 	private Integer iFloor = 0;
 
 	/**
-	 * <code>dMean</code> - target value for mean in synthetic data output.
+	 * <code>dMean</code> target value for mean in synthetic data output.
 	 */
 	private Double dMean = 0.0;
 
 	/**
-	 * <code>iCeiling</code> - highest permitted score value in synthesis.
+	 * <code>iCeiling</code> highest permitted score value in synthesis.
 	 */
 	private Integer iCeiling = 0;
 
 	/**
-	 * <code>dVectors</code> - intermediate double matrix for calculation of variance components.
+	 * <code>dVectors</code> intermediate double matrix for calculation of variance components.
 	 */
 	private Double[][] dVectors = null;
 	
 	/**
-	 * <code>dVC</code> - intermediate double vector for calculation of variance components.
+	 * <code>dVC</code> intermediate double vector for calculation of variance components.
 	 */
 	private Double[] dVC = null;
 	
 	/**
-	 * <code>darVarianceCoefficients</code> - double array of Variance Coefficients.
+	 * <code>darVarianceCoefficients</code> double array of Variance Coefficients.
 	 */
 	private Double[] darVarianceCoefficients = null;
 
 	/**
-	 * <code>sPlatform</code> - name of current OS platform ('Linux', 'Mac', or 'Windows').
+	 * <code>sPlatform</code> name of current OS platform ('Linux', 'Mac', or 'Windows').
 	 */
 	private String sPlatform = null;
 	
 	/**
-	 * <code>popup</code> - pointer to <code>Popup</code>, exception handler.
+	 * <code>popup</code> pointer to <code>Popup</code>, exception handler.
 	 */
 	private Popup popup = null;
 
 	/**
-	 * <code>salNestedNames</code> - array list of nested configurations from AnaGroups step 6.
+	 * <code>salNestedNames</code> array list of nested configurations from AnaGroups step 6.
 	 */
 	private ArrayList<String> salNestedNames = new ArrayList<String>();
 
@@ -248,9 +248,6 @@ public class Nest {
 	 * @param _prefs - pointer to Preferences API
 	 */
 	public Nest(Popup _popup, Main _myMain, Preferences _prefs) {
-		/*
-		 * Constructor
-		 */
 		
 		iAsterisk = 0;
 		facets = new ArrayList<Facet>();

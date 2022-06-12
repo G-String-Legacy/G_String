@@ -400,7 +400,7 @@ public class SynthGroups {
 	 * Step 5 Group to set facet order and line change position.
 	 */
 	private Group orderFacets() {
-		myNest.createDictionaries();
+		myNest.createDictionary();
 		lvFacets = new ListView<String>();
 		ObservableList<String> orderedData = FXCollections.observableArrayList();
 		// final ToggleGroup tg = new ToggleGroup();

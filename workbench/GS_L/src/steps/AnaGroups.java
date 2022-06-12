@@ -514,7 +514,7 @@ public class AnaGroups {
 		 * properties, while the hierachical order is used for the algorithmic sequences!
 		 */
 
-		myNest.createDictionaries();
+		myNest.createDictionary();
 		lvFacets = new ListView<String>();
 		ObservableList<String> orderedData = FXCollections.observableArrayList();
 				// see a short discussion of 'ObservableList' in the 'FilteredFacetList' method below.

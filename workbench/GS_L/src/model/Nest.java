@@ -92,9 +92,9 @@ public class Nest {
 	private StringBuilder sbHFO;
 
 	/**
-	 * <code>facets</code> array list of all the facets in the design.
+	 * <code>falFacets</code> array list of all the facets in the design.
 	 */
-	private ArrayList<Facet> facets = null;
+	private ArrayList<Facet> falFacets = null;
 	
 	/**
 	 * <code>farFacets</code> array of all facets
@@ -250,7 +250,7 @@ public class Nest {
 	public Nest(Popup _popup, Main _myMain, Preferences _prefs) {
 		
 		iAsterisk = 0;
-		facets = new ArrayList<Facet>();
+		falFacets = new ArrayList<Facet>();
 		sbFO = new StringBuilder();
 		sbHFO = new StringBuilder();
 		popup = _popup;
@@ -279,7 +279,7 @@ public class Nest {
 	 * @return facets.get(iOrder)- Facet object
 	 */
 	public Facet getFacet(int iOrder) {
-		return facets.get(iOrder);
+		return falFacets.get(iOrder);
 	}
 
 	/**
@@ -290,27 +290,43 @@ public class Nest {
 	 */
 	public Facet getFacet(char _cDesignation) {
 		Integer index = sDictionary.indexOf(_cDesignation);
-		return facets.get(index);
+		return falFacets.get(index);
 	}
 
+	/**
+	 * getter for <code>bSimulate</code>.
+	 * 
+	 * @return bSimulate
+	 */
 	public Boolean getSimulate() {
 		return bSimulate;
 	}
 
-	public String getDictionary() // return dictionary according to storage
-									// order
-	{
+	/**
+	 * getter for <code>sDictionary</code>.
+	 * 
+	 * @return sDictionary
+	 */
+	public String getDictionary()	{
 		return sDictionary;
 	}
 
-	public String getHDictionary() // return dictionary according to logical
-									// order
-	{
+	/**
+	 * getter for <code>sHDictionary</code>.
+	 * 
+	 * @return sHDictionary
+	 */
+	public String getHDictionary()	{
 		if (sHDictionary == null)
 			sHDictionary = sDictionary;
 		return sHDictionary;
 	}
 
+	/**
+	 * setter for <code>sHDictionary</code>.
+	 * 
+	 * @param _sHDictionary hierarchic facet dictionary
+	 */
 	public void setHDictionary(String _sHDictionary) {
 		sHDictionary = _sHDictionary;
 		if (myTree == null)
@@ -318,45 +334,81 @@ public class Nest {
 		myTree.setHDictionary(_sHDictionary);
 	}
 
+	/**
+	 * setter for <code>iAsterisk</code> as hierarchical facet order. 
+	 * 
+	 * @param _Asterisk integer value
+	 */
 	public void setAsterisk(Integer _Asterisk) {
 		iAsterisk = _Asterisk;
 	}
 
+	/**
+	 * setter of <code>iAsterisk</code> by facet char Designation.
+	 * @param cAsterisk char facet designation
+	 */
 	public void setAsterisk(char cAsterisk){
 		myTree.setAsterisk(cAsterisk);
 	}
 
-	public Integer getAsterisk() {		// index of facet with asterisk
-		return iAsterisk;				// i.e. the facet associated data line change.
+	/**
+	 * getter of <code>iAsterisk</code> as hierarchical facet order.
+	 * @return iAsterisk  facet index of asterisk
+	 */
+	public Integer getAsterisk() {
+		return iAsterisk;
 	}
 
-	public Integer getHAsterisk() {		// hierachic index of facet with asterisk
+	/**
+	 * getter for hierarchical <code>iAsterisk</code> position.
+	 * 
+	 * @return   hierarchical facet index of asterisk
+	 */
+	public Integer getHAsterisk() {
 		char c = sDictionary.toCharArray()[iAsterisk];
 		return sHDictionary.indexOf(c);
 	}
 
+	/**
+	 * conditional <code>iStep</code> incrementer.
+	 */
 	public void incrementSteps() {
 		if (!bDawdle)
 			iStep++;
 	}
 
-	public void decrementSteps() {
-		if (iStep > 0)
-			iStep--;
-	}
-
+	/**
+	 * getter for <code>iStep</code>, i.e. position in data entry sequence.
+	 * 
+	 * @return iStep
+	 */
 	public Integer getStep() {
 		return iStep;
 	}
 
+	/**
+	 * setter for <code>bDoOver</code>, i.e. 'script' vs 'manual' parameter entry.
+	 * 
+	 * @param _bDoOver  flag to get input parameters from script
+	 */
 	public void setDoOver(Boolean _bDoOver) {
 		bDoOver = _bDoOver;
 	}
 
+	/**
+	 * getter for <code>bDoOver</code>, i.e. 'script' vs 'manual' parameter entry.
+	 * 
+	 * @return bDoOver
+	 */
 	public Boolean getDoOver() {
 		return bDoOver;
 	}
 
+	/**
+	 * setter for <code>bSimulate</code> - flag 'Simulate' vs 'Analyze'.
+	 * 
+	 * @param _bSimulate  flag to do synthesis
+	 */
 	public void setSimulate(Boolean _bSimulate) {
 		bSimulate = _bSimulate;
 	}
@@ -365,32 +417,59 @@ public class Nest {
 		sScriptTitle = _sTitle;
 	}
 
+	/**
+	 * adds <code>Facet</code> to <code>falFacets</code>.
+	 * 
+	 * @param _facet Facet object
+	 */
 	public void addFacet(Facet _facet) {
-		facets.add(_facet);
+		falFacets.add(_facet);
 		sbFO.append(_facet.getDesignation());
 		sDictionary = sbFO.toString();
 		iFacetCount++;
 	}
 
+	/**
+	 * getter for <code>iFacetCount</code>.
+	 * 
+	 * @return iFacetCount
+	 */
 	public Integer getFacetCount() {
 		return iFacetCount;
 	}
 
+	/**
+	 * setter for <code>iFacetCount</code>.
+	 * 
+	 * @param _iFacetCount count of facets
+	 */
 	public void setFacetCount(Integer _iFacetCount) {
-		/*
-		 * Indices are in hierachical order
-		 */
 		iFacetCount = _iFacetCount;
 	}
 
+	/**
+	 * getter for <code>sScriptTitle</code>.
+	 * 
+	 * @return sScriptTitle
+	 */
 	public String getTitle() {
 		return sScriptTitle;
 	}
 
+	/**
+	 * getter for script comments.
+	 * 
+	 * @return string array of comments
+	 */
 	public String[] getComments() {
 		return salComments.toArray(new String[salComments.size()]);
 	}
 
+	/**
+	 * setter for script comments.
+	 * 
+	 * @param _comments  flowing text with carriage returns.
+	 */
 	public void setComments(String _comments) {
 		salComments = new ArrayList<String>();
 		String[] lines = _comments.split("\n");
@@ -398,30 +477,60 @@ public class Nest {
 			salComments.add(line);
 	}
 
+	/**
+	 * adds new, default <code>Facet</code> to facet array list, and returns pointer.
+	 * 
+	 * @return newFacet
+	 */
 	public Facet getNewFacet() {
 		Facet newFacet = new Facet(this);
-		facets.add(newFacet);
+		falFacets.add(newFacet);
 		return newFacet;
 	}
 
+	/**
+	 * returns designation character of starred facet.
+	 * 
+	 * @return facet char
+	 */
 	public char getCStarred() {
 		return sDictionary.toCharArray()[iAsterisk];
 	}
 
+	/**
+	 * setter of <code>iAsterisk</code> via facet char designation.
+	 * 
+	 * @param cStarred facet designation char of starred facet
+	 */
 	public void setStarred(char cStarred) {
 		iAsterisk = sDictionary.indexOf(cStarred);
 	}
 
-	public void addComment(String commentLine) {
-		salComments.add(commentLine);
+	/**
+	 * add commentLine to <code>salComments</code>.
+	 * 
+	 * @param _sCommentLine  line of comment to be included in script
+	 */
+	public void addComment(String _sCommentLine) {
+		salComments.add(_sCommentLine);
 	}
 
+	/**
+	 * setter for <code>sOptions</code>.
+	 * 
+	 * @param _sOptions  string of options to be included in script
+	 */
 	public void setOptions(String _sOptions) {
 		sOptions = _sOptions;
 	}
 
+	/**
+	 * parser for 'Effect' line in analyze script
+	 * 
+	 * @param _sEffect EFFECT describes nested or unnested configuration of Facets
+	 */
 	public void addEffect(String _sEffect) {
-		/**
+		/*
 		 * Builds up 'SampleSizeTree' as design elements are added.
 		 * Basically it is a simple lexical analyzer.
 		 */
@@ -466,14 +575,30 @@ public class Nest {
 		iNestCount++;
 	}
 
+	/**
+	 * setter for <code>sFormat</code>.
+	 * 
+	 * @param _sFormat  to be included in script
+	 */
 	public void addFormat(String _sFormat) {
 		sFormat = _sFormat;
 	}
 
+	/**
+	 * setter for <code>sProcess</code>
+	 * 
+	 * @param _sProcess to be included in script
+	 */
 	public void addProcess(String _sProcess) {
 		sProcess = _sProcess;
 	}
 
+	/**
+	 * creates observable list of primary nesting from facet input
+	 * for use in 'nesting grab and drop' (Step 7)
+	 * 
+	 * @return ObservableList
+	 */
 	public ObservableList<String> getNests() {
 		if (sarNestedNames == null) {
 			iNestCount = salNestedNames.size();
@@ -487,8 +612,14 @@ public class Nest {
 		return (ObservableList<String>) FXCollections.observableArrayList(result);
 	}
 
+	/**
+	 * translates string array from AnaGroups step 7 into <code>Nest</code>, 
+	 * and <code>SampleSizeTree</code> data structures
+	 * 
+	 * @param _nests  primary nested facet combinations
+	 */
 	public void setNests(String[] _nests) {
-		/**
+		/*
 		 * The term 'nest' here is confusing. It has nothing to do with the similar class name.
 		 * It is a historic relic for 'nested arrangements', and needs to be distinguished
 		 * from the 'Nest'. The author apologizes.
@@ -512,98 +643,206 @@ public class Nest {
 		iNestCount = _nests.length;
 	}
 
+	/**
+	 * setter of <code>Scene</code>.
+	 * 
+	 * @param _scene  <code>Scene</code> to be displayed
+	 */
 	public void setScene(Scene _scene) {
 		scene = _scene;
 	}
 
+	/**
+	 * getter of <code>Scene</code>.
+	 * 
+	 * @return scene  to be displayed
+	 */
 	public Scene getScene() {
 		return scene;
 	}
 
+	/**
+	 * setter of primary <code>Stage</code>.
+	 * 
+	 * @param _stage  display stage
+	 */
 	public void setStage(Stage _stage) {
 		primaryStage = _stage;
 	}
 
+	/**
+	 * getter of primary  of <code>Stage</code>.
+	 * 
+	 * @return primaryStage
+	 */
 	public Stage getStage() {
 		return primaryStage;
 	}
 
+	/**
+	 * setter of <code>sFileName</code>.
+	 * 
+	 * @param _fName  file name
+	 */
 	public void setFileName(String _fName) {
 		sFileName = _fName;
 	}
 
+	/**
+	 * getter of <code>sFileName</code>.
+	 * 
+	 * @return sFileName
+	 */
 	public String getFileName() {
 		return sFileName;
 	}
 
+	/**
+	 * getter of <code>bDawdle</code>.
+	 * 
+	 * @return bDawdle flag to stepper
+	 */
 	public Boolean getDawdle() {
 		return bDawdle;
 	}
 
+	/**
+	 * getter of <code>bVarianceDawdle</code>.
+	 * 
+	 * @return bVarianceDawdle
+	 */
 	public Boolean getVarianceDawdle() {
 		return bVarianceDawdle;
 	}
 
+	/**
+	 * setter of <code>bDawdle</code>.
+	 * 
+	 * @param _dawdle  flag to stepper
+	 */
 	public void setDawdle(Boolean _dawdle) {
 		bDawdle = _dawdle;
 	}
 
+	/**
+	 * setter of <code>bVarianceDawdle</code>.
+	 * 
+	 * @param _Dawdle flag to stepper
+	 */
 	public void setVarianceDawdle(Boolean _Dawdle) {
 		bVarianceDawdle = _Dawdle;
 	}
 
+	/**
+	 * returns primary nesting configuration by hierarchical facet index.
+	 * 
+	 * @param i flag index
+	 * @return <code>sarNestedNames[i]</code>
+	 */
 	public String getHNest(Integer i) {
 		char c = sDictionary.toCharArray()[i];
-		Integer iReg = sHDictionary.indexOf(c);
+		Integer iReg = sHDictionary.indexOf(c);  //translation from hierarchical to basic order
 		return sarNestedNames[iReg];
 	}
 
+	/**
+	 * getter of <code>sOptions</code> for urGENOVA script.
+	 * 
+	 * @return <code>sOptions</code>
+	 */
 	public String getOptions() {
 		return sOptions;
 	}
 
+	/**
+	 * getter of <code>sFormat</code> for urGENOVA script.
+	 * 
+	 * @return sFormat
+	 */
 	public String getFormat() {
 		return sFormat;
 	}
 
+	/**
+	 * getter of <code>sProcess</code> for urGENOVA script.
+	 * 
+	 * @return <code>sProcess</code>
+	 */
 	public String getProcess() {
 		return sProcess;
 	}
 
+	/**
+	 * passes <code>_group</code> via <code>myMain</code> to <code>controller</code>, i.e. GUI.
+	 * 
+	 * @param _group display group
+	 */
 	public void show(Group _group) {
 		myMain.show(_group);
 	}
 
+	/**
+	 * getter of <code>sControlFileName</code>.
+	 * 
+	 * @return sControlFileName
+	 */
 	public String getControlFileName() {
 		return sControlFileName;
 	}
 
+	/**
+	 * getter of <code>sDataFileName</code>.
+	 * 
+	 * @return sDataFileName
+	 */
 	public String getDataFileName() {
 		return sDataFileName;
 	}
 
+	/**
+	 * formatting method.
+	 * 
+	 * @param s <code>string s</code>
+	 * @param n <code>int n</code>
+	 * @return formatted n
+	 */
 	public static String padLeft(String s, int n) {
 		return String.format("%1$" + n + "s", s);
 	}
 
+	/**
+	 * setter of <code>dGrandMeans</code>.
+	 * 
+	 * @param _means  value of grand mean
+	 */
 	public void setGrandMeans(Double _means) {
 		dGrandMeans = _means;
 	}
 
+	/**
+	 * getter of <code>dGrandMeans</code>.
+	 * 
+	 * @return dGrandMeans
+	 */
 	public Double getGreatMeans() {
 		return dGrandMeans;
 	}
 
+	/**
+	 * adds new <code>VarianceComponent</code> to <code>salVarianceComponents</code> by parsing
+	 * ANOVA line from urGENOVA output.
+	 * 
+	 * @param _line  string from ANOVA table
+	 */
 	public void setVariance(String _line) {
 		salVarianceComponents.add(new VarianceComponent(this, _line, sPlatform, popup));
 	}
 
+	/**
+	 * Essential routine to establish the logic of facet organization. Is
+	 * called from AnaGroups and SynthGroups after Nesting step
+	 */
 	public void setOrder() {
-		/**
-		 * Essential routine to establish the logic of facet organization. Is
-		 * called from AnaGroups and SynthGroups after Nesting step
-		 */
-		
 		Integer iFacetCount = sHDictionary.length();
 		//Boolean bNotFound = true;
 		@SuppressWarnings("unchecked")
@@ -612,33 +851,48 @@ public class Nest {
 			ialNestees[i] = new ArrayList<Integer>();
 		farFacets = new Facet[iFacetCount];
 		for (Integer i = 0; i < iFacetCount; i++) {
-			Facet f = facets.get(i);
+			Facet f = falFacets.get(i);
 			char c = f.getDesignation();
 			Integer j = sDictionary.indexOf(c);
 			f.setID(j);
 			farFacets[j] = f;
 		}
 	}
-	
+
+	/**
+	 * getter for array of all facets.
+	 * 
+	 * @return farFacets  all facets of the study
+	 */
 	public Facet[] getFacets() {
 		Facet[] farFacet = new Facet[iFacetCount];
 		for (int i = 0; i < iFacetCount; i++)
-			farFacet[i] = facets.get(i);
+			farFacet[i] = falFacets.get(i);
 		return farFacet;
 	}
 
+	/**
+	 * getter of specific facet by hierarchical order
+	 * 
+	 * @param iFacet Integer hierarchical order of facet
+	 * @return Facet target
+	 */
 	public Facet getHFacet(Integer iFacet) {
 		return farFacets[iFacet];
 	}
 
+	/**
+	 * getter for number of primary Effects (facet nestings)
+	 * @return iNestCount  number of primary Effects
+	 */
 	public Integer getNestCount() {
 		return iNestCount;
 	}
 
+	/**
+	 * sets up facet types for generalizability calculations
+	 */
 	public void G_setFacets() {
-		/**
-		 * sets up facet types for generalizability calculations
-		 */
 		
 		char cDiff = 'x';
 		
@@ -674,12 +928,15 @@ public class Nest {
 		}
 	}
 
-	public void createDictionaries() {
+	/**
+	 * Create basic dictionary (in original order of facets)
+	 */
+	public void createDictionary() {
 		StringBuilder sb = new StringBuilder();
 		farFacets = new Facet[iFacetCount];
 		Integer iCount = 0;
 		for (Integer i = 0; i < iFacetCount; i++) {
-			Facet f = facets.get(i);
+			Facet f = falFacets.get(i);
 			f.setID(i);
 			sb.append(f.getDesignation());
 			farFacets[iCount++] = f;
@@ -687,17 +944,22 @@ public class Nest {
 		sDictionary = sb.toString();
 	}
 
+	/**
+	 * Sets facet levels of all facets (for D-Studies
+	 */
 	public void setLevels() {
 		for (Facet f : farFacets)
 			f.setFacetLevel();
 	}
 
+	/**
+	 * Handles integer conversion for the floor and ceiling score values
+	 * in the synthesis, and saves them appropriately (Synthesis).
+	 * 
+	 * @param _sTarget  <code>floor</code> or <code>ceiling</code> respectively
+	 * @param _sValue  value as text
+	 */
 	private void saveInteger(String _sTarget, String _sValue) {
-		/**
-		 * Handles integer conversion for the floor and ceiling score values
-		 * in the synthesis
-		 */
-		
 		Integer iValue = 0;
 		if (_sValue != null)
 			iValue = Integer.parseInt(_sValue);
@@ -711,6 +973,11 @@ public class Nest {
 		}
 	}
 
+	/**
+	 * saves 'score' mean value from text to Double, (Synthesis)
+	 * @param _sTarget  usually 'cMean'
+	 * @param _sValue  value of intended mean score in text form
+	 */
 	private void saveDouble(String _sTarget, String _sValue) {
 		Double dValue = 0.0;
 		if (_sValue != null)
@@ -988,3 +1255,4 @@ public class Nest {
 		}
 	}
 }
+

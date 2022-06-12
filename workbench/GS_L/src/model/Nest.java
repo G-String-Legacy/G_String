@@ -974,7 +974,7 @@ public class Nest {
 	}
 
 	/**
-	 * saves 'score' mean value from text to Double, (Synthesis)
+	 * saves intended 'score' mean value from text to Double, (Synthesis)
 	 * @param _sTarget  usually 'cMean'
 	 * @param _sValue  value of intended mean score in text form
 	 */
@@ -991,6 +991,13 @@ public class Nest {
 		}
 	}
 
+	/**
+	 * General purpose variable saving method.
+	 * 
+	 * @param _sType  variable type
+	 * @param _sTarget  variable name
+	 * @param _sValue  variable value
+	 */
 	public void saveVariable(String _sType, String _sTarget, String _sValue) {
 		switch (_sType) {
 		case "Integer":
@@ -1002,11 +1009,16 @@ public class Nest {
 		}
 	}
 
+	/**
+	 * This method should probably be in utilities.filer from a logic point of view
+	 * but was placed in nests for convenience.
+	 * It redacts and formats the prose for G- and D-Studies into the StringBuilder 'sbResult'.
+	 * 
+	 * @param sbResult  StringBuilder, to which the prose has to be added
+	 * @throws UnsupportedEncodingException  this is a heuristic for unspecified Exceptions
+	 */
 	public void formatResults(StringBuilder sbResult) throws UnsupportedEncodingException {
 		/**
-		 * This method should probably be in utilities.filer from a logic point of view
-		 * but was placed in nests for convenience.
-		 * It redacts the prose for G- and D-Studies into a StringBuilder 'sbResult'.
 		 */
 		
 		StringBuilder sb = new StringBuilder();
@@ -1064,87 +1076,191 @@ public class Nest {
 		}
 	}
 
+	/**
+	 * getter for Generalizability Coefficient.
+	 * 
+	 * @return dRel  Double value of Generalizability Coefficient
+	 */
 	public Double getRho() {
 		return dRel;
 	}
 
+	/**
+	 * getter for Index of Reliability.
+	 * 
+	 * @return dAbs  Double value of Index of Reliability
+	 */
 	public Double getPhi() {
 		return dAbs;
 	}
 
+	/**
+	 * setter for step used in AnaGroups and SynthGroups respectively.
+	 * 
+	 * @param _iStep  step in data entry sequence
+	 */
 	public void setStep(Integer _iStep) {
 		iStep = _iStep;
 	}
 
+	/**
+	 * getter of primary Effect name.
+	 * 
+	 * @param iSAR index to string array
+	 * @return sarNestedNames[iSAR]  primary effect name
+	 */
 	public String getNestedName(Integer iSAR) {
 		return sarNestedNames[iSAR];
 	}
 
+	/**
+	 * setter of primary Effect name.
+	 * 
+	 * @param sComp  name
+	 * @param iComp  index
+	 */
 	public void setComponent(String sComp, Integer iComp) {
 		sarNestedNames[iComp] = sComp;
 	}
 
+	/**
+	 * creates a one-dimensional and a two-dimensional, Double array 
+	 * for the calculation of variance components.
+	 * 
+	 * @param iDim  dimension of array
+	 */
 	public void createVectors(Integer iDim) {
 		dVectors = new Double[iDim][];
 		dVC = new Double[iDim];
 	}
 
-	public void set_dVC(Integer iPos, Double value) {
-		dVC[iPos] = value;
+	/**
+	 * setter for variance component.
+	 * 
+	 * @param iPos  index to position in array
+	 * @param _dValue of variance component
+	 */
+	public void set_dVC(Integer iPos, Double _dValue) {
+		dVC[iPos] = _dValue;
 	}
 
+	/**
+	 * getter of variance component.
+	 * 
+	 * @param iPos   index to position in array
+	 * @return value of variance component
+	 */
 	public Double get_dVC(Integer iPos) {
 		return dVC[iPos];
 	}
 
+	/**
+	 * setter to complete the two dimensional array <code>dVectors</code> by
+	 * placing <code>dVector</code> into position <code>iPos</code> of <code>dVectors</code>.
+	 * 
+	 * @param iPos  position in <code>dVectors</code> of <code>dVector</code>
+	 * @param dVector  one-dimensional array to be placed
+	 */
 	public void setVector(Integer iPos, Double[] dVector) {
 		dVectors[iPos] = dVector;
 	}
 
+	/**
+	 * getter of a facet's 'Nestor' facet.
+	 * 
+	 * @param cF  char designation of facet
+	 * @return char designation of Nestor facet
+	 */
 	public Character getNestor(char cF) {
 		return getFacet(cF).getNestor();
 	}
 
+	/**
+	 * getter of variance coefficient array's length.
+	 * @return array length
+	 */
 	public Integer vCCount() {
 		return darVarianceCoefficients.length;
 	}
 
+	/**
+	 * setter of individual variance coefficient in array.
+	 * 
+	 * @param i  position in array
+	 * @param _dVC  value of variance coefficient.
+	 */
 	public void setVariancecoefficient(int i, Double _dVC) {
 		darVarianceCoefficients[i] = _dVC;
 	}
 
+	/**
+	 * getter of variance coefficient from array.
+	 * 
+	 * @param i position in array
+	 * @return Double value of variance coeffient
+	 */
 	public Double getVarianceCoefficient(int i) {
 		return darVarianceCoefficients[i];
 	}
 
+	/**
+	 * getter of score ceiling value
+	 * 
+	 * @return iCeiling
+	 */
 	public Integer getCeiling() {
 		return iCeiling;
 	}
 
+	/**
+	 * getter of score floor value.
+	 * 
+	 * @return iFloor
+	 */
 	public Integer getFloor() {
 		return iFloor;
 	}
 
+	/**
+	 * getter of intended score mean
+	 * 
+	 * @return Double value
+	 */
 	public Double getMean() {
 		return dMean;
 	}
 
-	public void setSarNestedNames(ArrayList<String> _sarNestedNames) {
+	/**
+	 * converts String array list to String array.
+	 * 
+	 * @param _salNestedNames[i++]
+	 */
+	public void setSarNestedNames(ArrayList<String> _salNestedNames) {
 		int i = 0;
-		sarNestedNames = new String[_sarNestedNames.size()];
-		for (String s : _sarNestedNames) {
+		sarNestedNames = new String[_salNestedNames.size()];
+		for (String s : _salNestedNames) {
 			if ((s == null) | (s.trim() == ""))
 				break;
 			sarNestedNames[i++] = s;
 		}
 	}
 	
+	/**
+	 * getter of <code>sarNestedNames</code>.
+	 * 
+	 * @return sarNestedNames
+	 */
 	public String[]  getSarNestedNames(){
 		return sarNestedNames;
 	}
 
-	public void addAnchors(String value) {
-		String[] sAnchors = value.split("\\s+");
+	/**
+	 * parser for reading score anchors from script (SynthGroups).
+	 * 
+	 * @param sValue  text line from script
+	 */
+	public void addAnchors(String sValue) {
+		String[] sAnchors = sValue.split("\\s+");
 		int iAnchors = sAnchors.length;
 		if (iAnchors != 3)
 		iFloor = Integer.parseInt(sAnchors[0]);
@@ -1152,23 +1268,45 @@ public class Nest {
 		iCeiling = Integer.parseInt(sAnchors[2]);
 	}
 
-	public void addVariances(String value) {
-		String[] sVariances = value.split("\\s+");
+	/**
+	 * parser for reading variance components from script (SynthGroups).
+	 * 
+	 * @param sValue  text line from script
+	 */
+	public void addVariances(String sValue) {
+		String[] sVariances = sValue.split("\\s+");
 		int ivCount = sVariances.length;
 		darVarianceCoefficients = new Double[ivCount];
 		for (int i = 0; i < ivCount; i++)
 			darVarianceCoefficients[i] = Double.parseDouble(sVariances[i]);
 	}
 	
+	/**
+	 * creates Double array for variance coefficients.
+	 * 
+	 * @param ivCount  dimension of array
+	 */
 	public void createVarianceCoefficients(Integer ivCount) {
 		darVarianceCoefficients = new Double[ivCount];	
 	}
 
+	/**
+	 * getter of variance coefficient array size.
+	 * 
+	 * @return array size
+	 */
 	public Integer getVcDim() {
 		Integer x = darVarianceCoefficients.length;
 		return x;
 	}
 
+	/**
+	 * kluge pipe to deal with 'Mac' coding idiosyncracy.
+	 * 
+	 * @param sInput input string
+	 * @return sOutput  output string
+	 * @throws UnsupportedEncodingException  heuristic for undefined exceptions
+	 */
 	private String reCode(String sInput) throws UnsupportedEncodingException {
 		String sOutput = sInput;
 		if (sPlatform.equals("Mac")) {
@@ -1178,21 +1316,32 @@ public class Nest {
 		return sOutput;
 	}
 
+	/**
+	 * getter for SampleSizeTree.
+	 * 
+	 * @return current SampleSizeTree
+	 */
 	public SampleSizeTree getTree() {
 		return myTree;
 	}
 	
+	/**
+	 * getter for Popup pointer.
+	 * 
+	 * @return popup instance
+	 */
 	public Popup getPopup() {
 		return popup;
 	}
-	
+
+	/*
+	 * Returns dictionary ordered for purpose of synthesis:
+	 * first from crossed to most nested, then according
+	 * to data order.
+	 * 
+	 * @return specially ordered sDictionary
+	 */
 	public String getSynthDictionary() {
-		/**
-		 * Returns dictionary ordered for purpose of synthesis:
-		 * first from crossed to most nested, then according
-		 * to data order.
-		 */
-		
 		StringBuilder sb = new StringBuilder();
 		String dict = sHDictionary;
 		int L= dict.length();
@@ -1214,19 +1363,24 @@ public class Nest {
 		return sb.toString();
 	}
 	
+	/**
+	 * Generates facet combinations responsible for variance
+	 * components, including their appropriate syntax.
+	 * The object is somewhat occult. It gets only called once in
+	 * steps.SynthGroups.VarianceComponentsGroup line 887.
+	 * It sets up the string array sarNestedNames in Nest and the
+	 * 'aNode' array 'nodes' in 'nest'.
+	 */
 	public void doComponents() {
-		/**
-		 * Generates facet combinations responsible for variance
-		 * components, including their appropriate syntax.
-		 * The object is somewhat occult. It gets only called once in
-		 * steps.SynthGroups.VarianceComponentsGroup line 887.
-		 * It sets up the string array sarNestedNames in Nest and the
-		 * 'aNode' array 'nodes' in 'nest'.
-		 */
-
 		myTree.setFacetCount(sDictionary.length());
 	}
-	
+
+	/**
+	 * tests if String 'sTest' occurs among primary Effects
+	 * 
+	 * @param sTest  String to be tested
+	 * @return Boolean test result
+	 */
 	public Boolean isComponent(String sTest) {
 		Boolean bContained = false;
 			for (String s : sarNestedNames)
@@ -1235,6 +1389,12 @@ public class Nest {
 		return bContained;
 	}
 	
+	/**
+	 * reorders array of primary nested names (primary Effects).
+	 * 
+	 * @param _sOrder required facet order
+	 * @return reordered array
+	 */
 	public String[] getOrderedNestedNames(String _sOrder) {
 		int iSize = getNestCount();
 		String s;
@@ -1247,6 +1407,9 @@ public class Nest {
 		return sarOrderedNames;
 	}
 	
+	/**
+	 * processes raw Facets to include nesting logic.
+	 */
 	public void doNesting() {
 		for (String s : sarNestedNames) {
 			char cFacet = s.toCharArray()[0];

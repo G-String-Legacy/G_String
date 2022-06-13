@@ -2,7 +2,6 @@ package model;
 
 import java.util.ArrayList;
 import java.util.prefs.Preferences;
-
 import utilities.Factor;
 import utilities.Filer;
 import utilities.Popup;
@@ -17,30 +16,57 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+/**
+ * <h1>Class SampleSizeTree</h1>
+ * The SampleSizeTree object contains the whole structure of the sample
+ * sizes for both crossed and nested facets, as well management of indices, 
+ * incrementing indices (stepping), and calculation of of range for each 
+ * configuration.
+ * 
+ * @author Ralph Bloch
+ * @version %v..%
+ */
 public class SampleSizeTree {
 
-	/*
-	 * The SampleSizeTree object contains the whole structure of the sample
-	 * sizes for both crossed and nested facets, as well management of indices, 
-	 * incrementing indices (stepping), and calculation of of range for each 
-	 * configuration.
+	/**
+	 * <code>Nest</code>  the various design parameters of the assessment.
 	 */
-
 	private Nest myNest = null;
+	
+	/**
+	 * <code>sDictionary</code> the facet dictionary in the original order.
+	 */	
 	private String sDictionary = null;
-	// contains the facet dictionary in the original order
+	
+	/**
+	 * <code>sHDictionary</code>  the facet dictionary in hierarchical order.
+	 */
 	private String sHDictionary;
-	// contains the facet dictionary in hierarchical order
+
+	/**
+	 * <code>sarNests</code>  contains a nest string for each facet in the original order.
+	 */
 	private String[] sarNests = null;
-	// contains a nest string for each facet in the original order
+	
+	/**
+	 * <code>barCrossed</code>  a simple array of booleans in original facet order,
+	 *  (true) - crossed; (false) - nested.
+	 */
 	private Boolean[] barCrossed = null;
-	// contains a simple array of booleans in original facet order (crossed =
-	// true)
-	// contains index of starred facet in hierarchical order
+
+	/**
+	 * <code>iFacet</code>  number of facets.
+	 */
 	private Integer iLength = 0;
+	
+	/**
+	 * <code>int</code> array of number of sample sizes per facet
+	 */
 	private int[] iLengths = null;
-	private Integer[] iPointers = null;
-	private Integer[] iRows = null;
+	
+	/**
+	 * 
+	 */
 	// array arranging ial's in hierarchical order
 	private int[] iIndices = null;
 	private Facet[] facets = null;
@@ -69,32 +95,87 @@ public class SampleSizeTree {
 										*	the nesting facet. 
 										**/
 	
-	/**
+	/*
 	 * These 5 variable arrays serve the efficient calculation of configuration specific progression counts.
 	 */
-	private char[][] conKeySet = null;			// array of facet content of all configurations
-	private int[][] iarCurrentIndexSet = null;	// array of current index sets for all configurations
-	private int[] iarCounts = null;				// array of counts for each configuration
-	private int[] iarDepths = null;				// array of total number of states for each configurations
 	
 	/**
-	 * Configurations, within the context of GS_L are strings defining specific facet combinations
+	 * ragged matrix - rows by Effect, cols by Facet within Effect in hierarchical order
+	 */
+	private char[][] conKeySet = null;
+
+	/**
+	 * ragged matrix - rows by Effect, cols: Facet index in order corresponding to <code>conKeySet</code>
+	 */
+	private int[][] iarCurrentIndexSet = null;
+	
+	/**
+	 * array containing the current state for each Effect
+	 */
+	private int[] iarCounts = null;
+	
+	/**
+	 * array containing the total state count for each effect
+	 */
+	private int[] iarDepths = null;
+	
+	/**
+	 * Configurations (Effects), within the context of GS_L are strings defining specific facet combinations
 	 * that describe the permitted 'effects' and cross terms in Brennan's terminology
 	 */
-	private ArrayList<String> salConfigurations;	// array list of permitted configurations
+	private ArrayList<String> salConfigurations;
+	
+	/**
+	 * total number of configurations (Effects)
+	 */
 	private int iConfigurationCount = 0;
 	
+	/**
+	 * pointer to exception handler
+	 */
 	private utilities.Popup popup;
 
-	// variables for index calculation
+	/**
+	 * array of <code>Facets</code> in basic order
+	 */
 	private Facet[] farFacets = null;
+	
+	/**
+	 * number of Facets
+	 */
 	private Integer iFacetCount = 0;
+	
+	/**
+	 * css style 20
+	 */
 	private String sStyle_20 = null;
+	
+	/**
+	 * css style 16
+	 */
 	private String sStyle_18 = null;
+	
+	/**
+	 * css style 16
+	 */
 	private String sStyle_16 = null;
+	
+	/**
+	 * pointer to Preference API
+	 */
 	private Preferences prefs = null;
+	
+	/**
+	 * char designation of starred Facet
+	 */
 	private char cAsterisk;
+	
+	/**
+	 * array of <code>Factor</code>
+	 * @see <a href="https://github.com/G-String-Legacy/G_String/blob/main/workbench/GS_L/src/utilities/Factor.java">Factor</a>  
+	 */
 	private ArrayList<String[]> salFactors = new ArrayList<String[]>();
+	
 	private String[][] sarFactors = null;
 	
 	// Constructor
@@ -132,12 +213,15 @@ public class SampleSizeTree {
 		sHDictionary = _HDictionary;
 	}
 
+	/**
+	 * This method runs when sample sizes are entered. 
+	 * sums and cumuls are calculated when each
+	 * configuration is added.
+	 * 
+	 * @param _iFacet  basic index to facet
+	 * @param sss  array of integer sample sizes for a specifies facet
+	 */
 	public void addSampleSize(Integer _iFacet, Integer[] sss) {
-		/**
-		 * This method runs when sample sizes are entered. 
-		 * sums and cumuls are calculated when each
-		 * configuration is added.
-		 */
 		
 		int iSize = sss.length;
 		int iCount = 0;
@@ -251,8 +335,6 @@ public class SampleSizeTree {
 		vOuter.getChildren().add(vPara);
 		char[] cFacets = sNest.replaceAll(":", "").toCharArray();
 		iLength = cFacets.length;
-		iPointers = new Integer[iLength];
-		iRows = new Integer[iLength];
 		iIndices = new int[iLength];
 		// add sub title
 		sp = new SplitPane();
@@ -274,9 +356,7 @@ public class SampleSizeTree {
 		vOuter.getChildren().add(sp);
 		sp = null;
 		for (Integer i = 0; i < iLength; i++) {
-			iRows[i] = sHDictionary.indexOf(cFacets[i]);
 			iIndices[i] = 0;
-			iPointers[i] = 0;
 		}
 		getSamples(cFacet);
 		Boolean bFirstSample = true;

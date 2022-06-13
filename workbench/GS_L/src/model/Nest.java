@@ -17,7 +17,7 @@ import utilities.VarianceComponent;
  * Encapsulates the major parameters of the assessment design, and the central variables required for analysis.
  * <code>Nest</code> is used in most other classes as common repository to access central variables and parameters.
  * 
- * @author ralph
+ * @author Ralph Bloch
  * @version %v..%
 */
 public class Nest {

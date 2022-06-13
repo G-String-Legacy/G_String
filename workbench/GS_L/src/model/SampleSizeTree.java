@@ -172,6 +172,7 @@ public class SampleSizeTree {
 	
 	/**
 	 * array of <code>Factor</code>
+	 * 
 	 * @see <a href="https://github.com/G-String-Legacy/G_String/blob/main/workbench/GS_L/src/utilities/Factor.java">Factor</a>  
 	 */
 	private ArrayList<String[]> salFactors = new ArrayList<String[]>();

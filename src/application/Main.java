@@ -65,6 +65,12 @@ public class Main extends Application {
 	private BorderPane rootLayout;
 	
 	/**
+	 * <code>bSynthesize</code> - acts as switch, whether G_String analyzes data (false),
+	 * or generates a synthetic data set (true).
+	 */
+	private Boolean bSynthesize = false;
+	
+	/**
 	 * <code>bDawdle</code> - acts as a switch, whether <code>AnaGroups</code> resp. <code>SynthGroups</code>
 	 * should proceed to the next step (false) or repeat the current step (true).
 	 */
@@ -181,11 +187,11 @@ public class Main extends Application {
 		} catch (SecurityException | IOException e1) {
 			e1.printStackTrace(); 						// emergency exit
 		}
-		//String sLogLevel = prefs.get("Default Log", "Warning");		// sets log level to preferred
-		//Level lCurrent = Level.parse(sLogLevel);
+		String sLogLevel = prefs.get("Default Log", "Warning");		// sets log level to preferred
+		Level lCurrent = Level.parse(sLogLevel);
 		logger = Logger.getLogger(Main.class.getName());
 		logger.addHandler(fh);
-		//logger.setLevel(lCurrent);						// that's the logger, used throughout
+		logger.setLevel(lCurrent);						// that's the logger, used throughout
 		popup = new Popup(logger, primaryStage);		// standard diagnostic message handler
 		popup.setClass("Main");
 		myNest = new Nest(popup, this, prefs);
@@ -360,6 +366,17 @@ public class Main extends Application {
 	}
 
 	/**
+	 * Sets synthesize switch.
+	 * 
+	 * @param _bSynth;
+	 */
+	public void setSynthesize(Boolean _bSynth) {
+		
+		bSynthesize = _bSynth; 
+	}
+
+
+	/**
 	 * In response to GUI, initiates setup; to be done on first use.
 	 */
 	public void doSetup() {
@@ -471,11 +488,9 @@ public class Main extends Application {
 		choices.add(Level.SEVERE);
 		choices.add(Level.WARNING);
 		choices.add(Level.INFO);
-		choices.add(Level.FINE);
-		choices.add(Level.FINER);
 		choices.add(Level.FINEST);
 		choices.add(Level.ALL);
-		String sInitialLevel = prefs.get("Default Log", "OFF").toUpperCase();
+		String sInitialLevel = prefs.get("Default Log", "OFF");
 		Level lDefault = Level.parse(sInitialLevel);
 		ChoiceDialog<Level> dialog = new ChoiceDialog<>(lDefault, choices);
 		dialog.setTitle("Choice Dialog");
@@ -601,13 +616,8 @@ public class Main extends Application {
 		TextField tfValue = new TextField(_sValue);
 		tfValue.setPrefWidth(500.0);
 		tfValue.textProperty().addListener((obs, oldText, newText) -> {
-			if (_sKey.equals("Default Log") && !newText.equals(oldText)) {
-				if (Level.parse(newText.toUpperCase()) != null)
-					prefs.put(_sKey, newText.toUpperCase());
-			}
-			else
-				if ((newText != null) && (!newText.trim().equals("")) && (newText != oldText))
-					prefs.put(_sKey, newText);
+			if ((newText != null) && (!newText.trim().equals("")) && (newText != oldText))
+				prefs.put(_sKey, newText);
 		});
 		hbReturn.getChildren().addAll(lbKey, tfValue);
 		return hbReturn;

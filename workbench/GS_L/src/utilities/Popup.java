@@ -36,7 +36,7 @@ public class Popup {
 	public void tell(String _sMethod, Throwable _e) {
 		sMethod = _sMethod;
 		sMessage = sClass + "(" + sMethod + "): " + _e.getMessage();
-		logger.warning(sMessage);
+		logger(sMessage);
 	}
 	
 	public void tell(String _sMethod, String _sMessage) {

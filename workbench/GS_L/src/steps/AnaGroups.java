@@ -168,7 +168,6 @@ public class AnaGroups {
 			myNest.G_setFacets();
 			return selectDataFile();
 		case 8:
-			myTree.collectSampleSizes(flr);
 			return setSampleSize();
 		case 9:
 			flr.writeDataFileNew();
@@ -991,6 +990,7 @@ public class AnaGroups {
 		 * where the sample sizes are being stored as well.
 		*/
 		
+		myTree.collectSampleSizes();
 		Group group = new Group();
 		// construct samples page
 		group.getChildren().add(myTree.getPage(iSample));

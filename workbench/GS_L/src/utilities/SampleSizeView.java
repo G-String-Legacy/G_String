@@ -43,7 +43,6 @@ public class SampleSizeView extends TextField {
 			this.setText(iSampleSize.toString());
 		this.textProperty().addListener((obs, oldText, newText) -> {
 			if ((newText == null) || (newText.trim().equals(""))) {
-				myTree.setChanged(true); // flag change
 				bChanged = true;
 			} else if (!newText.matches("\\d{0,6}")) // is not 6 digit integer
 				this.setText(oldText);

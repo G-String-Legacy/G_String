@@ -29,6 +29,7 @@ public class CompConstrct {
 	private Component[] components;
 	private Nest myNest;
 	private SampleSizeTree tree;
+	private String sConfig;
 
 	public CompConstrct (Nest _nest){
 		myNest = _nest;
@@ -44,7 +45,6 @@ public class CompConstrct {
 		int iMask = 0;
 		int iLast = -1;
 		int iD = 0;
-		String sConfig;
 		StringBuilder sb;
 		Boolean bChange = false;
 		Component tempComponent;

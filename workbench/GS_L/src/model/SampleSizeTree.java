@@ -3,7 +3,6 @@ package model;
 import java.util.ArrayList;
 import java.util.prefs.Preferences;
 import utilities.Factor;
-import utilities.Filer;
 import utilities.Popup;
 import utilities.SampleSizeView;
 import javafx.application.Platform;
@@ -21,7 +20,7 @@ import javafx.scene.layout.VBox;
  * The SampleSizeTree object contains the whole structure of the sample
  * sizes for both crossed and nested facets, as well management of indices, 
  * incrementing indices (stepping), and calculation of of range for each 
- * configuration.
+ * configuration ('Effect').
  * 
  * @author Ralph Bloch
  * @version %v..%
@@ -63,41 +62,53 @@ public class SampleSizeTree {
 	 * <code>int</code> array of number of sample sizes per facet
 	 */
 	private int[] iLengths = null;
+
+	/**
+	 * 	int array of indices for each Facet for orderly stepping through the
+	 *  whole range of sample sizes according to nesting.
+	 */
+	private int[] iIndices = null;
 	
 	/**
-	 * 
+	 * location to keep track of previous Facet designation char
+	 * when stepping through them.
 	 */
-	// array arranging ial's in hierarchical order
-	private int[] iIndices = null;
-	private Facet[] facets = null;
 	private char cPrevious = '-';
-	private Boolean bChanged = false;
+	
+	/**
+	 * Flag if parameters are entered from script, rather than manually
+	 */
 	private Boolean bDoOver = false;
-	private int iConfiguration;			// pointer to the permitted configurations
-										// section related to updating sample sizes 
-										//on processing the ssv page
+	
+	/**
+	 * Pointer to array of primary nested Facet configurations.
+	 */
+	private int iConfiguration;	
+
+	/**
+	 * array list of <code>SampleSizeView</code> for sample size input
+	 */
 	private ArrayList<SampleSizeView> ssvAL = null;
 	
-	private int[][] iarSizes;			/** 
-										*	sample sizes for each facet below a particular
-										*	index of the nesting facet.
-										**/
-	private int[][][] iarSums;			/**
-	 									*	configuration specific sums of sample sizes
-	 									*	below a particular index of the nesting facet.
-	 									**/
-	private int[][] iarASums;			/**
-	 									*	Analysis specific sums of sample sizes
-	 									*	below a particular index of the nesting facet.
-	 									**/
-	private int[][] iarOffsets;			/**
-										*	index offsets below a particular index of 
-										*	the nesting facet. 
-										**/
-	
-	/*
-	 * These 5 variable arrays serve the efficient calculation of configuration specific progression counts.
+	/**
+	 * sample sizes for each facet below a particular index of the nesting facet.
 	 */
+	private int[][] iarSizes;
+
+	/**
+	 * configuration specific sums of sample sizes below a particular index of the nesting facet.
+	 */
+	private int[][][] iarSums;
+
+	/**
+	 * Analysis specific sums of sample sizes below a particular index of the nesting facet.
+	 */
+	private int[][] iarASums;
+
+	/**
+	 * index offsets below a particular index of the nesting facet. 
+	 */
+	private int[][] iarOffsets;
 	
 	/**
 	 * ragged matrix - rows by Effect, cols by Facet within Effect in hierarchical order
@@ -121,7 +132,7 @@ public class SampleSizeTree {
 	
 	/**
 	 * Configurations (Effects), within the context of GS_L are strings defining specific facet combinations
-	 * that describe the permitted 'effects' and cross terms in Brennan's terminology
+	 * that describe the permitted 'Effects' and cross terms in Brennan's terminology
 	 */
 	private ArrayList<String> salConfigurations;
 	
@@ -171,18 +182,26 @@ public class SampleSizeTree {
 	private char cAsterisk;
 	
 	/**
-	 * array of <code>Factor</code>
+	 * array list of <code>Factor</code>
 	 * 
 	 * @see <a href="https://github.com/G-String-Legacy/G_String/blob/main/workbench/GS_L/src/utilities/Factor.java">Factor</a>  
 	 */
 	private ArrayList<String[]> salFactors = new ArrayList<String[]>();
 	
+	/**
+	 * ragged matrix <code>Factor</code> per <code>sConfig</code> (Effect)
+	 */
 	private String[][] sarFactors = null;
-	
-	// Constructor
+
+	/**
+	 * Constructor for <code>SampleSizeTree</code>
+	 * 
+	 * @param _nest  pointer to <code>Nest</code>
+	 * @param _Dictionary  <code>sDictionary</code>
+	 * @param _popup  pointer to <code>Popup</code>
+	 * @param _prefs pointer to <code>Preferences</code>
+	 */
 	public SampleSizeTree(Nest _nest, String _Dictionary, Popup _popup, Preferences _prefs) {
-		// Constructor initializes SampleSizeTree according to original
-		// dictionary
 		sDictionary = _Dictionary;
 		Integer iFacets = sDictionary.length();
 		iarSizes = new int[iFacets][];
@@ -192,7 +211,6 @@ public class SampleSizeTree {
 		iarOffsets = new int[iFacets][];
 		barCrossed = new Boolean[iFacets];
 		iLengths = new int[iFacets];
-		facets = new Facet[iFacets];
 		myNest = _nest;
 		farFacets = myNest.getFacets();
 		iIndices = new int[iFacets];
@@ -209,15 +227,18 @@ public class SampleSizeTree {
 				"-fx-font-size: 30px; -fx-font-family: \"ARIALSerif\"; -fx-padding: 10; -fx-background-color: #805015; -fx-text-fill: #FFFFFF;");
 	}
 
-	// Setters (public)
-	public void setHDictionary(String _HDictionary) {
-		sHDictionary = _HDictionary;
+	/**
+	 * setter for sHDictionary
+	 * @param _sHDictionary  String of all Facet designation chars in hierarchic order.
+	 */
+	public void setHDictionary(String _sHDictionary) {
+		sHDictionary = _sHDictionary;
 	}
 
 	/**
 	 * This method runs when sample sizes are entered. 
-	 * sums and cumuls are calculated when each
-	 * configuration is added.
+	 * sums and cumuls are calculated when a facet is added
+	 * by facet number (original).
 	 * 
 	 * @param _iFacet  basic index to facet
 	 * @param sss  array of integer sample sizes for a specifies facet
@@ -240,12 +261,15 @@ public class SampleSizeTree {
 		iLengths[_iFacet] = iSize;
 	}
 
+	/**
+	 * This method runs when sample sizes are entered. 
+	 * sums and cumuls are calculated when a facet is added
+	 * by facet Designation char.
+	 * 
+	 * @param _c  Facet char designation
+	 * @param sss  string array of sample sizes as text
+	 */
 	public void addSampleSize(char _c, String[] sss) {
-		/**
-		 * Alternative method to add sample sizes by facet character
-		 * sums are calculated when each configuration is added.
-		 */
-		
 		if (_c == cPrevious)
 			return;
 		cPrevious = _c;
@@ -269,40 +293,36 @@ public class SampleSizeTree {
 		iLengths[iFacet]= iSize;
 	}
 
-	public void setFacet(Facet _facet) {
-		char c = _facet.getDesignation();
-		Integer index = sDictionary.indexOf(c);
-		if (index >= 0) {
-			facets[index] = _facet;
-			barCrossed[index] = !_facet.getNested();
-		}
-	}
-
-	public void setCrossed(char _c, Boolean _crossed) {
-		// sets balCrossed element for facet _c
+	/**
+	 * Setter for <code>Facet</code> 'bCrossed' status (vs bNested).
+	 * 
+	 * @param _c  Facet designation char
+	 * @param _bCrossed  flag that Facet is crossed (vs nested)
+	 */
+	public void setCrossed(char _c, Boolean _bCrossed) {
 		char c = _c;
 		Integer index = sDictionary.indexOf(c);
-		barCrossed[index] = _crossed;
+		barCrossed[index] = _bCrossed;
 	}
 
-	public void setNests(String[] nested) {
+	/**
+	 * assign appropriate array of primary nests to <code>sarNests</code>
+	 * 
+	 * @param _sarNested  external string array
+	 */
+	public void setNests(String[] _sarNested) {
 		// sets Nests
-		sarNests = nested;
+		sarNests = _sarNested;
 	}
 
-	public void setChanged(Boolean _bChanged) {
-		bChanged = _bChanged;
-	}
-
-	// Getters (public)
-
+	/**
+	 * composes JavaFX code page (<code>vBox</code> to collect
+	 * sample sizes for a nested Facet.
+	 * 
+	 * @param _iSample  index to nested Facet (corresponds to order in script)
+	 * @return vBox
+	 */
 	public VBox getPage(Integer _iSample) {
-		/*
-		 * composes sample size page for a facet within a nest. In contrast to
-		 * other pages for the GUI. this page also uses html formating, 
-		 * rather than exclusive javafx.
-		 */
-
 		VBox vOuter = new VBox();
 		vOuter.setMinHeight(800);
 		vOuter.setAlignment(Pos.TOP_CENTER);
@@ -399,6 +419,11 @@ public class SampleSizeTree {
 		return vBox;
 	}
 
+	/**
+	 * intializes <code>Facet</code>
+	 * 
+	 * @param _cFacet facet designation char
+	 */
 	public void getSamples(char _cFacet) {
 		char cFacet = _cFacet;
 		Integer iSize;
@@ -436,10 +461,13 @@ public class SampleSizeTree {
 		}
 	}
 
-	public Boolean getChanged() {
-		return bChanged;
-	}
-
+	/**
+	 * getter of 'Effect Size', i.e. the sample sizes for a Facet according 
+	 * of its 'Nestor', if any. 'Crossed' Facets only have one sample size.
+	 * 
+	 * @param iRow  Facet position in original order.
+	 * @return String containing one or more sample size values
+	 */
 	public String getEffect(Integer iRow) {
 		// returns effect line for control file
 		StringBuilder sb = new StringBuilder("EFFECT       ");
@@ -457,25 +485,54 @@ public class SampleSizeTree {
 		return sb.toString();
 	}
 
+	/**
+	 * getter of primary nested configuration of Facets (as in script).
+	 * 
+	 * @param _c  Facet designation char
+	 * @return nested configuration of Facet
+	 */
 	public String getNest(char _c) {
 		return sarNests[sHDictionary.indexOf(_c)];
 	}
 
+	/**
+	 * 
+	 * @param s  original text
+	 * @param n number of spaces to pad
+	 * @return  padded text
+	 */
 	public static String padRight(String s, int n) {
 		return String.format("%1$-" + n + "s", s);
 	}
 
+	/**
+	 * updater of sample size arrays accumulations
+	 * 
+	 * @param _iLevel  Facet position in original order
+	 * @param _iPointer  pointer to each of the individual sample sizes for this Facet
+	 * @param _value  actual value of the sample size
+	 */
 	public void hasChanged(Integer _iLevel, Integer _iPointer, Integer _value) {
 		Integer iLevel = _iLevel;
-		iarSizes[iLevel][_iPointer] = _value;
-		if(!myNest.getSimulate())
+		iarSizes[iLevel][_iPointer] = _value;	// for both analysis and synthesis
+		if(!myNest.getSimulate())				// for analysis only
 			iarASums[iLevel][_iPointer + 1] = iarASums[iLevel][_iPointer] + _value;
 	}
 
+	/**
+	 * setter of 'doOver' flag (use script)
+	 * 
+	 * @param _bDoOver  boolean flag
+	 */
 	public void DoOver(Boolean _bDoOver) {
 		bDoOver = _bDoOver;
 	}
 
+	/**
+	 * getter of total score count.
+	 * 
+	 * @return iRecordCount  total number of scores
+	 */
 	public Integer numRecords() {
 		Integer iRecordCount = 1;
 		Boolean[] bDone = new Boolean[iFacetCount];
@@ -522,6 +579,11 @@ public class SampleSizeTree {
 		return iRecordCount;
 	}
 
+	/**
+	 * special kluge for JavaFX @see <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/application/Platform.html">Application platform support class</a>
+	 * 
+	 * @param node  item of JavaFX
+	 */
 	private void repeatFocus(Node node) {
 		Platform.runLater(() -> {
 			if (!node.isFocused()) {
@@ -531,6 +593,13 @@ public class SampleSizeTree {
 		});
 	}
 
+	/**
+	 * current Facet index in nested environment
+	 * 
+	 * @param _iFacet integer facet pointer (original order)
+	 * @param _iPointer  offset according to 'Nestor'
+	 * @return Facet index
+	 */
 	public String getIndex(Integer _iFacet, Integer _iPointer) {
 		char cN;
 		int iBase = 0;
@@ -554,6 +623,12 @@ public class SampleSizeTree {
 	}
 		
 
+	/**
+	 * utility to convert csv text to Integer array
+	 * 
+	 * @param _sInput  text string
+	 * @return Integer array
+	 */
 	private Integer[] stringToArray(String _sInput) {
 		String[] tokens = _sInput.split(",");
 		Integer L = tokens.length;
@@ -572,79 +647,111 @@ public class SampleSizeTree {
 		return iResult;
 	}
 
+	/**
+	 * cumulative sample size per Facet.
+	 * 
+	 * @param _iPointer  Facet as Integer in original order
+	 * @return total sample size for Facet
+	 */
 	public Integer size(Integer _iPointer) {
 		return iarASums[_iPointer][iarSizes[_iPointer].length];
 	}
 
+	/**
+	 * returns sample size array by Facet designation char
+	 * 
+	 * @param c  Facet designation char
+	 * @return sample size array
+	 */
 	public int[] getSizes(char c) {
-		if (c == '$') {
+		if (c == '$') {					// unassigned Facets
 			int[] iRet = new int[1];
 			iRet[0] = 0;
 			return iRet;
 		}
-		else {
+		else {							// regular Facets
 			Integer i = sDictionary.indexOf(c);
 			return iarSizes[i];
 		}
 	}
 
-	public int[] getOSizes(Integer iComp) {
-		return iarSizes[iComp];
+	/**
+	 * returns sample size array according to the position of the Facet in the original order
+	 * 
+	 * @param iOrder  position of Facet in original order
+	 * @return sample size array
+	 */
+	public int[] getOSizes(Integer iOrder) {
+		return iarSizes[iOrder];
 	}
 
-	public int[] getHSizes(Integer iComp) {
-		if (iComp < iFacetCount)
-			iComp = sDictionary.indexOf(sHDictionary.toCharArray()[iComp]);
-		return iarSizes[iComp];
+	/**
+	 * returns sample size array according to the position of the Facet in the hierarchic order
+	 * 
+	 * @param iHOrd  Facet position in hierarchic order
+	 * @return sample size array
+	 */
+	public int[] getHSizes(Integer iHOrd) {
+		if (iHOrd < iFacetCount)
+			iHOrd = sDictionary.indexOf(sHDictionary.toCharArray()[iHOrd]);
+		return iarSizes[iHOrd];
 	}
 
+	/**
+	 * getter of sample size sums per Facet by Facet designation char for Analysis.
+	 * 
+	 * @param c  Facet designation char
+	 * @return cumulative sample size per Facet
+	 */
 	public int[] getSums(char c) {		
 		Integer i = sDictionary.indexOf(c);
 		return iarASums[i];
 	}
-
-	public int[] getOSums(Integer iComp) {
-		return iarASums[iComp];
+	
+	/**
+	 * getter of sample size sums per Facet by position in original order for Analysis.
+	 * 
+	 * @param _iOrd  Facet position in original order
+	 * @return cumulative sample size per Facet
+	 */
+	public int[] getOSums(Integer _iOrd) {
+		return iarASums[_iOrd];
 	}
 
-	public int[] getHSums(Integer iComp) {
-		if (iComp < iFacetCount)
-			iComp = sDictionary.indexOf(sHDictionary.toCharArray()[iComp]);
-		return iarASums[iComp];
+	/**
+	 * getter of sample size sums per Facet by position in hierarchic order for Analysis.
+	 * 
+	 * @param _iHOrd Facet position in hierarchic order
+	 * @return cumulative sample size per Facet
+	 */
+	public int[] getHSums(Integer _iHOrd) {
+		if (_iHOrd < iFacetCount)
+			_iHOrd = sDictionary.indexOf(sHDictionary.toCharArray()[_iHOrd]);
+		return iarASums[_iHOrd];
 	}
 
+	/**
+	 * Arithmetic mean of sample size per Facet in nested context, 
+	 * according to Brennan for calculation of G coefficients.
+	 * 
+	 * @param _iFacet  position of Facet in original order
+	 * @return  arithmetic mean of Sample Size per Facet
+	 */
 	public Double getLevel(Integer _iFacet) {
-		/*
-		 * Calculates the mean sample size for the given facet
-		 * to be used to calculate the level for the sigma_square (g) calculation
-		 * for simple nested facets. Is used by'facet', and
-		 * indirectly by 'Analysis' ('AnaGroups')
-		 */
-		
 		Integer iSize = iarSizes[_iFacet].length;
 		Double dNum = (double)iarASums[_iFacet][iSize];
 		Double dDenom = (double)iSize.doubleValue();
 		return dNum/dDenom;
 	}
 
-	public Integer getNestedSize(Integer _iFacet, Integer _iLevel) {
-		/*
-		 * here the _iFacet refers to the size of the target facet the _iLevel
-		 * to the specific value of the Nestor's (actual) index, that means the
-		 * nested index, if Nestor itself is nested!
-		 */
-
-		return iarSizes[_iFacet][_iLevel];
-	}
-
+	/**
+	 * Harmonic mean of sample sizes per Facet in nested context, 
+	 * according to Brennan for calculation of G coefficients.
+	 * 
+	 * @param _iFacet   position of Facet in original order
+	 * @return harmonic mean of Sample Size per Facet
+	 */
 	public Double getHarmonic(Integer _iFacet) {
-		/*
-		 * Calculates the harmonic mean sample size for the given facet
-		 * to be used to calculate the level for the sigma_square (g) calculation
-		 * for deeper (>1) nested facets. Is used by'facet', and
-		 * indirectly by 'Analysis' ('AnaGroups')
-		 */
-		
 		Double dDenom = 0.0;
 		Integer iCount = 0;
 		for (Integer iSize : iarSizes[_iFacet]) {
@@ -656,22 +763,32 @@ public class SampleSizeTree {
 		return (iCount / dDenom);
 	}
 
-	public void collectSampleSizes(Filer flr) {
-		// set iTranslate
+	/**
+	 * utility for setting up Sample Size Page
+	 */
+	public void collectSampleSizes() {
 		if (farFacets == null) {
 			farFacets = myNest.getFacets();
 			iFacetCount = farFacets.length;
 		}
 	}
 
-	public Integer getEffectCount() {
-		return sarNests.length;
-	}
-
+	/**
+	 * sets the char for the starred Facet
+	 * 
+	 * @param _cAsterisk char of Facet carrying Asterisk
+	 */
 	public void setAsterisk (char _cAsterisk){
 		cAsterisk = _cAsterisk;
 	}
 	
+	/**
+	 * incrementer for simulation for each call the Facet indices get incremented
+	 * according to the nesting order, such that the count of the last Effect
+	 * goes up by one count.
+	 * 
+	 * @return <code>true</code> if all Facet indices have reached their maximum, <code>true</code> otherwise
+	 */
 	public Boolean increment() {
 		char[] cHFacets = sHDictionary.toCharArray();
 		int iIndex = 0;
@@ -717,16 +834,33 @@ public class SampleSizeTree {
 		return bReturn;
 	}
 	
+	/**
+	 * getter of Facet indices by Facet designation char
+	 * (the order in which the Facet indices step through the score data file)
+	 * 
+	 * @param c  Facet designation char
+	 * @return Facet index for that Facet
+	 */
 	public int getHIndex(char c) {
 		int i = sHDictionary.indexOf(c);
 		return iIndices[i];
 	}
 	
+	/**
+	 * setter of Facet indices by Facet designation char
+	 * (the order in which the Facet indices step through the score data file)
+	 * 
+	 * @param c  Facet designation char
+	 * @param iIndex  Facet index for that Facet
+	 */
 	public void setHIndex(char c, int iIndex) {
 		int i = sHDictionary.indexOf(c);
 		iIndices[i] = iIndex;
 	}
 	
+	/**
+	 * reset all Facet indices and iarCurrentIndexSet.
+	 */
 	public void resetIndices() {
 		int L;
 		for (int i = 0; i < iFacetCount; i++)
@@ -741,48 +875,57 @@ public class SampleSizeTree {
 		}
 	}
 
-	public void setIndex(char c, Integer index) {
-		int i = sDictionary.indexOf(c);
-		iIndices[i] = index;
-	}
-
-	public Integer getIndex(char c) {
-		if (c == '$')
-			return 0;
-		else {
-			int i = sDictionary.indexOf(c);
-			return iIndices[i];
-		}
-	}
-
+	/**
+	 * getter of all Facet indices
+	 * 
+	 * @return int array of Facet indices
+	 */
 	public int[] getIndices() {
 		return iIndices;
 	}
 	
+	/**
+	 * setter of FacetCount and indices array establishment.
+	 * 
+	 * @param _iFacetCount  number of facets
+	 */
 	public void setFacetCount(int _iFacetCount) {
 		iFacetCount = _iFacetCount;
 		iIndices = new int[iFacetCount];
 	}
 
+	/**
+	 * getter of Effects, both primary (per Facet) and cross-interactions.
+	 * 
+	 * @param _iConfig  index of Effect
+	 * @return Effect string  (ordered, nested Facet chars)
+	 */
 	public String getConfiguration(int _iConfig) {
 		return salConfigurations.get(_iConfig);
 	}
 	
+	/**
+	 * This method is the major simulation work horse.
+	 * It receives a configuration string from CompConstrct,
+	 * stores it in 'salConfigurations' and then calculates
+	 * first the parameters. For this purpose we go from
+	 * bottom to top. The configuration string is actually
+	 * already in this order.
+	 * 
+	 * @param _sConfiguration  Effect string  (ordered, nested Facet chars)
+	 */
 	public void addConfiguration(String _sConfiguration) {
-		/**
-		 * This method is the major simulation work horse.
-		 * It receives a configuration string from CompConstrct,
-		 * stores it in 'salConfigurations' and then calculates
-		 * first the parameters. For this purpose we go from
-		 * bottom to top. The configuration string is actually
-		 * already in this order.
-		 */
-		
 		String sConfiguration = _sConfiguration;
 		salConfigurations.add(sConfiguration);
 		iConfiguration = salConfigurations.size();
 	}
 	
+	/**
+	 * utility to format string array for text output.
+	 * 
+	 * @param sar generic String array
+	 * @return formatted text String
+	 */
 	public String sDump(String[] sar) {
 		StringBuilder sb = new StringBuilder();
 		if(sar != null) {
@@ -798,12 +941,20 @@ public class SampleSizeTree {
 		return sb.toString();
 	}
 	
+	/**
+	 * getter of Effect count (primary and cross-interactions).
+	 * 
+	 * @return  int count
+	 */
 	public int getConfigurationCount() {
 		if (iConfigurationCount == 0)
 			iConfigurationCount = salConfigurations.size();
 		return iConfigurationCount;
 	}
 	
+	/**
+	 * initializes the variables used for stepping (incrementing) through Facet indices.
+	 */
 	public void initCounter() {
 		String sConfiguration;
 		char[] cConfiguration = null;
@@ -819,13 +970,16 @@ public class SampleSizeTree {
 		}
 	}
 	
+	/**
+	 * breaks down Effects into <code>Factor</code>s.
+	 * 
+	 * @param _iConf  index pointer to Effect
+	 * @return int number of Factors comprising Effect
+	 */
 	public int factorConfigurations(int _iConf) {
-		/**
-		 * Returns the current count for Configuration ('Effect') 'iConf', given indices.
-		 */
 		int iConf = _iConf;
 		int iCount = 0;
-		/**
+		/*
 		 * First, break down configuration into crossed components.
 		 */
 		String sConfiguration = salConfigurations.get(iConf);
@@ -839,19 +993,40 @@ public class SampleSizeTree {
 		salFactors.add(sCrosseds);
 		return iCount;
 	}
-		
+	
+	/**
+	 * boolean test indicates whether String sContainer contains char cContent.
+	 * 
+	 * @param cContent Facet designation char
+	 * @param sContainer  typically an 'Effect'
+	 * @return true if contained, false otherwise
+	 */
 	private Boolean isContained(char cContent, String sContainer) {
 		Boolean bContains = false;
 		bContains = (sContainer.indexOf(cContent) >= 0);
 		return bContains;
 	}
 	
+	/**
+	 * getter of Facet by designation char.
+	 * 
+	 * @param _c Facet designation char
+	 * @return  Facet corresponding to  _c
+	 */
 	public Facet getFacet(char _c) {
 		int i = sDictionary.indexOf(_c);
 		Facet f = farFacets[i]; 
 		return f; 
 	}
 	
+	/**
+	 * utility used for factoring Effects, checks relationships (nesting)
+	 * of Facets and identifies the totality of a nested family
+	 * 
+	 * @param _iConf  int pointer to Effect
+	 * @param sSibs probes of Facet
+	 * @return String containing a nested family.
+	 */
 	private String sTree (int _iConf, String sSibs) {
 		if (sSibs.length() == 0)
 			return null;
@@ -881,18 +1056,40 @@ public class SampleSizeTree {
 			sReturn += ":" + s; 
 		return sReturn;
 	}
+	
+	/**
+	 * utility converts Factor string array lists to string arrays
+	 */
 	public void consolidateSplits() {
 		sarFactors = salFactors.toArray(new String[0][]);
 	}
 	
+	/**
+	 * getter of position of a Factor in Factor string array list.
+	 * 
+	 * @param sFactor  String representation of <code>Factor</code>
+	 * @return int position
+	 */
 	public int getFactorConf(String sFactor) {
 		return salConfigurations.indexOf(sFactor);
 	}
 	
+	/**
+	 * getter of current state in 'Effect'.
+	 * 
+	 * @param iConf  pointer to 'Effect'
+	 * @return int  current state of 'Effect', less than <code>iarDepth</code>
+	 */
 	public int getCount (int iConf) {
 		return iarCounts[iConf];
 	}
 	
+	/**
+	 * getter of maximal state count of 'Effect' as product of <code>Factor</code>s.
+	 * 
+	 * @param iConf  int pointer to 'Effect'
+	 * @return int  maximal number of states for an 'Effect', when  Facet indices go through all combinations.
+	 */
 	public int getSize (int iConf) {
 		int iSize = 1;
 		Factor factor = null;
@@ -904,32 +1101,64 @@ public class SampleSizeTree {
 		return iSize;
 	}
 	
+	/**
+	 * getter of index offset in nested Facets resulting from the 'Nestor's' index.
+	 * 
+	 * @param cFacet Facet designation char
+	 * @param iPointer  index of 'Nestor'
+	 * @return sum of sample sizes less than iPointer
+	 */
 	public int getOffset(char cFacet, int iPointer) {
 		int iF = sDictionary.indexOf(cFacet);
 		int iOffset = iarOffsets[iF][iPointer];
 		return iOffset;
 	}
 	
+	/**
+	 * getter of Facet dictionary in original order
+	 * 
+	 * @return sDictionary  String
+	 *
+	 */
 	public String getDictionary() {
 		return sDictionary;
 	}
 	
-	public int getDim(char c) {
-		int iF = sDictionary.indexOf(c);
+	/**
+	 * total number of states per Facet (Analysis)
+	 * 
+	 * @param _c  Facet designation char
+	 * @return  total number of states
+	 */
+	public int getDim(char _c) {
+		int iF = sDictionary.indexOf(_c);
 		int L = iarOffsets[iF].length;
 		return iarOffsets[iF][L - 1];
 	}
 	
-	private Boolean compare(int[] array1, int[] array2) {
-		int L = array1.length;
-		if (L != array2.length)
+	/**
+	 * compares 2 int arrays for identity.
+	 * 
+	 * @param _iArray1  generic int array
+	 * @param _iArray2  generic int array
+	 * @return true  if identical, false otherwise
+	 */
+	private Boolean compare(int[] _iArray1, int[] _iArray2) {
+		int L = _iArray1.length;
+		if (L != _iArray2.length)
 			return false;
 		for (int i = 0; i < L; i++)
-			if (array1[i] != array2[i])
+			if (_iArray1[i] != _iArray2[i])
 				return false;
 		return true;
 	}
 	
+	/**
+	 * getter for array of hierarchic Facet order by 'Effect' pointer
+	 * 
+	 * @param iConf  int pointer to 'Effect'
+	 * @return int array of hierarchic Facet order
+	 */
 	private int[] getIndexSet( int iConf) {
 		char[] carConKey = conKeySet[iConf];
 		int[] iReturn = new int[carConKey.length];
@@ -939,6 +1168,12 @@ public class SampleSizeTree {
 		return iReturn;
 	}
 	
+	/**
+	 * getter of <code>iarDepth</code> by "Effect' pointer.
+	 * 
+	 * @param _iC  pointer to 'Effect' (Configuration)
+	 * @return int  maximal number of states per 'Effect'
+	 */
 	public int getDepth(int _iC) {
 		return iarDepths[_iC];
 	}

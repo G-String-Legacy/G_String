@@ -488,13 +488,16 @@ public class AnaGroups {
 		return content;
 	}
 
+	/**
+	 * generates bound GUI sub form to specify each specific facet.
+	 * iFacetID provides an index for the specific facet.
+	 * It is used in both 'mainSubjectGroup' (x 1), and 'subjectsGroup' (x1 to many).
+	 * 
+	 * @param sCue  header string
+	 * @param iFacetID original order of new Facet
+	 * @return <code>Group</code> essentially the sub -'Scene' for Facet details entry to be sent to the GUI
+	 */
 	private Group facetSubForm(String sCue, Integer iFacetID) {
-		/*
-		 * generates bound GUI sub form to specify each specific facet.
-		 * iFacetID provides an index for the specific facet.
-		 * It is used in both 'mainSubjectGroup' (x 1), and 'subjectsGroup' (x1 to many).
-		 */
-		
 		Facet currentFacet = myNest.getNewFacet();
 		Boolean isNested = false;
 		Group facetGroup = new Group();
@@ -563,13 +566,14 @@ public class AnaGroups {
 		return facetGroup;
 	}
 
+	/**
+	 * Generates subform for spinner to enter number of
+	 * additional facets.
+	 * Is used once in 'subjectsGroup'.
+	 * 
+	 * @return <code>Group</code> essentially the 'Scene' for facet count spinner entry to be sent to the GUI
+	 */
 	private Group facetCountSubForm() {
-		/**
-		 * Generates subform for spinner to enter number of
-		 * additional facets.
-		 * Is used once in 'subjectsGroup'.
-		 */
-		
 		Group fc = new Group();
 		HBox hb = new HBox(50);
 		hb.setLayoutY(50);
@@ -596,11 +600,13 @@ public class AnaGroups {
 		return fc;
 	}
 
+	/**
+	 * Generates the subform for the header line in all subject forms.
+	 * 
+	 * @param _sColumnHeader
+	 * @return <code>Group</code> essentially the 'Scene' for facet form header entry to be sent to the GUI
+	 */
 	private Group headerSubForm(String _sColumnHeader) {
-		/**
-		 * Generates the subform for the header line in all subject forms.
-		 */
-		
 		Group header = new Group();
 		HBox hb = new HBox(30);
 		VBox vb = new VBox();
@@ -836,14 +842,6 @@ public class AnaGroups {
 	 * @return <code>Group</code> essentially the 'Scene' for Facet nesting entry to be sent to the GUI
 	 */
 	private Group setNestingGroup() {
-		/*
-		 * Step 6 arranges nesting details, again using 'drag and drop'.
-		 * But while in step 5 items were moved within the same list, in
-		 * step 6 items are moved from the list on the left (nested facets) 
-		 * to the list on the right (crossed effects). 
-		 * However, the basic mechanism stays the same.
-		 */
-
 		String dataFormat = "-fx-font-size: 1.5em ;";
 		nestedData.clear();
 		nestedData.addAll(filteredFacetList(true));
@@ -1045,16 +1043,18 @@ public class AnaGroups {
 		return group;
 	}
 
+	/**
+	 * An 'ObservableList' is a Javafx construct that enables listeners 
+	 * to track changes in the list, when they occur. A ListChangeListener is 
+	 * an interface that receives notifications of changes to an ObservableList.
+	 * This construct is used in the method 'setNestingGroup' for both the list 
+	 * of crossed and nested facets. That makes the visual arranging
+	 * of facet nesting possible.
+	 * 
+	 * @param isNested  boolean flag sets filter
+	 * @return ObservableList of nested vs crossed facets
+	 */
 	private ObservableList<String> filteredFacetList(Boolean isNested) {
-		/**
-		 * An 'ObservableList' is a Javafx construct that enables listeners 
-		 * to track changes in the list, when they occur. A ListChangeListener is 
-		 * an interface that receives notifications of changes to an ObservableList.
-		 * This construct is used in the method 'setNestingGroup' for both the list 
-		 * of crossed and nested facets. That makes the visual arranging
-		 * of facet nesting possible.
-		 */
-		
 		Integer iMax = 0;
 		String sTemp = null;
 		if (myNest.getDoOver())
@@ -1082,7 +1082,7 @@ public class AnaGroups {
 	}
 
 	/**
- 	 *	Prompts for the data file; if no valid file is selected,
+ 	 * Prompts for the data file; if no valid file is selected,
 	 * an error message pops up, and the program will exit. 
 	 * 
 	 * @return <code>Group</code> essentially the 'Scene' for data file selection entry to be sent to the GUI
@@ -1104,12 +1104,13 @@ public class AnaGroups {
 		}
 	}
 
+	/**
+	 * Saves the nested list to the 'Nest' repository, and returns it for further use
+	 * in AnaGroups as a formal tree structure.
+	 * 
+	 * @param _crossed
+	 */
 	private void saveNested(ObservableList<String> _crossed) {
-		/**
-		 * Saves the nested list to the 'Nest' repository, and returns it for further use
-		 * in AnaGroups as a formal tree structure.
-		 */
-		
 		String[] sNests = null;
 		ArrayList<String> sarNests = new ArrayList<String>();
 		Integer iLength = _crossed.size();
@@ -1217,7 +1218,7 @@ public class AnaGroups {
 			popup.tell("runBrennan_d", e);
 		}
 		
-		/**
+		/*
 		 * ...... urGenova has finished.
 		 * The program now reads the urGenova output file and formats it into stringBuilder
 		 * 'sbResult'.
@@ -1353,6 +1354,12 @@ public class AnaGroups {
 		return group;
 	}
 
+	/**
+	 * thread utility for javafx
+	 * 
+	 * @see <a href="https://docs.oracle.com/javase/8/javafx/api/index.html?javafx/application/Platform.html">JavaFX platform</a>
+	 * @param node  javafx generic scene graph
+	 */
 	private void repeatFocus(Node node) {
 		Platform.runLater(() -> {
 			if (!node.isFocused()) {
@@ -1362,6 +1369,11 @@ public class AnaGroups {
 		});
 	}
 
+	/**
+	 * special formatting request for Double in text
+	 * @param _d Double value
+	 * @return formatted string
+	 */
 	private String formatDouble(Double _d) {
 		if (_d % 1.0 != 0)
 			return String.format("%.2f", _d);
@@ -1370,6 +1382,10 @@ public class AnaGroups {
 			return String.format("%.0f", _d);
 	}
 
+	/**
+	 * in response to menu item 'Start Over'
+	 * resets essential variables for new start.
+	 */
 	public void reset() {
 		nestedData.clear();
 		crossedData.clear();
@@ -1377,12 +1393,11 @@ public class AnaGroups {
 		sHDictionary = null;
 	}
 
+	/**
+	 * Checks if a working directory has been specified previously,
+	 * and the operating system specific urGENOVA code has been installed.
+	 */
 	private void testSetup() {
-		/**
-		 * Checks if a working directory has been specified previously,
-		 * and the operating system specific urGENOVA code has been installed.
-		 */
-		
 		String sWorkingDirectory = prefs.get("Working Directory", null);
 		String sOS_Full = System.getProperty("os.name");
 		String sUrGenova = null;
@@ -1397,12 +1412,13 @@ public class AnaGroups {
 		}
 	}
 
+	/**
+	 * In response to GUI saves all the analysis results in a text file
+	 * according to user's instructions.
+	 * 
+	 * @throws IOException  problem in file i/o
+	 */
 	public void saveAll() throws IOException {
-		/**
-		 * In response to GUI saves all the analysis results in a text file
-		 * according to user's instructions.
-		 */
-		
 		OutputStream outputStream = null;
 		OutputStreamWriter outputStreamWriter = null;
 		File outFile = flr.getFile(false, "Save Analysis Results");

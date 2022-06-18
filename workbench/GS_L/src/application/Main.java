@@ -277,7 +277,6 @@ public class Main extends Application {
 			 * Otherwise we got for synthesis
 			 */
 			controller.setStep(iStep);
-			mySynthSteps.setDownStep(false);
 			if (!bDawdle)
 				// only if all variance components have been selected
 				myNest.incrementSteps();

@@ -69,42 +69,153 @@ public class SynthGroups {
 	private rootLayoutController myController;
 	
 	/**
-	 * 
+	 * stores graphical data
 	 */
 	private String customBorder;
+	
+	/**
+	 * graphical element for displaying crossed facet designations
+	 */
 	private static ListView<String> lvCrossed = null;
+	
+	/**
+	 * graphical element for displaying nested facet designations
+	 */
 	private static ListView<String> lvNested = null;
+	
+	/**
+	 * graphical element for displaying all facet designations
+	 */
 	private static ListView<String> lvFacets = null;
+	
+	/**
+	 * A list that allows listeners to track changes of nested Data when they occur.
+	 */
 	private ObservableList<String> nestedData = null;
+	
+	/**
+	 * A list that allows listeners to track changes of crossed Data when they occur.
+	 */
 	private ObservableList<String> crossedData = null;
-	private Boolean bAutoindex = false;
+	
+	/**
+	 * lower limit for list (drag and drop)
+	 */
 	private Integer iFrom = null;
+	
+	/**
+	 * upper limit for list (drag and drop)
+	 */
 	private Integer iTo = null;
+	
+	/**
+	 * current step in workflow
+	 */
 	private Integer iStep = 0;
+	
+	/**
+	 * Facet designation char for starred Facet
+	 */
 	private char cStarred;
+	
+	/**
+	 * integer location of element in list
+	 */
 	private Integer iPointer = null;
+	
+	/**
+	 * <code>Nest</code> parameter repository defining whole assessment
+	 */
 	private Nest myNest = null;
+	
+	/**
+	 * <code>SampleSizeTree</code> sample size repository for facets and nesting
+	 */
 	private SampleSizeTree myTree = null;
+	
+	/**
+	 * storage for previous element in series
+	 */
 	private Facet oldFacet = null;
+	
+	/**
+	 * sample size intermediary result
+	 */
 	private Integer iSample = 0;
+	
+	/**
+	 * string containing all Facet designation chars in original order
+	 */
 	private String sDictionary = null;
+	
+	/**
+	 * string containing all Facet designation chars in hierarchical order
+	 */
 	private String sHDictionary = null;
+	
+	/**
+	 * pointer to <code>Filer</code>
+	 */
 	private Filer flr = null;
+	
+	/**
+	 * descriptor of text display style
+	 */
 	private String sStyle_20 = null;
+	
+	/**
+	 * descriptor of text display style
+	 */
 	private String sStyle_18 = null;
+	
+	/**
+	 * descriptor of text display style
+	 */
 	private String sStyle_14 = null;
+	
+	/**
+	 * pointer to <code>Preferences</code>
+	 */
 	private Preferences prefs = null;
-	private String sOutputPath2 = null;
-	private TextArea taOutput = null;
-	private Boolean bDownStep = false;
+	
+	/**
+	 * Boolean array to checkk completeness of required variance entry steps.
+	 */
 	private Boolean[] VarianceDadleCheck = null;
+	
+	/**
+	 * pointer to <code>constructSimulation</code>
+	 */
 	private constructSimulation CS = null;
+	
+	/**
+	 * text multi-purpose text field
+	 */
 	private String sText = null;
-	private String sInitial = null;
+	
+	/**
+	 * counter of concurrent scenes
+	 */
 	private Integer iTFonPage = 0;
+	
+	/**
+	 * counting low threshold cutoffs
+	 */
 	private Integer iMinCut = 0;
+	
+	/**
+	 * counting high threshold cutoffs
+	 */
 	private Integer iMaxCut = 0;
+	
+	/**
+	 *  counting remaining scores
+	 */
 	private Integer iNoCut = 0;
+	
+	/**
+	 * pointer to <code>Popup</code>
+	 */
 	private Popup popup = null;
 
 	/**
@@ -136,7 +247,7 @@ public class SynthGroups {
 		if (myNest.getDoOver()) {
 			File selectedFile = flr.getFile(true, "Select Control File");
 			if (selectedFile != null) {
-				sInitial = selectedFile.getParent();
+				String sInitial = selectedFile.getParent();
 				prefs.put("Home Directory", sInitial);
 				String sFileName = selectedFile.getName();
 				prefs.put("Control", sFileName);
@@ -145,8 +256,25 @@ public class SynthGroups {
 		}
 	}
 
+	/**
+	 * This method uses the java 'switch/case' construct to
+	 * make sure that it constructs the correct scene for a given step,
+	 * based on the data entered previously. This scene is then 
+	 * handed back to 'main' that passes it to the GUI.
+	 * The 'popup' call at each step collects ongoing status
+	 * information, that can be optionally fed to a log file
+	 * for diagnostic use.
+	 * At each step 'getGroup' returns a JavaFX Group object, constructed
+	 * as result of the the cumulative information entered. The 'Group'
+	 * goes to 'Main', where it is packaged into a JavaFX 'Scene',
+	 * which is then handed to the 'rootLayoutController'.
+	 * Some steps can generate their 'Group' directly, others
+	 * need the assistance of further methods contained in this package
+	 * 
+	 * @return <code>Group</code> essentially the 'Scene' to be sent to the GUI
+	 * @throws Throwable
+	 */
 	public Group getGroup() throws Throwable {
-		// returns the display group to steppers in main
 		checkVarianceDawdle();
 		iStep = myNest.getStep();
 		if (iStep == 0)
@@ -190,11 +318,18 @@ public class SynthGroups {
 		}
 	}
 
-	/*
-	 * Step 2: Specifies comments to describe the project
+	/**
+	 * Prompts for comments to describe the project. These comments
+	 * form the leading lines of the 'COMMENT' section in the control file.
+	 * These lines appear in the control file with the header 'COMMENT '.
+	 * G_String then adds the facet names and their 1 char designations
+	 * in the original facet order. These lines appear in the control file
+	 * with the header 'COMMENT*'.
+	 * 
+	 * @return <code>Group</code> essentially the 'Scene' for comment entry to be sent to the GUI
+	 * @throws IOException
 	 */
-	private Group addComments() throws IOException {
-		
+	private Group addComments() throws IOException {		
 		Group group = new Group();
 		VBox vb = new VBox(20);
 		Label lb = new Label("Edit or add comment describing details of this analysis.");
@@ -209,7 +344,7 @@ public class SynthGroups {
 		ta.setMinHeight(300.0);
 		ta.setFont(Font.font("Monospaced", 14));
 		ta.setPromptText("Comments on the project.");
-		if (myNest.getDoOver() || bDownStep) {
+		if (myNest.getDoOver()) {
 			for (String s : myNest.getComments())
 				ta.appendText(s + "\n");
 		}
@@ -223,10 +358,14 @@ public class SynthGroups {
 		return group;
 	}
 
+	/**
+	 *  Prompts for the main subject facet name, designation, and a choice
+	 *  between crossed and nested status. This method uses one 'facetSubForm' and one 
+	 * 'facetCountSubForm'.
+	 *
+	 *  @return  <code>Group</code> essentially the 'Scene' for main Facet entry to be sent to the GUI
+	 */
 	private Group mainSubjectGroup() {
-		/*
-		 * Step 3: Specifies the main subject facet and number of facets
-		 */
 		Group content = new Group();
 		VBox vb = new VBox(20);
 		// vb.setPrefHeight(600);
@@ -242,8 +381,12 @@ public class SynthGroups {
 		return content;
 	}
 
-	/*
-	 * Step 4: Specifies the features of each additional facet
+	/**
+	 * Prompts for the features of each additional facet,
+	 * again in original facet order. This method uses as many facetSubForms
+	 * as necessary.
+	 * 
+	 * @return <code>Group</code> essentially the 'Scene' for other Facets entry to be sent to the GUI
 	 */
 	private Group subjectsGroup() {
 		Group content = new Group();
@@ -260,10 +403,14 @@ public class SynthGroups {
 		return content;
 	}
 
-	/*
-	 * generates bound GUI addition to specify one specific facet. -
-	 * iFacetID provides an index for the specific facet. - bAutoIndex makes
-	 * the column selector field visible (true)
+	/**
+	 * generates bound GUI sub form to specify each specific facet.
+	 * iFacetID provides an index for the specific facet.
+	 * It is used in both 'mainSubjectGroup' (x 1), and 'subjectsGroup' (x1 to many).
+	 * 
+	 * @param sCue  header string
+	 * @param iFacetID original order of new Facet
+	 * @return <code>Group</code> essentially the sub -'Scene' for Facet details entry to be sent to the GUI
 	 */
 	private Group facetGroup(String sCue, Integer iFacetID) {
 		Facet currentFacet = myNest.getNewFacet();
@@ -273,7 +420,7 @@ public class SynthGroups {
 		layout.setStyle("-fx-padding: 10;-fx-border-color: silver;-fx-border-width: 1;");
 		String sFacet = "";
 		char cFacet = ' ';
-		if (myNest.getDoOver() || bDownStep) {
+		if (myNest.getDoOver()) {
 			oldFacet = myNest.getFacet(iFacetID);
 			sFacet = oldFacet.getName();
 			cFacet = oldFacet.getDesignation();
@@ -331,12 +478,17 @@ public class SynthGroups {
 		layout.getChildren().add(butCrossed);
 		layout.getChildren().add(butNested);
 		layout.getChildren().add(lbSpacer2);
-		if (bAutoindex)
-			layout.getChildren().add(colSelect);
 		facetGroup.getChildren().add(layout);
 		return facetGroup;
 	}
 
+	/**
+	 * Generates subform for spinner to enter number of
+	 * additional facets.
+	 * Is used once in 'subjectsGroup'.
+	 * 
+	 * @return <code>Group</code> essentially the 'Scene' for facet count spinner entry to be sent to the GUI
+	 */
 	private Group facetCountGroup() {
 		Group fc = new Group();
 		HBox hb = new HBox(50);
@@ -346,7 +498,7 @@ public class SynthGroups {
 		lFc.setFont(Font.font("ARIAL", 20));
 		Integer facCount = myNest.getFacetCount();
 		final Spinner<Integer> facetCount = new Spinner<Integer>();
-		if (!myNest.getDoOver() && !bDownStep)
+		if (!myNest.getDoOver())
 			myNest.setFacetCount(2);
 		SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 10,
 				facCount - 1, 1);
@@ -364,6 +516,12 @@ public class SynthGroups {
 		return fc;
 	}
 
+	/**
+	 * Generates the subform for the header line in all subject forms.
+	 * 
+	 * @param _sColumnHeader
+	 * @return <code>Group</code> essentially the 'Scene' for facet form header entry to be sent to the GUI
+	 */
 	private Group headerGroup(String _sColumnHeader) {
 		Group header = new Group();
 		HBox hb = new HBox(30);
@@ -389,14 +547,26 @@ public class SynthGroups {
 		hb2.getChildren().add(lbNested);
 		vb.getChildren().add(hb2);
 		hb.getChildren().add(vb);
-		if (bAutoindex)
-			hb.getChildren().add(lbIndex);
 		header.getChildren().add(hb);
 		return header;
 	}
 
-	/*
-	 * Step 5 Group to set facet order and line change position.
+	/**
+	 * to set facet order and line change position.
+	 * This group uses another standard javafx construct that we will use again:
+	 * 'Grab and Drop'. A visual item can be 'grabbed' by clicking with the mouse
+	 * button on it. The item then follows the mouse movement, and is then 
+	 * finally dropped, where the mouse button is released.
+	 * see e.g. http://tutorials.jenkov.com/javafx/drag-and-drop.html
+	 * In this, and the following group, items are moved from one cell in a list
+	 * to another.
+	 * Based on the new facet order, G_String creates a new dictionary 'sHdictionary',
+	 * which lists the facet characters in hierarchical order, in contrast to 'sDictionary',
+	 * which lists the facets in the original order, as they have been entered.
+	 * The distinction is important for GS. The original order helps calling up facet
+	 * properties, while the hierachical order is used for the algorithmic sequences!
+	 *
+	 * @return <code>Group</code> essentially the 'Scene' for Facets order entry to be sent to the GUI
 	 */
 	private Group orderFacets() {
 		myNest.createDictionary();
@@ -573,12 +743,16 @@ public class SynthGroups {
 		return returnGroup;
 	}
 
-	/*
-	 * Step 6 arranges nesting details
+	/**
+	 * arranges nesting details, again using 'drag and drop'.
+	 * But while in step 5 items were moved within the same list, in
+	 * step 6 items are moved from the list on the left (nested facets) 
+	 * to the list on the right (crossed effects). 
+	 * However, the basic mechanism stays the same.
+	 * 
+	 * @return <code>Group</code> essentially the 'Scene' for Facet nesting entry to be sent to the GUI
 	 */
 	private Group setNestingGroup() {
-		if (bDownStep)
-			myNest.setNests(null);
 		String dataFormat = "-fx-font-size: 1.5em ;";
 		nestedData.clear();
 		nestedData.addAll(filteredFacetList(true));
@@ -773,12 +947,17 @@ public class SynthGroups {
 		saveNested(crossedData);
 		return group;
 	}
-
-	/*
+	
+	/**
 	 * generates bound GUI addition to specify one specific name - value
 	 * pair and deposits the integer value in a designated target location.
 	 * sType has to be either "Integer" or "Double". The result of
 	 * appropriate type, however, is passed as a string to myNest.
+	 * 
+	 * @param _sType variable type as String
+	 * @param _sName variable name as String
+	 * @param _sTarget name as String, where variable is to be stored
+	 * @return JavaFX graph element to be used in GUI form
 	 */
 	private Group simpleVariableGroup(String _sType, String _sName, String _sTarget) {
 		Group simpleGroup = new Group();
@@ -818,12 +997,18 @@ public class SynthGroups {
 		simpleGroup.getChildren().add(layout);
 		return simpleGroup;
 	}
-
-	/*
+	
+	/**
 	 * generates bound GUI addition to specify one specific name - value
 	 * pair and deposits the integer value in a designated target location.
 	 * sType has to be either "Integer" or "Double". The result of
 	 * appropriate type, however, is passed as a string to myNest.
+	 * 
+	 * @param _sType  variable type as String
+	 * @param _sName  variable name as string
+	 * @param _sTarget  name as String, where variable is to be stored
+	 * @param sValue  variable value as String
+	 * @return  JavaFX graph element to be used in GUI form
 	 */
 	private Group simpleVariableGroup(String _sType, String _sName, String _sTarget, String sValue) {
 		Group simpleGroup = new Group();
@@ -896,7 +1081,7 @@ public class SynthGroups {
 		lbVar.setTranslateX(140.0);
 		hTitles.getChildren().addAll(lbDesig, lbLevel, lbVar);
 		vb.getChildren().add(hTitles);
-		/**
+		/*
 		 * Next we have to construct all allowed configurations
 		 * ('Effects' in Brennan's terminology). The total number
 		 * of these configurations ('iComps') provides the number
@@ -904,7 +1089,7 @@ public class SynthGroups {
 		 */
 		CompConstrct cc = new CompConstrct(myNest);
 		int iComps = cc.getComp();
-		/**
+		/*
 		 * 'Dawdles' are booleans that represent, whether all the necessary components
 		 * of an array have been collected, or whether the collection process
 		 * has to go on.
@@ -943,7 +1128,7 @@ public class SynthGroups {
 	 * @param iPos  Integer
 	 * @return Group  vcGroup
 	 */
-	private Group vcGroup(Integer iPos) {		
+	private Group vcGroup(Integer iPos) {
 		Group group = new Group();
 		String sVC = "";
 		if (myNest.getDoOver())
@@ -1048,7 +1233,7 @@ public class SynthGroups {
 	private ObservableList<String> filteredFacetList(Boolean isNested) {		
 		Integer iMax = 0;
 		String sTemp = null;
-		if (myNest.getDoOver() && !bDownStep)
+		if (myNest.getDoOver())
 			if (!isNested)
 				return myNest.getNests();
 			else
@@ -1072,6 +1257,12 @@ public class SynthGroups {
 		}
 	}
 
+	/**
+	 * Saves the nested list to the 'Nest' repository, and returns it for further use
+	 * in AnaGroups as a formal tree structure.
+	 * 
+	 * @param _crossed
+	 */
 	private void saveNested(ObservableList<String> _crossed) {
 		String[] sNests = null;
 		ArrayList<String> sarNests = new ArrayList<String>();
@@ -1086,6 +1277,14 @@ public class SynthGroups {
 		myTree = myNest.getTree(); // to be available for the next step
 	}
 
+	/**
+	 * G_String cycles through 'setSampleSize' until all the sample sizes
+	 * for all facets (in hierarchical order) have been collected, when the variable 'bDawdle'
+	 * turns to 'false'. The actual form is constructed as 'getPage' within 'SampleSizeTree',
+	 * where the sample sizes are being stored as well.
+	 * 
+	 * @return <code>Group</code> essentially the 'Scene' for setting sample sizes entry to be sent to the GUI
+	 */
 	public Group setSampleSize() {
 		Group group = new Group();
 		// construct samples page
@@ -1094,8 +1293,10 @@ public class SynthGroups {
 		return group;
 	}
 
-	/*
-	 * Step 6: Specifies score limits and mean
+	/**
+	 * Collects lower and upper score cutoff and targeted mean score
+	 * 
+	 * @return <code>Group</code> essentially the 'Scene' for score range entry to be sent to the GUI
 	 */
 	private Group baseScaleGroup() {
 		Group content = new Group();
@@ -1125,6 +1326,12 @@ public class SynthGroups {
 		return content;
 	}
 
+	/**
+	 * thread utility for javafx
+	 * 
+	 * @see <a href="https://docs.oracle.com/javase/8/javafx/api/index.html?javafx/application/Platform.html">JavaFX platform</a>
+	 * @param node  javafx generic scene graph
+	 */
 	private void repeatFocus(TextField facetName) {
 		if (iTFonPage < 1)
 			Platform.runLater(() -> {
@@ -1135,6 +1342,10 @@ public class SynthGroups {
 			});
 	}
 
+	/**
+	 * in response to menu item 'Start Over'
+	 * resets essential variables for new start.
+	 */
 	public void reset() {
 		nestedData.clear();
 		crossedData.clear();
@@ -1142,20 +1353,9 @@ public class SynthGroups {
 		sHDictionary = null;
 	}
 
-	public void saveAll() {
-		if ((sOutputPath2 != null) && (taOutput != null)) {
-			File outFile = new File(sOutputPath2);
-			if (outFile != null) {
-				String filePath = outFile.getAbsolutePath();
-				try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(filePath))) {
-					writer.write(taOutput.getText());
-				} catch (IOException e) {
-					popup.tell("saveAll_a", e);
-				}
-			}
-		}
-	}
-
+	/**
+	 * reads existing script
+	 */
 	private void readOld() {
 		String sInitial = prefs.get("Home Directory", File.separator);
 
@@ -1171,6 +1371,9 @@ public class SynthGroups {
 		}
 	}
 
+	/**
+	 * checks if all required variances have been entered.
+	 */
 	private void checkVarianceDawdle() {
 		if (VarianceDadleCheck != null) {
 			Boolean bTotal = true;
@@ -1286,10 +1489,4 @@ public class SynthGroups {
 			}
 		});
 	}
-	
-	public void setDownStep(Boolean _b) {
-		bDownStep = _b;
-	}
-	
-
 }

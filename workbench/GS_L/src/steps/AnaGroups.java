@@ -66,6 +66,10 @@ import javafx.util.Callback;
  * via keyboard and mouse, or they can pick the 'do-over' mode, where the program
  * reads a control file (script), prepared in a previous analysis run, and the user just has 
  * to enter changes.
+ * 
+ * @see <a href="https://github.com/G-String-Legacy/G_String/blob/main/workbench/GS_L/src/steps/AnaGroups.java">steps.AnaGroups</a>
+ * @author ralph
+ * @version %v..% 
  */
 public class AnaGroups {
 
@@ -252,7 +256,7 @@ public class AnaGroups {
 	 * need the assistance of further methods contained in this package
 	 * 
 	 * @return <code>Group</code> essentially the 'Scene' to be sent to the GUI
-	 * @throws Throwable
+	 * @throws Throwable IOException
 	 */
 	public Group getGroup() throws Throwable {
 		Integer iStep = myNest.getStep();

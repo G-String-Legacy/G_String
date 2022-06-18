@@ -22,7 +22,8 @@ import javafx.scene.layout.VBox;
  * incrementing indices (stepping), and calculation of of range for each 
  * configuration ('Effect').
  * 
- * @author Ralph Bloch
+ * @see <a href="https://github.com/G-String-Legacy/G_String/blob/main/workbench/GS_L/src/model/SampleSizeTree.java">model.SampleSizeTree</a>
+ * @author ralph
  * @version %v..%
  */
 public class SampleSizeTree {

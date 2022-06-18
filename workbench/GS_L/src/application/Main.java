@@ -49,6 +49,7 @@ import javafx.scene.layout.VBox;
  * Main also steers the operations according to menu selections to the actual work routines.
  * All traffic between the UID (rootLayout) and the working code is funneled through the 'Main' class.
  * 
+ * @see <a href="https://github.com/G-String-Legacy/G_String/blob/main/workbench/GS_L/src/application/Main.java">application.Main</a>
  * @author Ralph Bloch
  * @version %v..%
  */

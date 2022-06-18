@@ -1,12 +1,9 @@
 package steps;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.prefs.Preferences;
 import model.Facet;
@@ -58,9 +55,10 @@ import javafx.util.Callback;
  * via keyboard and mouse, or they can pick the 'do-over' mode, where the program
  * reads a control file, prepared in a previous synthesis run.  The user just has to enter changes.
  * 
-  * @author Ralph Bloch
+ * @see <a href="https://github.com/G-String-Legacy/G_String/blob/main/workbench/GS_L/src/steps/SynthGroups.java">steps.SynthGroup</a>
+ * @author ralph
  * @version %v..%
-*/
+ * */
 public class SynthGroups {
 	
 	/**
@@ -272,7 +270,7 @@ public class SynthGroups {
 	 * need the assistance of further methods contained in this package
 	 * 
 	 * @return <code>Group</code> essentially the 'Scene' to be sent to the GUI
-	 * @throws Throwable
+	 * @throws Throwable  IOException
 	 */
 	public Group getGroup() throws Throwable {
 		checkVarianceDawdle();
@@ -471,7 +469,6 @@ public class SynthGroups {
 				currentFacet.setNested(newToggle);
 			}
 		});
-		Spinner<Integer> colSelect = null;
 		layout.getChildren().add(facetName);
 		layout.getChildren().add(facetChar);
 		layout.getChildren().add(lbSpacer);

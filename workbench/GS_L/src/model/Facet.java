@@ -1,11 +1,14 @@
 package model;
 
-/*
+/**
  *  the class 'Facet' encapsulates the various parameters for each facet;
  *  as well as the various methods required
+ * 
+ * @see <a href="https://github.com/G-String-Legacy/G_String/blob/main/workbench/GS_L/src/model/Facet.java">model.Facet</a>
+ * @author ralph
+ * @version %v..%
  */
 public class Facet {
-
 	/**
 	 * <code>sName</code> descriptive Name of facet.
 	 */

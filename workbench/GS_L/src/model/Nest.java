@@ -17,9 +17,10 @@ import utilities.VarianceComponent;
  * Encapsulates the major parameters of the assessment design, and the central variables required for analysis.
  * <code>Nest</code> is used in most other classes as common repository to access central variables and parameters.
  * 
- * @author Ralph Bloch
+ * @see <a href="https://github.com/G-String-Legacy/G_String/blob/main/workbench/GS_L/src/model/Nest.java">model.Nest</a>
+ * @author ralph
  * @version %v..%
-*/
+ * */
 public class Nest {
 	
 	/**

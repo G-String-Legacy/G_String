@@ -178,7 +178,7 @@ public class Main extends Application {
 		FileHandler fh = null;							// just for initialization
 		try {
 			fh = new FileHandler(sLogPath, true);		// log handler, creates append logs, rather than new ones
-		} catch (SecurityException | IOException e1) {
+		} catch (IOException e1) {
 			e1.printStackTrace(); 						// emergency exit
 		}
 		//String sLogLevel = prefs.get("Default Log", "Warning");		// sets log level to preferred
@@ -252,7 +252,7 @@ public class Main extends Application {
 			myNest.incrementSteps();
 			controller.setStep(iStep);
 			try {
-				group = mySteps.getGroup(false);
+				group = mySteps.getGroup();
 			} catch (Throwable e) {
 				popup.tell("stepUp_a", e);
 			}
@@ -282,7 +282,7 @@ public class Main extends Application {
 				// only if all variance components have been selected
 				myNest.incrementSteps();
 			try {
-				group = mySynthSteps.getGroup(false);
+				group = mySynthSteps.getGroup();
 			} catch (Throwable e) {
 				popup.tell("stepUp_b", e);
 			}
@@ -466,7 +466,7 @@ public class Main extends Application {
 	 */
 	public void SetLogLevel() {
 		
-		List<Level> choices = new ArrayList<>();
+		List<Level> choices = new ArrayList<Level>();
 		choices.add(Level.OFF);
 		choices.add(Level.SEVERE);
 		choices.add(Level.WARNING);
@@ -477,7 +477,7 @@ public class Main extends Application {
 		choices.add(Level.ALL);
 		String sInitialLevel = prefs.get("Default Log", "OFF").toUpperCase();
 		Level lDefault = Level.parse(sInitialLevel);
-		ChoiceDialog<Level> dialog = new ChoiceDialog<>(lDefault, choices);
+		ChoiceDialog<Level> dialog = new ChoiceDialog<Level>(lDefault, choices);
 		dialog.setTitle("Choice Dialog");
 		dialog.setHeaderText("Pick your Log Level");
 		DialogPane dp = dialog.getDialogPane();

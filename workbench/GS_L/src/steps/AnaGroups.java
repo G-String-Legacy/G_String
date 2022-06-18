@@ -53,52 +53,168 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
+/**
+ * Manages G-Analysis by taking the user step-by-step
+ * through the whole procedure from entering the project title to
+ * performing an arbitrary number of D-Studies. Altogether there are 10 steps,
+ * and proceeding to the next step is only possible after 'grammatically'
+ * correct input. Obviously, users can still enter parameters that do not correspond to
+ * their actual study. At each step a context specific help screen is available.
+ * As result of the user responses at a given step, the entered data are stored, and the GUI
+ * scene for the next step is generated, and handed via 'main' back to the GUI.
+ * Users can step through the analysis either manually, by entering the design information
+ * via keyboard and mouse, or they can pick the 'do-over' mode, where the program
+ * reads a control file (script), prepared in a previous analysis run, and the user just has 
+ * to enter changes.
+ */
 public class AnaGroups {
 
+	/**
+	 * JavaFX class managing GUI
+	 */
 	private rootLayoutController myController;
+	
+	/**
+	 * stores graphical data
+	 */
 	private String customBorder;
+	
+	/**
+	 * graphical element for displaying crossed facet designations
+	 */
 	private static ListView<String> lvCrossed = null;
+	
+	/**
+	 * graphical element for displaying nested facet designations
+	 */
 	private static ListView<String> lvNested = null;
+	
+	/**
+	 * graphical element for displaying all facet designations
+	 */
 	private static ListView<String> lvFacets = null;
+	
+	/**
+	 * A list that allows listeners to track changes of nested Data when they occur.
+	 */
 	private ObservableList<String> nestedData;
+	
+	/**
+	 * A list that allows listeners to track changes of crossed Data when they occur.
+	 */
 	private ObservableList<String> crossedData;
+	
+	/**
+	 * lower limit for list (drag and drop)
+	 */
 	private Integer iFrom;
+	
+	/**
+	 * upper limit for list (drag and drop)
+	 */
 	private Integer iTo;
+	
+	/**
+	 * Facet designation char for starred Facet
+	 */
 	private char cStarred;
+	
+	/**
+	 * integer location of element in list
+	 */
 	private Integer iPointer;
+	
+	/**
+	 * <code>Nest</code> parameter repository defining whole assessment
+	 */
 	private Nest myNest;
+	
+	/**
+	 * <code>SampleSizeTree</code> sample size repository for facets and nesting
+	 */
 	private SampleSizeTree myTree = null;
+	
+	/**
+	 * storage for previous element in series
+	 */
 	private Facet oldFacet = null;
+	
+	/**
+	 * sample size intermediary result
+	 */
 	private Integer iSample = 0;
+	
+	/**
+	 * string containing all Facet designation chars in original order
+	 */
 	private String sDictionary = null;
+	
+	/**
+	 * string containing all Facet designation chars in hierarchical order
+	 */
 	private String sHDictionary;
+	
+	/**
+	 * pointer to <code>Filer</code>
+	 */
 	private Filer flr = null;
+	
+	/**
+	 * descriptor of text display style
+	 */
 	private String sStyle_20 = null;
+	
+	/**
+	 * descriptor of text display style
+	 */
 	private String sStyle_18 = null;
+	
+	/**
+	 * pointer to <code>Preferences</code>
+	 */
 	private Preferences prefs = null;
+	
+	/**
+	 * pointer to input file
+	 */
 	private File selectedFile = null;
+	
+	/**
+	 * name of control file ('script')
+	 */
 	private String sControlFileName = null;
+	
+	/**
+	 * javafx element for text display
+	 */
 	private TextArea taOutput = null;
-	private Boolean bDownStep = false;
+	
+	/**
+	 * 
+	 */
 	private Boolean bFirstAnalysis = true;
+	
+	/**
+	 * boolean used for setup
+	 */
 	private StringBuilder sbResult; // accumulates results
+	
+	/**
+	 * pointer to <code>Popup</code>
+	 */
 	private Popup popup;
 
+	/**
+	 * constructor of <code>AnaGroups</code>
+	 * 
+	 * @param _nest  <code>Nest</code>
+	 * @param _popup  <code>Popup</code>
+	 * @param _controller  <code>rootLayoutController</code>
+	 * @param _stage  <code>primaryStage</code> of GUI
+	 * @param _prefs  <code>Preferences</code>
+	 * @param _flr  <code>Filer</code>
+	 */
 	public AnaGroups(Nest _nest, Popup _popup, rootLayoutController _controller, Stage _stage, Preferences _prefs, Filer _flr) {
-		/**
-		 * 'AnaGroups' manages the G-Analysis by taking the user step-by-step
-		 * through the whole procedure from entering the project title to
-		 * performing an arbitrary number of D-Studies. Altogether there are 10 steps,
-		 * and proceeding to the next step is only possible after 'grammatically'
-		 * correct input. Obviously, users can still enter parameters that do not correspond to
-		 * their actual study. At each step a context specific help screen is available.
-		 * As result of the user responses at a given step, the entered data are stored, and the GUI
-		 * scene for the next step is generated, and handed via 'main' back to the GUI.
-		 * Users can step through the analysis either manually, by entering the design information
-		 * via keyboard and mouse, or they can pick the 'do-over' mode, where the program
-		 * reads a control file (script), prepared in a previous analysis run, and the user just has 
-		 * to enter changes.
-		 */
 		
 		myNest = _nest;
 		flr = _flr;
@@ -120,24 +236,25 @@ public class AnaGroups {
 		popup = _popup;
 	}
 
-	public Group getGroup(Boolean _bDownStep) throws Throwable {
-		/**
-		 * This method uses the java 'switch/case' construct to
-		 * make sure that it constructs the correct scene for a given step,
-		 * based on the data entered previously. This scene is then 
-		 * handed back to 'main' that passes it to the GUI.
-		 * The 'popup' call at each step collects ongoing status
-		 * information, that can be optionally fed to a log file
-		 * for diagnostic use.
-		 * At each step 'getGroup' returns a JavaFX Group object, constructed
-		 * as result of the the cumulative information entered. The 'Group'
-		 * goes to 'Main', where it is packaged into a JavaFX 'Scene',
-		 * which is then handed to the 'rootLayoutController'.
-		 * Some steps can generate their 'Group' directly, others
-		 * need the assistance of further methods contained in this package
-		 */
-		
-		bDownStep = _bDownStep;
+	/**
+	 * This method uses the java 'switch/case' construct to
+	 * make sure that it constructs the correct scene for a given step,
+	 * based on the data entered previously. This scene is then 
+	 * handed back to 'main' that passes it to the GUI.
+	 * The 'popup' call at each step collects ongoing status
+	 * information, that can be optionally fed to a log file
+	 * for diagnostic use.
+	 * At each step 'getGroup' returns a JavaFX Group object, constructed
+	 * as result of the the cumulative information entered. The 'Group'
+	 * goes to 'Main', where it is packaged into a JavaFX 'Scene',
+	 * which is then handed to the 'rootLayoutController'.
+	 * Some steps can generate their 'Group' directly, others
+	 * need the assistance of further methods contained in this package
+	 * 
+	 * @return <code>Group</code> essentially the 'Scene' to be sent to the GUI
+	 * @throws Throwable
+	 */
+	public Group getGroup() throws Throwable {
 		Integer iStep = myNest.getStep();
 		if (iStep == 0)
 			myController.callForAction(true);
@@ -145,34 +262,45 @@ public class AnaGroups {
 			myController.callForAction(false);
 		myController.setStep(iStep);
 	 	switch (iStep) {
-		case 0:
+		// step 0  initialize AnaGroups
+	 	case 0:
 			myController.buttonsEnabled(false);
 			myController.disableSave(true);
 			myNest.setDoOver(false);
 			return startUp();
+		// step 1  enter script title
 		case 1:
 			myController.buttonsEnabled(true);
 			return setTitle();
+		// step 2  add comments
 		case 2:
 			return addComments();
+		// step 3  specify Facet of differentiation  and number of additional Facets
 		case 3:
 			return mainSubjectGroup();
+		// step 4  add additional Facets
 		case 4:
 			return subjectsGroup();
+		// step 5  set the desired order of Facets
 		case 5:
 			return orderFacets();
+		// step 6  arrange nesting of Facets
 		case 6:
 			return setNestingGroup();
+		// step 7  select data file
 		case 7:
 			myNest.setOrder();
 			myNest.G_setFacets();
 			return selectDataFile();
+		// step 8  enter sample sizes (repeat until done)
 		case 8:
 			return setSampleSize();
+		// step 9  program prepares files for, and runs urGENOVA
 		case 9:
 			flr.writeDataFileNew();
 			myController.disableSave(false);
 			return runBrennan();
+		// step 10  calculates coefficients for G-Study and D_Stuies (repeat)
 		case 10:
 			if (bFirstAnalysis)
 				flr.getUrGenova();
@@ -186,11 +314,12 @@ public class AnaGroups {
 		}
 	}
 
+	/**
+	 * initializes Groups for action selection.
+	 * 
+	 * @return <code>Group</code> essentially the 'Scene' for action selection to be sent to the GUI
+	 */
 	private Group startUp() {
-		/*
-		 * Step 0: Constructs scene_0, inviting user to choose her/his action.
-		 */
-		
 		myController.setStep(0);
 		Group group = new Group();
 		VBox vb = new VBox();
@@ -204,13 +333,15 @@ public class AnaGroups {
 		return group;
 	}
 
+	/**
+	 * If in 'Do over' mode, prompts for previous control file and
+	 * If in 'Do over' mode, prompts for previous control file and
+	 * loads it. Then it allows specification of a new project title,
+	 * or changing a previously entered one.
+	 *		
+	 * @return <code>Group</code> essentially the 'Scene' for title entry to be sent to the GUI
+	 */
 	private Group setTitle() {
-		/*
-		 * Step 1: If in 'Do over' mode, prompts for previous control file and
-		 * loads it. Then it allows specification of a new project title,
-		 * or changing a previously entered one.
-		 */
-		
 		testSetup();							// just for security, the program checks if
 												// it had been properly set up, and provides feedback
 												// otherwise.
@@ -218,10 +349,8 @@ public class AnaGroups {
 		VBox vb = new VBox(100);
 		vb.setAlignment(Pos.TOP_CENTER);
 		String projectTitle = null;
-		if (bDownStep)							// in case of back stepping
-			projectTitle = myNest.getTitle();
 		
-		/**
+		/*
 		 * In both Analysis and Synthesis users have the choice to
 		 * either enter all the design variables manually, or by
 		 * recalling them from the control file, prepared earlier,
@@ -273,16 +402,18 @@ public class AnaGroups {
 		return group;
 	}
 
+	/**
+	 * Prompts for comments to describe the project. These comments
+	 * form the leading lines of the 'COMMENT' section in the control file.
+	 * Thes lines appear in the control file with the header 'COMMENT '.
+	 * G_String then adds the facet names and their 1 char designations
+	 * in the original facet order. These lines appear in the control file
+	 * with the header 'COMMENT*'.
+	 * 
+	 * @return <code>Group</code> essentially the 'Scene' for comment entry to be sent to the GUI
+	 * @throws IOException
+	 */
 	private Group addComments() throws IOException {
-		/*
-		 * Step 2: Prompts for comments to describe the project. These comments
-		 * form the leading lines of the 'COMMENT' section in the control file.
-		 * Thes lines appear in the control file with the header 'COMMENT '.
-		 * G_String then adds the facet names and their 1 char designations
-		 * in the original facet order. These lines appear in the control file
-		 * with the header 'COMMENT*'.
-		 */
-		
 		Group group = new Group();
 		VBox vb = new VBox(20);
 		Label lb = new Label("Edit or add comment describing details of this analysis.");
@@ -297,7 +428,7 @@ public class AnaGroups {
 		ta.setMinHeight(300.0);
 		ta.setFont(Font.font("Monospaced", 14));
 		ta.setPromptText("Comments on the project.");
-		if (myNest.getDoOver() || bDownStep) {
+		if (myNest.getDoOver()) {
 			for (String s : myNest.getComments())
 				ta.appendText(s + "\n");
 		}
@@ -310,14 +441,15 @@ public class AnaGroups {
 		group.getChildren().add(vb);
 		return group;
 	}
-
+	
+	/**
+	 *  Prompts for the main subject facet name, designation, and a choice
+	 *  between crossed and nested status. This method uses one 'facetSubForm' and one 
+	 * 'facetCountSubForm'.
+	 *
+	 *  @return  <code>Group</code> essentially the 'Scene' for main Facet entry to be sent to the GUI
+	 */
 	private Group mainSubjectGroup() {
-		/*
-		 * Step 3: Prompts for the main subject facet name, designation, and a choice
-		 * between crossed and nested status. This method uses one 'facetSubForm' and one 
-		 * 'facetCountSubForm.
-		 */
-		
 		Group content = new Group();
 		VBox vb = new VBox(20);
 		// vb.setPrefHeight(600);
@@ -333,13 +465,14 @@ public class AnaGroups {
 		return content;
 	}
 
+	/**
+	 * Prompts for the features of each additional facet,
+	 * again in original facet order. This method uses as many facetSubForms
+	 * as necessary.
+	 * 
+	 * @return <code>Group</code> essentially the 'Scene' for other Facets entry to be sent to the GUI
+	 */
 	private Group subjectsGroup() {
-		/*
-		 * Step 4: Prompts for the features of each additional facet,
-		 * again in original facet order. This method uses as many facetSubForms
-		 * as necessary.
-		 */
-		
 		Group content = new Group();
 		VBox vb = new VBox(20);
 		// vb.setPrefHeight(600);
@@ -369,7 +502,7 @@ public class AnaGroups {
 		layout.setStyle("-fx-padding: 10;-fx-border-color: silver;-fx-border-width: 1;");
 		String sFacet = "";
 		char cFacet = ' ';
-		if (myNest.getDoOver() || bDownStep) {
+		if (myNest.getDoOver()) {
 			oldFacet = myNest.getFacet(iFacetID);
 			sFacet = oldFacet.getName();
 			cFacet = oldFacet.getDesignation();
@@ -445,7 +578,7 @@ public class AnaGroups {
 		lFc.setFont(Font.font("ARIAL", 20));
 		Integer facCount = myNest.getFacetCount();
 		final Spinner<Integer> facetCount = new Spinner<Integer>();
-		if (!myNest.getDoOver() && !bDownStep)
+		if (!myNest.getDoOver())
 			myNest.setFacetCount(2);
 		SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 10,
 				facCount - 1, 1);
@@ -496,23 +629,24 @@ public class AnaGroups {
 		return header;
 	}
 
+	/**
+	 * to set facet order and line change position.
+	 * This group uses another standard javafx construct that we will use again:
+	 * 'Grab and Drop'. A visual item can be 'grabbed' by clicking with the mouse
+	 * button on it. The item then follows the mouse movement, and is then 
+	 * finally dropped, where the mouse button is released.
+	 * see e.g. http://tutorials.jenkov.com/javafx/drag-and-drop.html
+	 * In this, and the following group, items are moved from one cell in a list
+	 * to another.
+	 * Based on the new facet order, G_String creates a new dictionary 'sHdictionary',
+	 * which lists the facet characters in hierarchical order, in contrast to 'sDictionary',
+	 * which lists the facets in the original order, as they have been entered.
+	 * The distinction is important for GS. The original order helps calling up facet
+	 * properties, while the hierachical order is used for the algorithmic sequences!
+	 *
+	 * @return <code>Group</code> essentially the 'Scene' for Facets order entry to be sent to the GUI
+	 */
 	private Group orderFacets() {
-		/*
-		 * Step 5 Group to set facet order and line change position.
-		 * This group uses another standard javafx construct that we will use again:
-		 * 'Grab and Drop'. A visual item can be 'grabbed' by clicking with the mouse
-		 * button on it. The item then follows the mouse movement, and is then 
-		 * finally dropped, where the mouse button is released.
-		 * see e.g. http://tutorials.jenkov.com/javafx/drag-and-drop.html
-		 * In this, and the following group, items are moved from one cell in a list
-		 * to another.
-		 * Based on the new facet order, G_String creates a new dictionary 'sHdictionary',
-		 * which lists the facet characters in hierarchical order, in contrast to 'sDictionary',
-		 * which lists the facets in the original order, as they have been entered.
-		 * The distinction is important for GS. The original order helps calling up facet
-		 * properties, while the hierachical order is used for the algorithmic sequences!
-		 */
-
 		myNest.createDictionary();
 		lvFacets = new ListView<String>();
 		ObservableList<String> orderedData = FXCollections.observableArrayList();
@@ -529,7 +663,7 @@ public class AnaGroups {
 		lbTitle.setAlignment(Pos.TOP_CENTER);
 		vbOuter.getChildren().add(lbTitle);
 		sDictionary = myNest.getDictionary();
-		if ((sHDictionary == null) || bDownStep) {
+		if (sHDictionary == null) {
 			sHDictionary = sDictionary;
 			myNest.setHDictionary(sDictionary);
 		}
@@ -692,6 +826,15 @@ public class AnaGroups {
 		return returnGroup;
 	}
 
+	/**
+	 * arranges nesting details, again using 'drag and drop'.
+	 * But while in step 5 items were moved within the same list, in
+	 * step 6 items are moved from the list on the left (nested facets) 
+	 * to the list on the right (crossed effects). 
+	 * However, the basic mechanism stays the same.
+	 * 
+	 * @return <code>Group</code> essentially the 'Scene' for Facet nesting entry to be sent to the GUI
+	 */
 	private Group setNestingGroup() {
 		/*
 		 * Step 6 arranges nesting details, again using 'drag and drop'.
@@ -701,9 +844,6 @@ public class AnaGroups {
 		 * However, the basic mechanism stays the same.
 		 */
 
-		if (bDownStep)
-			myNest.setNests(null);
-		
 		String dataFormat = "-fx-font-size: 1.5em ;";
 		nestedData.clear();
 		nestedData.addAll(filteredFacetList(true));
@@ -917,7 +1057,7 @@ public class AnaGroups {
 		
 		Integer iMax = 0;
 		String sTemp = null;
-		if (myNest.getDoOver() && !bDownStep)
+		if (myNest.getDoOver())
 			if (!isNested)
 				return myNest.getNests();
 			else
@@ -941,12 +1081,13 @@ public class AnaGroups {
 		}
 	}
 
+	/**
+ 	 *	Prompts for the data file; if no valid file is selected,
+	 * an error message pops up, and the program will exit. 
+	 * 
+	 * @return <code>Group</code> essentially the 'Scene' for data file selection entry to be sent to the GUI
+	 */
 	private Group selectDataFile() {
-		/**
-		 * Prompts for the data file; if no valid file is selected,
-		 * an error message pops up, and the program will exit.
-		 */
-		
 		selectedFile = flr.getFile(true, "Select Analysis Data File");
 		if (selectedFile == null) {
 			popup.tell("selectDataFile_a", "Diagnostic: File not found!");
@@ -982,14 +1123,15 @@ public class AnaGroups {
 		myTree = myNest.getTree(); // to be available for the next step
 	}
 
+	/**
+	 * G_String cycles through 'setSampleSize' until all the sample sizes
+	 * for all facets (in hierarchical order) have been collected, when the variable 'bDawdle'
+	 * turns to 'false'. The actual form is constructed as 'getPage' within 'SampleSizeTree',
+	 * where the sample sizes are being stored as well.
+	 * 
+	 * @return <code>Group</code> essentially the 'Scene' for setting sample sizes entry to be sent to the GUI
+	 */
 	public Group setSampleSize() {
-		/**
-		 * G_String cycles through 'setSampleSize' until all the sample sizes
-		 * for all facets (in hierarchical order) have been collected, when the variable 'bDawdle'
-		 * turns to 'false'. The actual form is constructed as 'getPage' within 'SampleSizeTree',
-		 * where the sample sizes are being stored as well.
-		*/
-		
 		myTree.collectSampleSizes();
 		Group group = new Group();
 		// construct samples page
@@ -1000,13 +1142,14 @@ public class AnaGroups {
 																	// order
 		return group;
 	}
-
+	
+	/**
+	 * this is the crucial step 9 where urGENOVA is tasked with calculating the estimates
+	 * of variance coefficients for all facets and their appropriate calculations.
+	 * 
+	 * @return <code>Group</code> essentially the 'Scene' for returning urGENOVA results to be sent to the GUI
+	 */
 	public Group runBrennan() {
-		/**
-		 * this is the crucial step 9 where urGENOVA is tasked with calculating the estimates
-		 * of variance coefficients for all facets and their appropriate calculations.
-		 */
-
 		String tLine = null;
 		myNest.setLevels();
 
@@ -1125,13 +1268,14 @@ public class AnaGroups {
 		return group;
 	}
 
+	/**
+	 * 'Analysis' extracts the means and estimated variance coefficients
+	 * from the urGenova output file, and uses them to calculate G-Study and D-Study results
+	 * see 'VarianceComponents' in the 'Algorithm' section of the explanations.
+	 * 
+	 * @return <code>Group</code> essentially the 'Scene' for returning G-Study abd D-Study results to be sent to the GUI
+	 */
 	public Group Analysis() {
-		/**
-		 * This is step 10. 'Analysis' extracts the means and estimated variance coefficients
-		 * from the urGenova output file, and uses them to calculate G-Study and D-Study results
-		 * see 'VarianceComponents' in the 'Algorithm' section of the explanations.
-		 */
-		
 		final ImageView imvErho = new ImageView();
 		final Image imErho = new Image(Main.class.getResourceAsStream("/resources/E_rho2.png"), 60, 60, true, true);
 		imvErho.setImage(imErho);

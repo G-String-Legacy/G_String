@@ -145,9 +145,8 @@ public class SynthGroups {
 		}
 	}
 
-	public Group getGroup(Boolean _bDownStep) throws Throwable {
+	public Group getGroup() throws Throwable {
 		// returns the display group to steppers in main
-		bDownStep = _bDownStep;
 		checkVarianceDawdle();
 		iStep = myNest.getStep();
 		if (iStep == 0)

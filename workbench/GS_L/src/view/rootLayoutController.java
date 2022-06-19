@@ -10,7 +10,6 @@ import java.io.OutputStream;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.InvalidPreferencesFormatException;
 import java.util.prefs.Preferences;
-
 import utilities.About;
 import utilities.Popup;
 import javafx.application.HostServices;
@@ -25,8 +24,16 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 
+/**
+ * LayoutController for JavaFX GUI
+ * manage the communication between <code>Main</code> and the GUI.
+ * 
+ * @see <a href="https://github.com/G-String-Legacy/G_String/blob/main/workbench/GS_L/src/view/rootLayout.fxml">view.rootLayoutController</a>
+ * @author ralph
+ * @version %v..%
+ *
+ */
 public class rootLayoutController {
-
 	private application.Main myMain;
 	private Popup popup = null;
 	private Preferences prefs;

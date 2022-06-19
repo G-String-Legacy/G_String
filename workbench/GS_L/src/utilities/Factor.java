@@ -3,6 +3,16 @@ package utilities;
 import model.Facet;
 import model.SampleSizeTree;
 
+/**
+ * This class encapsulates design factors ('factors')
+ * within a configuration. It  calculates the absolute size, i.e. the number of states
+ * of this factor. That makes it easier to calculate size for the whole configuration.
+ * Factor is used extensively in SampleSizeTree.
+ * 
+ * @see <a href="https://github.com/G-String-Legacy/G_String/blob/main/workbench/GS_L/src/utilities/Factor.java">utilities.Factor</a>
+ * @author ralph
+ * @version %v..%
+ */
 public class Factor {
 	private SampleSizeTree tree;
 	private String sFactor;

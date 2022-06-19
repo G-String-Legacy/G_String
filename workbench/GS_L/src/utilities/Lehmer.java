@@ -1,5 +1,24 @@
 package utilities;
 
+/**
+ *  Method to generate deterministic, "non"-repetitive sequence of digits using the Lehmer Random Number generator,
+ *  (https://en.wikipedia.org/wiki/Lehmer_random_number_generator, ZX81)
+ *  The purpose is to introduce a reliable one-digit signature to synthetic data sets at the least significant digit.
+ *  Depending on the Lehmer result, it will either add or subtract one unit, so that the data is even, when the Lehmer number
+ *  is even, and vice verso. Lehmer is used in SynthGroups.saveDataFile (~line 1226) and AnaGroups.saveAll
+ *  (~line 1250).
+ *
+ *  There are five methods:
+ *  	1. Generation and initialization, when the class is first called,
+ *  	2. an Iteration step adjusting each generated simulated data item,
+ *  	3. Test, counts the number of times the signature is violated,
+ *  	4. Summarize, exports the total number of items and signature violations.
+ *  	5. Even, a boolean based on Lehmer's method
+ * 
+ * @see <a href="https://github.com/G-String-Legacy/G_String/blob/main/workbench/GS_L/src/utilities/Lehmer.java">utilities.Lehmer</a>
+ * @author ralph
+ * @version %v..%
+ */
 public class Lehmer {
 /*
  *  Method to generate deterministic, "non"-repetitive sequence of digits using the Lehmer Random Number generator,

@@ -29,18 +29,20 @@ import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+/**
+ * Process reading and writing of control and data files the 'read' command
+ * takes the following arguments: - file: name of the file to be read -
+ * sModus: a control argument with the following values: 'Control': reads
+ * and processes existing control file for 'doOver'. 'Data': reads, strips
+ * and stores stripped data file (with previously established format
+ * parameters. 'Scan': reads, scans and displays data to establish format
+ * parameters and sample sizes (auto-index)
+ * 
+ * @see <a href="https://github.com/G-String-Legacy/G_String/blob/main/workbench/GS_L/src/utilities/Popup.java">utilities.Filer</a>
+ * @author ralph
+ * @version %v..%
+ */
 public class Filer {
-
-	/*
-	 * Process reading and writing of control and data files the 'read' command
-	 * takes the following arguments: - file: name of the file to be read -
-	 * sModus: a control argument with the following values: 'Control': reads
-	 * and processes existing control file for 'doOver'. 'Data': reads, strips
-	 * and stores stripped data file (with previously established format
-	 * parameters. 'Scan': reads, scans and displays data to establish format
-	 * parameters and sample sizes (auto-index)
-	 */
-
 	private Nest myNest = null;
 	private String fileName = null;
 	private String sDataFileName = null;

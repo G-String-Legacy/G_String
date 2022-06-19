@@ -21,8 +21,9 @@ import model.SampleSizeTree;
  *  
  *  The inner class <code>Component</code> is defined within this class, further down.
  * 
- *  @author Ralph Bloch
- *  @version %v..%
+ * @see <a href="https://github.com/G-String-Legacy/G_String/blob/main/workbench/GS_L/src/utilities/CompConstrct.java">utilities.CompConstrct</a>
+ * @author ralph
+ * @version %v..%
  */
 public class CompConstrct {
 	

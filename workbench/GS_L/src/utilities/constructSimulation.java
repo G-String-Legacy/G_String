@@ -5,25 +5,31 @@ import java.util.ArrayList;
 import model.Nest;
 import model.SampleSizeTree;
 
+/**
+ * 'constructSimulation' (cS) builds the synthetic data according to
+ * the ANOVA random model.
+ *   On the basis of the specified facets and their nesting, the program
+ * has identified the potential sources of variability (variance components)
+ * in terms of crossed and nested facets, as well as due to their interactions
+ * (see CompConstrct), expressed as strings, designated 'Configurations'
+ * - the general 'Effects' of the model.
+ * For each configuration (i.e.'Effect') it then gets the number of possible states 
+ * (from 'SampleSizeTree.getSize), over the allowed range of facet indices. 
+ * For each configuration it generates 'synthetic error' values, distributed 
+ * according to the variance component corresponding to its configuration. It then 
+ * steps through the indices in the correct order, adding all the component error values 
+ * according to the appropriate indices. The resulting array of double numbers (darOutput) 
+ * is distributed symmetrically around 0.0 with the appropriate compound variance.
+ * On the side, 'constructSimulation also prepares a stringArrayList (salCarriageReturn),
+ * providing the formated indices for each line of data values. Both, darOutput and 
+ * salCarriageReturn are being passed to SynthGroups.saveSynthetics.
+ * 
+ * @see <a href="https://github.com/G-String-Legacy/G_String/blob/main/workbench/GS_L/src/utilities/constructSimulation.java">utilities.constructSimulation</a>
+ * @author ralph
+ * @version %v..%
+ */
 public class constructSimulation {
 	/**
-	 * 'constructSimulation' (cS) builds the synthetic data according to
-	 * the ANOVA random model.
-	 *   On the basis of the specified facets and their nesting, the program
-	 * has identified the potential sources of variability (variance components)
-	 * in terms of crossed and nested facets, as well as due to their interactions
-	 * (see CompConstrct), expressed as strings, designated 'Configurations'
-	 * - the general 'Effects' of the model.
-	 * For each configuration (i.e.'Effect') it then gets the number of possible states 
-	 * (from 'SampleSizeTree.getSize), over the allowed range of facet indices. 
-	 * For each configuration it generates 'synthetic error' values, distributed 
-	 * according to the variance component corresponding to its configuration. It then 
-	 * steps through the indices in the correct order, adding all the component error values 
-	 * according to the appropriate indices. The resulting array of double numbers (darOutput) 
-	 * is distributed symmetrically around 0.0 with the appropriate compound variance.
-	 * On the side, 'constructSimulation also prepares a stringArrayList (salCarriageReturn),
-	 * providing the formated indices for each line of data values. Both, darOutput and 
-	 * salCarriageReturn are being passed to SynthGroups.saveSynthetics.
 	 */
 	
 	private Nest myNest = null;

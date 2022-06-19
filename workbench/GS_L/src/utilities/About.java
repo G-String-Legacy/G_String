@@ -22,6 +22,10 @@ import javafx.stage.Stage;
 /**
  * This small utility is used to display two text files:
  * 'About' G_String, and 'About' urGenova as part of 'Help'
+ * 
+ * @see <a href="https://github.com/G-String-Legacy/G_String/blob/main/workbench/GS_L/src/utilities/About.java">utilities.About</a>
+ * @author ralph
+ * @version %v..%
  */
 public class About {
 

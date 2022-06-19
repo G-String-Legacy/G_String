@@ -10,13 +10,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
+/**
+ * 'FacetModView' is used as a display/control class in
+ * the 'Analysis' scene of 'AnaGroups' (Step 10). It allows
+ * changing the properties of facets in D-Studies.
+ * 
+ * @see <a href="https://github.com/G-String-Legacy/G_String/blob/main/workbench/GS_L/src/utilities/FacetModView.java">utilities.FacetModView</a>
+ * @author ralph
+ * @version %v..%
+ */
 public class FacetModView extends HBox{
-	/**
-	 * 'FacetModView' is used as a display/control class in
-	 * the 'Analysis' scene of 'AnaGroups' (Step 10). It allows
-	 * changing the properties of facets in D-Studies.
-	 */
-
 	Integer id = -1;
 	Double dLevel = 0.0;
 	Integer iLevel = 0;

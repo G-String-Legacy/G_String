@@ -23,11 +23,18 @@ import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
 import utilities.Popup;
 
+/**
+ * Utility for G_String Help
+ * Reads 'help markup' file and converts it to javafx Text VBox
+ * 
+ * @see <a href="https://github.com/G-String-Legacy/G_String/blob/main/workbench/GS_L/src/view/TextStack.java">view.TextStack</a>
+ * @author ralph
+ * @version %v..%
+ *
+ */
 public class TextStack
 {
 	/**
-	 * Utility for G_String Help
-	 * Reads 'help markup' file and converts it to javafx Text VBox
 	 */
 
 	private ArrayList<String> salLines = new ArrayList<String>();

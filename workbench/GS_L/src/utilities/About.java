@@ -29,13 +29,44 @@ import javafx.stage.Stage;
  */
 public class About {
 
+	/**
+	 * array list of text lines
+	 */
 	private ArrayList<String> salItems = new ArrayList<String>();
+	
+	/**
+	 * document file path
+	 */
 	private String sFileName = null;
+	
+	/**
+	 * GUI window
+	 */
 	private Stage myStage;
+	
+	/**
+	 * subclass of JavaFX <code>Dialog</code>
+	 */
 	private Alert alert = null;
+	
+	/**
+	 * title of Alert window
+	 */
 	private String sTitle = null;
+	
+	/**
+	 * pointer to exception handler
+	 */
 	private Popup popup = null;
 
+	/**
+	 * constructor
+	 * 
+	 * @param _myStage  pointer to MainStage
+	 * @param _popup  pointer to exception handler
+	 * @param _sFileName  path to 'About file)
+	 * @param _sTitle  dialog title
+	 */
 	public About(Stage _myStage, Popup _popup, String _sFileName, String _sTitle)
 	{
 		//constructor
@@ -61,6 +92,9 @@ public class About {
 		}
 	}
 
+	/**
+	 * operates display
+	 */
 	public void show()
 	{
 		alert = new Alert(AlertType.INFORMATION);
@@ -112,6 +146,9 @@ public class About {
 		alert.showAndWait();
 	}
 
+	/**
+	 * turns 'About' display off
+	 */
 	void closeAbout()
 	{
 		alert.close();

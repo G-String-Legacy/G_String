@@ -20,15 +20,24 @@ public class SampleSizeView extends TextField {
 	private SampleSizeTree myTree = null;
 	private Boolean bChanged = false;
 	private char cFacet = ' ';
-	private Integer iPointer = -1;
 	private Integer[] iIndices = null;
 
+	/**
+	 * constructor
+	 * 
+	 * @param _myTree  pointer to <code>Tree</code>
+	 * @param _cFacet  Facet designation char
+	 * @param _iFacet  order of Facet in original dictionary <code>sDictionary</code>
+	 * @param _iCounter Integer indicating which value in sample size series for Facet
+	 * @param _iSampleSize previous value
+	 * @param _indices Integer array template to localize an effect specific mean square in the calculation
+	 */
 	public SampleSizeView(SampleSizeTree _myTree, char _cFacet, Integer _iFacet, Integer _iCounter,
-			Integer _iSampleSize, Integer[] _indices) {
+		Integer _iSampleSize, Integer[] _indices) {
 		this.setMinWidth(80);
 		this.setPrefHeight(30);
 		this.autosize();
-		this.setFont(Font.font("SanSerif", 16));
+		this.setFont(Font.font("SansSerif", 16));
 		Integer iCounter = _iCounter;
 		Integer iFacet = _iFacet;
 		myTree = _myTree;
@@ -53,6 +62,11 @@ public class SampleSizeView extends TextField {
 		});
 	}
 
+	/**
+	 * setter of sample size
+	 * 
+	 * @param _value value of sample size
+	 */
 	public void setValue(String _value) {
 		if ((_value == null) || _value.trim().equals("")) {
 			this.setText("");
@@ -63,26 +77,37 @@ public class SampleSizeView extends TextField {
 		}
 	}
 
-	public void setPointer(Integer _iPointer) {
-		iPointer = _iPointer;
-	}
-
-	public Integer getPointer() {
-		return iPointer;
-	}
-
+	/**
+	 * getter of sample size
+	 * 
+	 * @return
+	 */
 	public Integer getValue() {
 		return iSampleSize;
 	}
 
+	/**
+	 * boolean flag if associated sample size has changed value
+	 * 
+	 * @return true/false - changed/unchanged
+	 */
 	public Boolean hasChanged() {
 		return bChanged;
 	}
 
+	/**
+	 * getter of array template to localize an effect specific mean square in the calculation
+	 * 
+	 * @return Integer[]
+	 */
 	public Integer[] getIndices() {
 		return iIndices;
 	}
 
+	/**
+	 * getter of IndexString, i.e. index array formatted as text String.
+	 * @return
+	 */
 	public String getIndexString() {
 		StringBuilder sb = new StringBuilder();
 		Integer iLength = iIndices.length;
@@ -94,6 +119,11 @@ public class SampleSizeView extends TextField {
 		return sb.toString();
 	}
 
+	
+	/**
+	 * getter of <code>Nest</code>
+	 * @return
+	 */
 	public String getNest() {
 		return myTree.getNest(cFacet);
 	}

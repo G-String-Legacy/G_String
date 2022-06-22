@@ -1,5 +1,7 @@
 [Return](Block_Diagram.md)
 ## General Remarks ##
+G_String is compiled in Oracle jdk1.8.0_231 with the Gluon javafx1.8 library. It has been designed, edited, and reworked in Eclipse, Version: 2022-03 (4.23.0), Build id: 20220310-1457, and has GitHub repository https://github.com/G-String-Legacy/G_String.
+
 The author has acquired his programming skills informally over more than 60 years in academic and clinical pursuits. As a consequence, the programming style, while attempting to keep to general rules, lacks the discipline observed by professional programmers.
 
 The programming philosophy has been shaped by studying Kernighan & Plauger's 'Software Tools', and Niklaus Wirth's 'Algorithms + Data Structures = Programs'. Object Oriented Programming has facilitated my packaging both complex data structures and complicated algorithms into functional objects.

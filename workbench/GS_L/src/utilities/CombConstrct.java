@@ -4,10 +4,10 @@ import model.Nest;
 import model.SampleSizeTree;
 
 /**
- *  <code>CompConstr</code> takes the original nesting constructs and builds
+ *  <code>CombConstr</code> takes the original nesting constructs ('nests', also called 'Components' and builds
  *  all possible facet combinations that have to be considered for
- *  constructing the variance components ('Effects').
- *     To create all possible combination a trick is used: consider an integer
+ *  constructing the variance components ('Effects' called here 'Configurations').
+ *     To create all possible combinations a trick is used: consider an integer
  *  represented as a binary number. As we count from 0 to maximum, 
  *  every digit toggles between 0 and 1. In fact, since the count 
  *  goes through all possible numbers, all possible combinations 
@@ -25,14 +25,34 @@ import model.SampleSizeTree;
  * @author ralph
  * @version %v..%
  */
-public class CompConstrct {
+public class CombConstrct {
 	
+	/**
+	 * array of <ode>Component</code> see below
+	 */
 	private Component[] components;
+	
+	/**
+	 * pointer to <code>Nest</code>
+	 */
 	private Nest myNest;
+	
+	/**
+	 * pointer to <code>SampleSizeTree</code>
+	 */
 	private SampleSizeTree tree;
+	
+	/**
+	 * string defining configuration of Facet chars and 'colons'
+	 */
 	private String sConfig;
 
-	public CompConstrct (Nest _nest){
+	/**
+	 * constructor
+	 * 
+	 * @param _nest  pointer to <code>Nest</code>
+	 */
+	public CombConstrct (Nest _nest){
 		myNest = _nest;
 		tree = myNest.getTree();
 		String sConstruct = null;
@@ -119,56 +139,119 @@ public class CompConstrct {
 		return tree.getConfigurationCount();	// could also be called 'Effect count'
 	}
 }
-	
+
+	/**
+	 * An auxiliary class to handle each of the constructs.
+	 * 
+	 * @author ralph
+	 * @version %v..%
+	 */
 	class Component{
+		
 		/**
-		 * An auxiliary object to handle each of the constructs
+		 * String consisting of ordered facet chars and (possibly) colons, describing the component composition.
+		 * also called 'Effect' in Brennan's control file (primary Effects).
 		 */
+		private String sDescription;
 		
-		private String sDescription;		// a descriptive string
-		private char facet;				// a char for the innermost facet
-		private int order;				// the final order of components by depth and data sequence
-		private int depth;				// the total nesting depth of the component
-		private int weight;				// the power of 2 for the innermost facet
-		private int prerequisite;		// the power of 2 for the encompassing facet
+		/**
+		 * the leading Facet in the combination
+		 */
+		private char cFacet;	
 		
+		/**
+		 * the order number of leading Facet in the original Facet dictionary <code>sDictionary</code>
+		 */
+		private int iOrder;
+		
+		/**
+		 * level of nesting
+		 */
+		private int iDepth;				// the total nesting depth of the component
+		
+		/**
+		 * = 2 ^^ iOrder; power of 2 according to position of cFacet in sDictionary
+		 */
+		private int iWeight;
+		
+		/**
+		 * the power of 2 for the encompassing facet
+		 */
+		private int iPrerequisite;
+		
+		/**
+		 * constructor
+		 * 
+		 * @param _sDescription  structural description of Component
+		 * @param _sDictionary  standard, original Facet dictionary
+		 */
 		public Component(String _sDescription, String _sDictionary) {
 			sDescription = _sDescription;
-			char[] facets = sDescription.toCharArray();
-			facet = facets[0];
-			depth = 1;
-			for (char c : facets)
+			char[] cFacets = sDescription.toCharArray();
+			cFacet = cFacets[0];
+			iDepth = 1;
+			for (char c : cFacets)
 				if (c == ':')
-					depth ++;
-			order = _sDictionary.indexOf(facet);
-			weight = (int) Math.pow(2,  order);
-			prerequisite = 0;
-			if (depth > 1)
-				prerequisite = (int) Math.pow(2,  _sDictionary.indexOf(facets[2]));
+					iDepth ++;
+			iOrder = _sDictionary.indexOf(cFacet);
+			iWeight = (int) Math.pow(2,  iOrder);
+			iPrerequisite = 0;
+			if (iDepth > 1)
+				iPrerequisite = (int) Math.pow(2,  _sDictionary.indexOf(cFacets[2]));
 		}
-		
+			
+		/**
+		 * getter
+		 * 
+		 * @return iWeight
+		 */
 		public int getWeight() {
-			return weight;
+			return iWeight;
 		}
 		
+		/**
+		 * getter
+		 * 
+		 * @return sDescription
+		 */
 		public String getDescription() {
 			return sDescription;
 		}
 		
+		/**
+		 * getter
+		 * 
+		 * @return iDepth
+		 */
 		public int getDepth() {
-			return depth;
+			return iDepth;
 		}
 		
+		/**
+		 * getter
+		 * 
+		 * @return iPrerequisite
+		 */
 		public int getPrerequisite() {
-			return prerequisite;
+			return iPrerequisite;
 		}
 		
+		/**
+		 * getter
+		 * 
+		 * @return cFacet as String
+		 */
 		public String getFacet() {
-			return String.valueOf(facet);
+			return String.valueOf(cFacet);
 		}
 		
+		/**
+		 * getter
+		 * 
+		 * @return iOrder
+		 */
 		public int getOrder() {
-			return order;
+			return iOrder;
 		}
 }
 

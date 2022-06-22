@@ -35,12 +35,27 @@ import utilities.Popup;
 public class TextStack
 {
 	/**
+	 * string array list of text lines
 	 */
-
 	private ArrayList<String> salLines = new ArrayList<String>();
+	
+	/**
+	 * pointer to Preferences API
+	 */
 	private Preferences prefs = null;
+	
+	/**
+	 * pointer to exception handler
+	 */
 	private Popup popup;
 
+	/**
+	 * constructor
+	 * 
+	 * @param sLocation  file name of specific help file
+	 * @param _prefs  pointer to Preferences API
+	 * @param _popup  pointer to exception handler
+	 */
 	public TextStack(String sLocation, Preferences _prefs, Popup _popup)
 	{
 		prefs = _prefs;
@@ -53,6 +68,12 @@ public class TextStack
 		}
 	}
 
+	/**
+	 * read text file
+	 * 
+	 * @param filename
+	 * @throws IOException I/O exception
+	 */
 	private void readFile(String filename) throws IOException {
 
 		String sResource = "/resources/help/" + filename;
@@ -65,6 +86,11 @@ public class TextStack
         reader.close();
 	}
 
+	/**
+	 * constructs JavaFX element for display, and parses for markup code
+	 * 
+	 * @return vBox scene
+	 */
 	public VBox vStack ()
 	{
 		String sTemp = null;

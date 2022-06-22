@@ -43,31 +43,119 @@ import javafx.stage.Stage;
  * @version %v..%
  */
 public class Filer {
+	/**
+	 * pointer to <code>Nest</code>
+	 */
 	private Nest myNest = null;
-	private String fileName = null;
+	
+	/**
+	 * file path
+	 */
+	private String sFileName = null;
+	
+	/**
+	 * file path of data file
+	 */
 	private String sDataFileName = null;
+	
+	/**
+	 * fixed field width in umber of characters
+	 */
 	private Integer iFieldWidth = 0;
+	
+	/**
+	 * upper limit of first data columns to be highlighted, to be ignored by urGENOVA
+	 */
 	private Integer iHilight = 0;
+	
+	/**
+	 * repository for HTML data section
+	 */
 	private String sHTML = null;
+	
+	/**
+	 * maximal number of collums in score data display
+	 */
 	private Integer iMaxColumns = 0;
+	
+	/**
+	 * pointer to Preferences API
+	 */
 	private Preferences prefs = null;
+	
+	/**
+	 * JavaFX code>WebEngine</code>
+	 */
 	private WebEngine webEngine = null;
+	
+	/**
+	 * array of String column headers
+	 */
 	private String[] sHeaders = null;
-	private Filer self;
-	private Integer iMaxColCount = null; // tentative limit for number of
-											// data-in columns
-	private Double[] dSums = null; // for calculating grand means
-	private Integer[] iCounts = null; // for calculating grand means
+	
+	/**
+	 * tentative limit for number of data-in columns
+	 */
+	private Integer iMaxColCount = null;
+
+	/**
+	 * Double variable for calculating grand means
+	 */
+	private Double[] dSums = null;
+
+	/**
+	 * integer denominator for calculating grand means
+	 */
+	private Integer[] iCounts = null; 
+	
+	/**
+	 * integer counter to count three horizontal bars, when parsing urGENOVA output
+	 */
 	private Integer iOutputPointer = 0;
+	
+	/**
+	 * Grand mean of score data
+	 */
 	private Double dGrandMeans = 0.0;
-	private Integer iHeader = 0;
+	
+	/**
+	 * number of missing items
+	 */
 	private Integer iMissedItems = 0;
+	
+	/**
+	 * 2 dim array of raw score data fields, organized by rows and columns
+	 */
 	private String[][] sRawData = null;
+	
+	/**
+	 * arbitrary starting point for searching minimum value
+	 */
 	private Double dMin = 100.0;
+	
+	/**
+	 * arbitrary starting point for searching maximal value
+	 */
 	private Double dMax = -100.0;
+	
+	/**
+	 * pointer to <code>Popup</code>
+	 */
 	private Popup popup;
+	
+	/**
+	 * pointer to GUI window
+	 */
 	private Stage myStage = null;
 
+	/**
+	 * constructor
+	 * 
+	 * @param _nest  <code>Nest</code>
+	 * @param _prefs  <code>Preferences</code>
+	 * @param _popup  <code>Popup</code>
+	 * @param _stage  <code>Stage</code>
+	 */
 	public Filer(Nest _nest, Preferences _prefs, Popup _popup, Stage _stage) {
 		iMaxColCount = 100;
 		myNest = _nest;
@@ -75,7 +163,6 @@ public class Filer {
 		myStage = _stage;
 		//iFieldWidth = myNest.getFieldWidth();
 		iFieldWidth = 8;
-		self = this;
 		sDataFileName = myNest.getDataFileName();
 		dSums = new Double[iMaxColCount];
 		iCounts = new Integer[iMaxColCount];
@@ -87,12 +174,17 @@ public class Filer {
 		popup.setClass("Filer");
 	}
 
+	/**
+	 * reads  script file line by line, to be processed by <code>processControlLine</code>
+	 * 
+	 * @param file  file pointer
+	 */
 	public void readFile(File file) {
 		// reads already existing control file
 		String sLine = null;
 		try {
-			fileName = file.getCanonicalPath().toString();
-			myNest.setFileName(fileName);
+			sFileName = file.getCanonicalPath().toString();
+			myNest.setFileName(sFileName);
 		} catch (IOException e) {
 			popup.tell("readFile_a", e);
 		}
@@ -107,6 +199,10 @@ public class Filer {
 		}
 	}
 
+	/**
+	 * script parser
+	 * @param line  of text
+	 */
 	private void processControlLine(String line) {
 		String[] words;
 		String key;
@@ -159,6 +255,13 @@ public class Filer {
 		}
 	}
 
+	/**
+	 * reverse of <code>split</code>, joins words from array, drops first word
+	 * 
+	 * @param words
+	 * @param length
+	 * @return
+	 */
 	private String join(String[] words, Integer length) {
 		StringBuilder sb = new StringBuilder();
 		for (Integer i = 1; i < length; i++)
@@ -167,6 +270,12 @@ public class Filer {
 		return result.trim();
 	}
 
+	/**
+	 * highlights columns < <code>iHighlight</code>
+	 * 
+	 * @param _sColumns array of Strings for a row at a time, raw score data
+	 * @return sbLine.toString  line of formatted text
+	 */
 	private String HTML_join(String[] _sColumns) {
 		StringBuilder sbLine = new StringBuilder("<tr>");
 		Integer iCount = 0;
@@ -180,14 +289,16 @@ public class Filer {
 		return sbLine.toString();
 	}
 
+	/**
+	 * This method displays the experimental scores, as read in from the data
+	 * file. It allows to exclude index columns from being fed to urGenova.
+	 * In contrast to all the other display scenes ('groups'), this one 
+	 * is not pure javafx, but it displays the data as html within a webview.
+	 * It is more efficient than having a factory generate a javafx object for each score.
+	 * 
+	 * @return HTML formatted text of score data via <code>WebView</code>
+	 */
 	public Group showTableNew() {
-		/**
-		 * This method displays the experimental scores, as read in from the data
-		 * file. It allows to exclude index columns from being fed to urGenova.
-		 * In contrast to all the other display scenes ('groups'), this one 
-		 * is not pure javafx, but it displays the data as html within a webview.
-		 * It is more efficient than having a factory generate a javafx object for each score.
-		 */
 		StringBuilder sb = new StringBuilder("<html><body contentEditable=\"true\"><table border = \"1\">\n");
 		Integer iCounter = 0;
 		for (int i = 0; i < iMaxColumns; i++)
@@ -242,7 +353,7 @@ public class Filer {
 		intSpinner.getEditor().textProperty().addListener((obs1, oldValue1, newValue1) -> {
 			if (!oldValue1.equals(newValue1)) {
 				iHilight = Integer.parseInt(newValue1);
-				myNest.show(self.showTableNew());
+				myNest.show(this.showTableNew());
 			}
 		});
 		TextField format = new TextField();
@@ -267,16 +378,18 @@ public class Filer {
 		return tableGroup;
 	}
 
+	/**
+	 * 		 * Reads and parses datafile, stores possible header in 'headers',
+	 * stores data in 'sRawData' structure', i.e. an array of arrays
+	 * String[][] in several passes: Pass 1: counts valid lines and counts
+	 * lines with Double content Pass 2: creates outer array with
+	 * appropriate number of lines, then chops lines, creates inner arrays
+	 * and stores Double numbers Also, initialize summing for means and
+	 * counting for N's
+	 *
+	 * @param _inFile score data file
+	 */
 	public void readDataFileNew(File _inFile) {
-		/*
-		 * Reads and parses datafile, stores possible header in 'headers',
-		 * stores data in 'sRawData' structure', i.e. an array of arrays
-		 * String[][] in several passes: Pass 1: counts valid lines and counts
-		 * lines with Double content Pass 2: creates outer array with
-		 * appropriate number of lines, then chops lines, creates inner arrays
-		 * and stores Double numbers Also, initialize summing for means and
-		 * counting for N's
-		 */
 		Integer iLineCount = 0;
 		Integer iFalseLineCount = 0;
 		Integer iNumberFields;
@@ -330,13 +443,11 @@ public class Filer {
 		}
 	}
 
+	/**
+	 * writes stripped datafile to a special file (~data.txt) in the special
+	 * Brennan directory (home of urGenova) for running urGenova on.
+	 */
 	public void writeDataFileNew() {
-		/*
-		 * writes stripped datafile to a special file (~data.txt) in the special
-		 * Brennan directory (home of urGenova) for running urGenova on.
-		 */
-
-		// First calculate grand means
 		StringBuilder sb = null;
 		Double sum = 0.0;
 		Double dItem = 0.0;
@@ -392,6 +503,13 @@ public class Filer {
 		testSignature();
 	}
 
+	/**
+	 * test synthetic data file in signal noise, so synthetic data files can
+	 * be distinguished from empiric data. Synthetic data show an analytic
+	 * sig LessThan 10.
+	 * 
+	 * @return String  Signature ~
+	 */
 	public String testSignature() {
 		Double dItem = 0.0;
 
@@ -407,10 +525,20 @@ public class Filer {
 		return "\nSig: " + Signer.Summarize();
 	}
 
+	/**
+	 * format utility  pads String <code>s</code> to <code>n</code> characters with blanks
+	 * 
+	 * @param s  String to be padded
+	 * @param n  int number of padding blanks
+	 * @return padded String
+	 */
 	public static String padLeft(String s, int n) {
 		return String.format("%1$" + n + "s", s);
 	}
 
+	/**
+	 * reads and parses the output string of urGENOVA
+	 */
 	public void getUrGenova() {
 		/*
 		 * Reads in the results of urGenova and stores them in n
@@ -430,6 +558,11 @@ public class Filer {
 		}
 	}
 
+	/**
+	 * extracts variance components from urGENOVA output lines and stores them in <code>Nest</code>
+	 * 
+	 * @param _line  line from urGENOVA output
+	 */
 	private void processResultlLine(String _line) {
 		switch (iOutputPointer) {
 		case 0:
@@ -453,18 +586,26 @@ public class Filer {
 		}
 	}
 
+	/**
+	 * getter of <code>iHilight</code>
+	 * 
+	 * @return iHilight
+	 */
 	public Integer getHighlight() {
 		return iHilight;
-	}
-
-	public Integer getHeader() {
-		return iHeader;
 	}
 
 	public Integer missingItems() {
 		return iMissedItems;
 	}
 
+	/**
+	 * getter of <code>File</code>
+	 * 
+	 * @param bRead  boolean flag read/write - true/false
+	 * @param sTitle  String, title to be displayed in <code>FileChooser</code>
+	 * @return File
+	 */
 	public File getFile(Boolean bRead, String sTitle) {
 		String sInitial = prefs.get("Home Directory", System.getProperty("user.home"));
 		File fInitial = new File(sInitial);
@@ -484,6 +625,13 @@ public class Filer {
 		return f;
 	}
 
+	/**
+	 * opens <code>Alert</code> dialog to solicit location for new script file
+	 * to be saved to.
+	 * 
+	 * @param sType  'Analysis'/'Synthesis'
+	 * @param sQuestion  text of question to be displayed
+	 */
 	public void saveParametersDialog(String sType, String sQuestion) {
 		// sType either 'Analysis' or 'Synthesis'
 		Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -516,6 +664,11 @@ public class Filer {
 		}
 	}
 
+	/**
+	 * writes new analysis control file
+	 * 
+	 * @param file pointer to <code>File</code>
+	 */
 	public void writeAnalysisControlFile(File file) {
 		// writes new control file
 		// StringBuilder sbComments = new StringBuilder(); // informal comments
@@ -553,7 +706,12 @@ public class Filer {
 		writer.println("PROCESS      \"" + sDataFileName + "\"");
 		writer.close();
 	}
-
+	
+	/**
+	 * writes new synthesis control file
+	 * 
+	 * @param fOutput  pointer to <code>File</code>
+	 */
 	public void writeSynthesisControlFile(File fOutput) {
 		// writes new control file
 		String sTemp = null;

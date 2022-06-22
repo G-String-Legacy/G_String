@@ -12,17 +12,38 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import utilities.Popup;
 
+/**
+ * Provides the screen for program setup
+ * 
+ * @see <a href="https://github.com/G-String-Legacy/G_String/blob/main/workbench/GS_L/src/steps/gSetup.java">steps.gSetup</a>
+ * @author ralph
+ * @version %v..%
+ */
 public class gSetup
 {
-	/*
-	 * Provides the screen for program setup
+	/**
+	 * JavaFX stage for GUI
 	 */
 	private Stage myStage = null;
+	
+	/**
+	 * pointer to <code>Popup</code>
+	 */
 	private Popup popup = null;
+	
+	/**
+	 * pointer to Preferences API
+	 */
 	private Preferences prefs = null;
 	//private Long iBytes;
 
-
+	/**
+	 * constructor for <code>gSetup</code>.
+	 * 
+	 * @param _stage  display screen
+	 * @param _popup  exception handler
+	 * @param _prefs  Preferences
+	 */
 	public gSetup(Stage _stage, Popup _popup, Preferences _prefs)
 	{
 		//  dummy constructor
@@ -37,9 +58,13 @@ public class gSetup
 		}
 	}
 
+	/**
+	 * Initializes preferences
+	 * 
+	 * @throws IOException input errors
+	 */
 	public void ask() throws IOException
 	{
-		// Initialize preferences
 		String sResource = "/resources/Prefs_Default.xml";
 		InputStream stIn = Main.class.getResourceAsStream(sResource);
 		try {

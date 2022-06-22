@@ -14,17 +14,45 @@ import model.SampleSizeTree;
  * @version %v..%
  */
 public class Factor {
+	/**
+	 * pointer to <code>SampleSizeTree</code>
+	 */
 	private SampleSizeTree tree;
-	private String sFactor;
-	private String[] sarFloors;
-	private int iFloors = 0;
-	private int[][][] iarSizes;
-	private String sDictionary;
-	private Facet facet;
-	private int iDL;
-	private String sFloor;
 
-			
+	/**
+	 * String Description of <code>Factor</code> in terms of Facet chars and 'colons'
+	 */
+	private String sFactor;
+
+	/**
+	 * Factor section split by colons expressed as string of Facet chars
+	 */
+	private String sFloor;
+	
+	/**
+	 * String array of <code>sFloor</code>s
+	 */
+	private String[] sarFloors;
+	
+	/**
+	 * index to <code>sarFloors</code>
+	 */
+	private int iFloors = 0;
+	
+	/**
+	 * array of sample sizes
+	 */
+	private int[][][] iarSizes;
+	
+	/**
+	 * pointer to original Facet dictionary
+	 */
+	private String sDictionary;
+	
+	/**
+	 * <code>Facet</code> variable
+	 */
+	private Facet facet;
 	
 	/**
 	 * This class encapsulates design factors ('factors')
@@ -38,11 +66,9 @@ public class Factor {
 	 public Factor (SampleSizeTree _tree, String _sFactor) {
 		tree = _tree;
 		sDictionary = tree.getDictionary();
-		iDL = sDictionary.length();
 		sFactor = new StringBuilder(_sFactor).reverse().toString();
 		sarFloors = sFactor.split(":");
 		iFloors = sarFloors.length;
-		iarSizes = new int[iFloors][][];
 	}
 	
 	/**
@@ -64,7 +90,6 @@ public class Factor {
 		char cN = '@';			// current Nestor designation
 		int iFloor = iFloors - 1;
 		sFloor = sarFloors[iFloor];
-		iarSizes[iFloor] = new int [iDL][];
 		iProduct = 1;
 		for (char cF : sFloor.toCharArray()) {
 			iF = sDictionary.indexOf(cF);

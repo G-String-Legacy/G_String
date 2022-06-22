@@ -9,7 +9,7 @@ import java.util.prefs.Preferences;
 import model.Facet;
 import model.Nest;
 import model.SampleSizeTree;
-import utilities.CompConstrct;
+import utilities.CombConstrct;
 import utilities.Filer;
 import utilities.Lehmer;
 import utilities.Popup;
@@ -1084,7 +1084,7 @@ public class SynthGroups {
 		 * of these configurations ('iComps') provides the number
 		 * of variance components to be entered.
 		 */
-		CompConstrct cc = new CompConstrct(myNest);
+		CombConstrct cc = new CombConstrct(myNest);
 		int iComps = cc.getComp();
 		/*
 		 * 'Dawdles' are booleans that represent, whether all the necessary components
@@ -1431,6 +1431,10 @@ public class SynthGroups {
 		int iItem = 0;
 		String[] sLeaders = null;
 		String sHeader = null;
+		/*
+		 * the 'Lehmer signer' is initialized (see utilities.Lehmer), to make
+		 * the synthetic data file distinguishable from empiric data.
+		 */
 		Lehmer Signer = new Lehmer(iFloor, iCeiling);
 		for (int iLine = 0; iLine < iMaxLine; iLine++) {
 			sLeaders = _salCarriageReturn.get(iLine).split ("\\|");
@@ -1452,7 +1456,7 @@ public class SynthGroups {
 				iItem = (int) Math.round(dTemp);
 				iItem = Math.min(iItem, iCeiling);
 				iItem = Math.max(iItem, iFloor);
-				iItem = Signer.adjust(iItem);		// signing step for synthetic data
+				iItem = Signer.adjust(iItem);		// applies signature to each score
 				sb.append(sDelim + iItem);
 				iPointer++;
 			}

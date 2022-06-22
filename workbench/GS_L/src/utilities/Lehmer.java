@@ -5,8 +5,7 @@ package utilities;
  *  (https://en.wikipedia.org/wiki/Lehmer_random_number_generator, ZX81)
  *  The purpose is to introduce a reliable one-digit signature to synthetic data sets at the least significant digit.
  *  Depending on the Lehmer result, it will either add or subtract one unit, so that the data is even, when the Lehmer number
- *  is even, and vice verso. Lehmer is used in SynthGroups.saveDataFile (~line 1226) and AnaGroups.saveAll
- *  (~line 1250).
+ *  is even, resp. vice verso. Lehmer is used in SynthGroups.saveDataFile and AnaGroups.saveAll.
  *
  *  There are five methods:
  *  	1. Generation and initialization, when the class is first called,

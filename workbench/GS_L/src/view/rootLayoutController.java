@@ -34,9 +34,25 @@ import javafx.stage.FileChooser;
  *
  */
 public class rootLayoutController {
+	
+	/**
+	 * pointer for callbacks to <code>Main</code>
+	 */
 	private application.Main myMain;
+	
+	/**
+	 * pointer to <code>Popup</code>
+	 */
 	private Popup popup = null;
+	
+	/**
+	 * pointer to Preferences API
+	 */
 	private Preferences prefs;
+	
+	/**
+	 * location current data directory
+	 */
 	private String homeDir = null;
 
 	@FXML
@@ -90,6 +106,10 @@ public class rootLayoutController {
 	        lblStep.setText(event.getText() + " typed.");
 	    }
 	}
+	
+	/**
+	 * initialize rootLayoutController at program start.
+	 */
 	public void initialize() {
 		mnuExit.setOnAction((event) -> {
 			respond();
@@ -147,6 +167,13 @@ public class rootLayoutController {
 		});
 	}
 
+	/**
+	 * establishes call backs
+	 * 
+	 * @param _main  to <code>Main</code>
+	 * @param _popup  to exception handler
+	 * @param _prefs  to Preferences API
+	 */
 	public void setMainApp(application.Main _main, Popup _popup, Preferences _prefs) {
 		myMain = _main;
 		popup = _popup;
@@ -155,16 +182,29 @@ public class rootLayoutController {
 		homeDir = System.getProperty("user.home");
 	}
 
+	/**
+	 * switch between select action and stepping
+	 * 
+	 * @param boolean switch b  on/off
+	 */
 	public void buttonsEnabled(boolean b) {
 		btnStepUp.setDisable(!b);
 		mnuActionFresh.setDisable(b);
 		mnuActionStartOver.setDisable(b);
 	}
 
+	/**
+	 * exit program
+	 */
 	private void respond() {
 		System.exit(0);
 	}
 
+	/**
+	 * control stepping
+	 * 
+	 * @param _iStep  control parameter
+	 */
 	public void setStep(Integer _iStep) {
 		lblStep.setText("Step " + _iStep);
 		if (_iStep == 0)
@@ -173,24 +213,41 @@ public class rootLayoutController {
 			buttonsEnabled(true);
 	}
 
+	/**
+	 * disable setup changes during stepping operation
+	 */
 	public void lockSetup() {
 		mnuSetup.setDisable(true);
 	}
 
+	/**
+	 * displaye 'About G_String' info
+	 */
 	private void about() {
 		About myAbout = new About(myMain.getPrimaryStage(), popup, "/resources/About.txt", "About G_String_L");
 		myAbout.show();
 	}
 
+	/**
+	 * display 'About Brennan' info
+	 */
 	private void aboutB() {
 		About myAbout = new About(myMain.getPrimaryStage(), popup, "/resources/AboutB.txt", "About urGenova");
 		myAbout.show();
 	}
 
+	/**
+	 * disables/enables 'Save All' operation (Results)
+	 * 
+	 * @param bDisable boolean switch true/false
+	 */
 	public void disableSave(Boolean bDisable) {
 		mnuSaveAll.setDisable(bDisable);
 	}
 
+	/**
+	 * load preferences from file 
+	 */
 	private void loadPreferences() {
 		InputStream sIn = null;
 		File selectedFile = null;
@@ -222,6 +279,9 @@ public class rootLayoutController {
 
 	}
 
+	/**
+	 * save preferences to file
+	 */
 	private void savePreferences() {
 		OutputStream sOut = null;
 		File selectedFile = null;
@@ -252,10 +312,20 @@ public class rootLayoutController {
 		}
 	}
 
+	/**
+	 * enables/disables stepping
+	 * 
+	 * @param bEnable  boolean switch true/false
+	 */
 	public void enableStepUp(Boolean bEnable) {
 		btnStepUp.setDisable(!bEnable);
 	}
 
+	/**
+	 * enables/disables action menu
+	 * 
+	 * @param bCall boolean switch true/false
+	 */
 	public void callForAction(Boolean bCall) {
 		if (bCall) {
 			mnuAction.setStyle("-fx-border-color:chocolate;");
@@ -266,6 +336,11 @@ public class rootLayoutController {
 		}
 	}
 
+	/**
+	 * Displays pdf file (for urGENOVA manual)
+	 * 
+	 * @param _sName file path
+	 */
 	private void displayResource(String _sName) {
 		File docFile = myMain.showPDF(_sName);
 		HostServices hostServices = myMain.getHostServices();

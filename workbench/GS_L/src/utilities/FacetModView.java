@@ -20,19 +20,44 @@ import javafx.scene.layout.HBox;
  * @version %v..%
  */
 public class FacetModView extends HBox{
-	Integer id = -1;
-	Double dLevel = 0.0;
-	Integer iLevel = 0;
-	String sName = null;
-	Boolean bFixed = false;
+	
+	/**
+	 * position in sDictionary
+	 */
+	//private Integer id = -1;
+	
+	/**
+	 * 'average' sample size
+	 */
+	//private Double dLevel = 0.0;
+	
+	/**
+	 * rounded 'average' sample size 
+	 */
+	private Integer iLevel = 0;
+	
+	/**
+	 * descriptive name of Facet
+	 */
+	private String sName = null;
+	
+	/**
+	 * boolean flag fixed/random -> true/false
+	 */
+	//private Boolean bFixed = false;
 
+	/**
+	 * constructor
+	 * 
+	 * @param f  Facet
+	 */
 	public FacetModView (Facet f)
 	{
 		CheckBox cbFixed = null;
 		this.setPadding(new Insets(0, 0, 0, 3));
 		sName = f.getName();
 		iLevel = (int) Math.round(f.getFacetLevel());
-		bFixed = f.getFixed();
+		//bFixed = f.getFixed();
 		Label lbName = new Label(sName);
 		lbName.setMinWidth(60.0);
 		TextField tfLevel = new TextField(iLevel.toString());

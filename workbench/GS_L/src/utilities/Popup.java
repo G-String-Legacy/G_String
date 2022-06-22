@@ -7,14 +7,11 @@ import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
 /**
- * 
- * @author ralph
- *
- * popup is the means to communicate with the user additionally to the regular
+ * communicates with the user additionally to the regular stepping process.
  * stepping process.
  * When popup is triggered by a Throwable exception, it sends the message to the log file.
  * When popup is triggered by other needs, the message goes to a popup window.
- *
+ * 
  * @see <a href="https://github.com/G-String-Legacy/G_String/blob/main/workbench/GS_L/src/utilities/Popup.java">utilities.Popup</a>
  * @author ralph
  * @version %v..%

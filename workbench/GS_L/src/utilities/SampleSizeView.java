@@ -79,7 +79,7 @@ public class SampleSizeView extends TextField {
 	/**
 	 * getter of sample size
 	 *
-	 * @return
+	 * @return iSampleSize;
 	 */
 	public Integer getValue() {
 		return iSampleSize;
@@ -105,7 +105,8 @@ public class SampleSizeView extends TextField {
 
 	/**
 	 * getter of IndexString, i.e. index array formatted as text String.
-	 * @return
+	 * 
+	 * @return String  index array formatted as text String
 	 */
 	public String getIndexString() {
 		StringBuilder sb = new StringBuilder();
@@ -121,7 +122,8 @@ public class SampleSizeView extends TextField {
 
 	/**
 	 * getter of <code>Nest</code>
-	 * @return
+	 * 
+	 * @return primary Effect as String
 	 */
 	public String getNest() {
 		return myTree.getNest(cFacet);

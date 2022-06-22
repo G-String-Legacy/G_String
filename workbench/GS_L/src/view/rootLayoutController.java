@@ -186,7 +186,7 @@ public class rootLayoutController {
 	/**
 	 * switch between select action and stepping
 	 *
-	 * @param boolean switch b  on/off
+	 * @param b  boolean switch  on/off
 	 */
 	public void buttonsEnabled(boolean b) {
 		btnStepUp.setDisable(!b);

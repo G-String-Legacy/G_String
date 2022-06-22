@@ -1,23 +1,24 @@
 package utilities;
 
 import java.io.UnsupportedEncodingException;
+
 import model.Facet;
 import model.Nest;
 
 /**
- * 'VarianceComponent' (vc) is a class of objects for the calculation of 
+ * 'VarianceComponent' (vc) is a class of objects for the calculation of
  * Generalizability Coefficients used in 'Nest', method 'formatResults'.
  * There is one one vc object for each actual variance component value.
  * The object calculates the contribution of this variance component
  * to the final Generalization Coefficient.
- * VC also handles Brennan's rules for calculating sigma2(tau), sigma2(delta), 
+ * VC also handles Brennan's rules for calculating sigma2(tau), sigma2(delta),
  * and sigma2(Delta) [Brennan, Generalizability Theory, pp 144/5]
- * For each variance component it thus determines three booleans (b_tau, b_delta, 
+ * For each variance component it thus determines three booleans (b_tau, b_delta,
  * and b_Delta to signify that this variance component gets added to the corresponding
  * sigma squares. This step then occurs in Nest.formatResults.
  * During D-Studies it changes the signature item of fixed facets to 'f', thus
  * excluding them from contributing to the error terms delta and Delta.
- * 
+ *
  * @see <a href="https://github.com/G-String-Legacy/G_String/blob/main/workbench/GS_L/src/utilities/VarianceComponent.java">utilities.VarianceComponent</a>
  * @author ralph
  * @version %v..%
@@ -60,7 +61,7 @@ public class VarianceComponent {
 	public void doCoefficient(StringBuilder sbOut) {
 		StringBuilder sb = new StringBuilder();
 		Double dFactor = 0.0;
-		Boolean bFirst = true;
+		boolean bFirst = true;
 		dDenominator = 1.0;
 		sSignature = sign(sPattern);
 		for (char c : cPattern) {

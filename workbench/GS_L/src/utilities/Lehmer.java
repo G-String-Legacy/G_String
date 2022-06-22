@@ -13,7 +13,7 @@ package utilities;
  *  	3. Test, counts the number of times the signature is violated,
  *  	4. Summarize, exports the total number of items and signature violations.
  *  	5. Even, a boolean based on Lehmer's method
- * 
+ *
  * @see <a href="https://github.com/G-String-Legacy/G_String/blob/main/workbench/GS_L/src/utilities/Lehmer.java">utilities.Lehmer</a>
  * @author ralph
  * @version %v..%

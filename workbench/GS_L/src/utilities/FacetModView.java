@@ -1,6 +1,5 @@
 package utilities;
 
-import model.Facet;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
@@ -9,38 +8,39 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import model.Facet;
 
 /**
  * 'FacetModView' is used as a display/control class in
  * the 'Analysis' scene of 'AnaGroups' (Step 10). It allows
  * changing the properties of facets in D-Studies.
- * 
+ *
  * @see <a href="https://github.com/G-String-Legacy/G_String/blob/main/workbench/GS_L/src/utilities/FacetModView.java">utilities.FacetModView</a>
  * @author ralph
  * @version %v..%
  */
 public class FacetModView extends HBox{
-	
+
 	/**
 	 * position in sDictionary
 	 */
 	//private Integer id = -1;
-	
+
 	/**
 	 * 'average' sample size
 	 */
 	//private Double dLevel = 0.0;
-	
+
 	/**
-	 * rounded 'average' sample size 
+	 * rounded 'average' sample size
 	 */
 	private Integer iLevel = 0;
-	
+
 	/**
 	 * descriptive name of Facet
 	 */
 	private String sName = null;
-	
+
 	/**
 	 * boolean flag fixed/random -> true/false
 	 */
@@ -48,7 +48,7 @@ public class FacetModView extends HBox{
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param f  Facet
 	 */
 	public FacetModView (Facet f)
@@ -78,7 +78,8 @@ public class FacetModView extends HBox{
 		cbFixed.setSelected(bFixed);
 		cbFixed.setPadding(new Insets(0,0,8,3));
 		cbFixed.selectedProperty().addListener(new ChangeListener<Boolean>() {
-	           public void changed(ObservableValue<? extends Boolean> ov,
+	           @Override
+			public void changed(ObservableValue<? extends Boolean> ov,
 	                 Boolean old_val, Boolean new_val)
 	           		{
 	                   if (old_val != new_val)

@@ -10,8 +10,7 @@ import java.io.OutputStream;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.InvalidPreferencesFormatException;
 import java.util.prefs.Preferences;
-import utilities.About;
-import utilities.Popup;
+
 import javafx.application.HostServices;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -23,33 +22,35 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
+import utilities.About;
+import utilities.Popup;
 
 /**
  * LayoutController for JavaFX GUI
  * manage the communication between <code>Main</code> and the GUI.
- * 
+ *
  * @see <a href="https://github.com/G-String-Legacy/G_String/blob/main/workbench/GS_L/src/view/rootLayout.fxml">view.rootLayoutController</a>
  * @author ralph
  * @version %v..%
  *
  */
 public class rootLayoutController {
-	
+
 	/**
 	 * pointer for callbacks to <code>Main</code>
 	 */
 	private application.Main myMain;
-	
+
 	/**
 	 * pointer to <code>Popup</code>
 	 */
 	private Popup popup = null;
-	
+
 	/**
 	 * pointer to Preferences API
 	 */
 	private Preferences prefs;
-	
+
 	/**
 	 * location current data directory
 	 */
@@ -106,7 +107,7 @@ public class rootLayoutController {
 	        lblStep.setText(event.getText() + " typed.");
 	    }
 	}
-	
+
 	/**
 	 * initialize rootLayoutController at program start.
 	 */
@@ -169,7 +170,7 @@ public class rootLayoutController {
 
 	/**
 	 * establishes call backs
-	 * 
+	 *
 	 * @param _main  to <code>Main</code>
 	 * @param _popup  to exception handler
 	 * @param _prefs  to Preferences API
@@ -184,7 +185,7 @@ public class rootLayoutController {
 
 	/**
 	 * switch between select action and stepping
-	 * 
+	 *
 	 * @param boolean switch b  on/off
 	 */
 	public void buttonsEnabled(boolean b) {
@@ -202,7 +203,7 @@ public class rootLayoutController {
 
 	/**
 	 * control stepping
-	 * 
+	 *
 	 * @param _iStep  control parameter
 	 */
 	public void setStep(Integer _iStep) {
@@ -238,7 +239,7 @@ public class rootLayoutController {
 
 	/**
 	 * disables/enables 'Save All' operation (Results)
-	 * 
+	 *
 	 * @param bDisable boolean switch true/false
 	 */
 	public void disableSave(Boolean bDisable) {
@@ -246,7 +247,7 @@ public class rootLayoutController {
 	}
 
 	/**
-	 * load preferences from file 
+	 * load preferences from file
 	 */
 	private void loadPreferences() {
 		InputStream sIn = null;
@@ -314,7 +315,7 @@ public class rootLayoutController {
 
 	/**
 	 * enables/disables stepping
-	 * 
+	 *
 	 * @param bEnable  boolean switch true/false
 	 */
 	public void enableStepUp(Boolean bEnable) {
@@ -323,7 +324,7 @@ public class rootLayoutController {
 
 	/**
 	 * enables/disables action menu
-	 * 
+	 *
 	 * @param bCall boolean switch true/false
 	 */
 	public void callForAction(Boolean bCall) {
@@ -338,7 +339,7 @@ public class rootLayoutController {
 
 	/**
 	 * Displays pdf file (for urGENOVA manual)
-	 * 
+	 *
 	 * @param _sName file path
 	 */
 	private void displayResource(String _sName) {

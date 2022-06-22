@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.prefs.Preferences;
+
 import application.Main;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -26,7 +27,7 @@ import utilities.Popup;
 /**
  * Utility for G_String Help
  * Reads 'help markup' file and converts it to javafx Text VBox
- * 
+ *
  * @see <a href="https://github.com/G-String-Legacy/G_String/blob/main/workbench/GS_L/src/view/TextStack.java">view.TextStack</a>
  * @author ralph
  * @version %v..%
@@ -37,13 +38,13 @@ public class TextStack
 	/**
 	 * string array list of text lines
 	 */
-	private ArrayList<String> salLines = new ArrayList<String>();
-	
+	private ArrayList<String> salLines = new ArrayList<>();
+
 	/**
 	 * pointer to Preferences API
 	 */
 	private Preferences prefs = null;
-	
+
 	/**
 	 * pointer to exception handler
 	 */
@@ -51,7 +52,7 @@ public class TextStack
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param sLocation  file name of specific help file
 	 * @param _prefs  pointer to Preferences API
 	 * @param _popup  pointer to exception handler
@@ -70,7 +71,7 @@ public class TextStack
 
 	/**
 	 * read text file
-	 * 
+	 *
 	 * @param filename
 	 * @throws IOException I/O exception
 	 */
@@ -88,7 +89,7 @@ public class TextStack
 
 	/**
 	 * constructs JavaFX element for display, and parses for markup code
-	 * 
+	 *
 	 * @return vBox scene
 	 */
 	public VBox vStack ()

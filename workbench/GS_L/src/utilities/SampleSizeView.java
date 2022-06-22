@@ -1,15 +1,14 @@
 package utilities;
 
-import model.SampleSizeTree;
-
 import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
+import model.SampleSizeTree;
 
 /**
  * 'SampleSizeView' (ssv) is a specialized text field for the display and modification
  * of sample size values in the 'SampleSizeTree', both for the construction of
  * the SampleSize page (Called by both AnaGroups (step 8) and SynthGroups (step 6).
- * 
+ *
  * @see <a href="https://github.com/G-String-Legacy/G_String/blob/main/workbench/GS_L/src/utilities/SampleSizeView.java">utilities.SampleSizeView</a>
  * @author ralph
  * @version %v..%
@@ -24,7 +23,7 @@ public class SampleSizeView extends TextField {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param _myTree  pointer to <code>Tree</code>
 	 * @param _cFacet  Facet designation char
 	 * @param _iFacet  order of Facet in original dictionary <code>sDictionary</code>
@@ -64,7 +63,7 @@ public class SampleSizeView extends TextField {
 
 	/**
 	 * setter of sample size
-	 * 
+	 *
 	 * @param _value value of sample size
 	 */
 	public void setValue(String _value) {
@@ -79,7 +78,7 @@ public class SampleSizeView extends TextField {
 
 	/**
 	 * getter of sample size
-	 * 
+	 *
 	 * @return
 	 */
 	public Integer getValue() {
@@ -88,7 +87,7 @@ public class SampleSizeView extends TextField {
 
 	/**
 	 * boolean flag if associated sample size has changed value
-	 * 
+	 *
 	 * @return true/false - changed/unchanged
 	 */
 	public Boolean hasChanged() {
@@ -97,7 +96,7 @@ public class SampleSizeView extends TextField {
 
 	/**
 	 * getter of array template to localize an effect specific mean square in the calculation
-	 * 
+	 *
 	 * @return Integer[]
 	 */
 	public Integer[] getIndices() {
@@ -119,7 +118,7 @@ public class SampleSizeView extends TextField {
 		return sb.toString();
 	}
 
-	
+
 	/**
 	 * getter of <code>Nest</code>
 	 * @return

@@ -5,12 +5,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.prefs.Preferences;
-import model.Facet;
-import model.Nest;
-import model.SampleSizeTree;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -28,6 +27,9 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import model.Facet;
+import model.Nest;
+import model.SampleSizeTree;
 
 /**
  * Process reading and writing of control and data files the 'read' command
@@ -37,7 +39,7 @@ import javafx.stage.Stage;
  * and stores stripped data file (with previously established format
  * parameters. 'Scan': reads, scans and displays data to establish format
  * parameters and sample sizes (auto-index)
- * 
+ *
  * @see <a href="https://github.com/G-String-Legacy/G_String/blob/main/workbench/GS_L/src/utilities/Popup.java">utilities.Filer</a>
  * @author ralph
  * @version %v..%
@@ -47,52 +49,52 @@ public class Filer {
 	 * pointer to <code>Nest</code>
 	 */
 	private Nest myNest = null;
-	
+
 	/**
 	 * file path
 	 */
 	private String sFileName = null;
-	
+
 	/**
 	 * file path of data file
 	 */
 	private String sDataFileName = null;
-	
+
 	/**
 	 * fixed field width in umber of characters
 	 */
 	private Integer iFieldWidth = 0;
-	
+
 	/**
 	 * upper limit of first data columns to be highlighted, to be ignored by urGENOVA
 	 */
 	private Integer iHilight = 0;
-	
+
 	/**
 	 * repository for HTML data section
 	 */
 	private String sHTML = null;
-	
+
 	/**
 	 * maximal number of collums in score data display
 	 */
 	private Integer iMaxColumns = 0;
-	
+
 	/**
 	 * pointer to Preferences API
 	 */
 	private Preferences prefs = null;
-	
+
 	/**
 	 * JavaFX code>WebEngine</code>
 	 */
 	private WebEngine webEngine = null;
-	
+
 	/**
 	 * array of String column headers
 	 */
 	private String[] sHeaders = null;
-	
+
 	/**
 	 * tentative limit for number of data-in columns
 	 */
@@ -106,43 +108,43 @@ public class Filer {
 	/**
 	 * integer denominator for calculating grand means
 	 */
-	private Integer[] iCounts = null; 
-	
+	private Integer[] iCounts = null;
+
 	/**
 	 * integer counter to count three horizontal bars, when parsing urGENOVA output
 	 */
 	private Integer iOutputPointer = 0;
-	
+
 	/**
 	 * Grand mean of score data
 	 */
 	private Double dGrandMeans = 0.0;
-	
+
 	/**
 	 * number of missing items
 	 */
 	private Integer iMissedItems = 0;
-	
+
 	/**
 	 * 2 dim array of raw score data fields, organized by rows and columns
 	 */
 	private String[][] sRawData = null;
-	
+
 	/**
 	 * arbitrary starting point for searching minimum value
 	 */
 	private Double dMin = 100.0;
-	
+
 	/**
 	 * arbitrary starting point for searching maximal value
 	 */
 	private Double dMax = -100.0;
-	
+
 	/**
 	 * pointer to <code>Popup</code>
 	 */
 	private Popup popup;
-	
+
 	/**
 	 * pointer to GUI window
 	 */
@@ -150,7 +152,7 @@ public class Filer {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param _nest  <code>Nest</code>
 	 * @param _prefs  <code>Preferences</code>
 	 * @param _popup  <code>Popup</code>
@@ -176,7 +178,7 @@ public class Filer {
 
 	/**
 	 * reads  script file line by line, to be processed by <code>processControlLine</code>
-	 * 
+	 *
 	 * @param file  file pointer
 	 */
 	public void readFile(File file) {
@@ -257,7 +259,7 @@ public class Filer {
 
 	/**
 	 * reverse of <code>split</code>, joins words from array, drops first word
-	 * 
+	 *
 	 * @param words
 	 * @param length
 	 * @return
@@ -272,13 +274,13 @@ public class Filer {
 
 	/**
 	 * highlights columns < <code>iHighlight</code>
-	 * 
+	 *
 	 * @param _sColumns array of Strings for a row at a time, raw score data
 	 * @return sbLine.toString  line of formatted text
 	 */
 	private String HTML_join(String[] _sColumns) {
 		StringBuilder sbLine = new StringBuilder("<tr>");
-		Integer iCount = 0;
+		int iCount = 0;
 		for (String sTemp : _sColumns) {
 			if (iCount++ >= iHilight)
 				sbLine.append("<td align=\"right\"><strong>" + sTemp + "</strong></td>");
@@ -292,15 +294,15 @@ public class Filer {
 	/**
 	 * This method displays the experimental scores, as read in from the data
 	 * file. It allows to exclude index columns from being fed to urGenova.
-	 * In contrast to all the other display scenes ('groups'), this one 
+	 * In contrast to all the other display scenes ('groups'), this one
 	 * is not pure javafx, but it displays the data as html within a webview.
 	 * It is more efficient than having a factory generate a javafx object for each score.
-	 * 
+	 *
 	 * @return HTML formatted text of score data via <code>WebView</code>
 	 */
 	public Group showTableNew() {
 		StringBuilder sb = new StringBuilder("<html><body contentEditable=\"true\"><table border = \"1\">\n");
-		Integer iCounter = 0;
+		int iCounter = 0;
 		for (int i = 0; i < iMaxColumns; i++)
 			sb.append("<col width=\"50\">\n");
 		if (sHeaders != null) {
@@ -346,7 +348,7 @@ public class Filer {
 		Label lbSkip = new Label("Skip: ");
 		lbSkip.setPadding(new Insets(0, 0, 0, 10));
 		Label lbWidth = new Label("     Width: ");
-		Spinner<Integer> intSpinner = new Spinner<Integer>(0, iMaxColumns - 1, 0, 1);
+		Spinner<Integer> intSpinner = new Spinner<>(0, iMaxColumns - 1, 0, 1);
 		intSpinner.getStyleClass().add(Spinner.STYLE_CLASS_SPLIT_ARROWS_HORIZONTAL);
 		intSpinner.setPrefWidth(80.0);
 		intSpinner.getValueFactory().setValue(iHilight);
@@ -391,9 +393,9 @@ public class Filer {
 	 */
 	public void readDataFileNew(File _inFile) {
 		Integer iLineCount = 0;
-		Integer iFalseLineCount = 0;
+		int iFalseLineCount = 0;
 		Integer iNumberFields;
-		Integer iLineIndex = 0;
+		int iLineIndex = 0;
 		String[] sChoppedLine = null;
 		String sLine = null;
 		// check if file exists
@@ -449,7 +451,7 @@ public class Filer {
 	 */
 	public void writeDataFileNew() {
 		StringBuilder sb = null;
-		Double sum = 0.0;
+		double sum = 0.0;
 		Double dItem = 0.0;
 		Double dValue = 0.0;
 		int DataCount = 0;
@@ -484,7 +486,7 @@ public class Filer {
 			popup.tell("writeDataFileNew_a", e);
 		}
 	    new DecimalFormat("####.##");
-	    DecimalFormat df = (DecimalFormat) DecimalFormat.getInstance(Locale.US);
+	    DecimalFormat df = (DecimalFormat) NumberFormat.getInstance(Locale.US);
 		for (String[] dRow : sRawData) {
 			sb = new StringBuilder("");
 			iHeadCount = iHilight;
@@ -507,7 +509,7 @@ public class Filer {
 	 * test synthetic data file in signal noise, so synthetic data files can
 	 * be distinguished from empiric data. Synthetic data show an analytic
 	 * sig LessThan 10.
-	 * 
+	 *
 	 * @return String  Signature ~
 	 */
 	public String testSignature() {
@@ -527,7 +529,7 @@ public class Filer {
 
 	/**
 	 * format utility  pads String <code>s</code> to <code>n</code> characters with blanks
-	 * 
+	 *
 	 * @param s  String to be padded
 	 * @param n  int number of padding blanks
 	 * @return padded String
@@ -560,7 +562,7 @@ public class Filer {
 
 	/**
 	 * extracts variance components from urGENOVA output lines and stores them in <code>Nest</code>
-	 * 
+	 *
 	 * @param _line  line from urGENOVA output
 	 */
 	private void processResultlLine(String _line) {
@@ -588,7 +590,7 @@ public class Filer {
 
 	/**
 	 * getter of <code>iHilight</code>
-	 * 
+	 *
 	 * @return iHilight
 	 */
 	public Integer getHighlight() {
@@ -601,7 +603,7 @@ public class Filer {
 
 	/**
 	 * getter of <code>File</code>
-	 * 
+	 *
 	 * @param bRead  boolean flag read/write - true/false
 	 * @param sTitle  String, title to be displayed in <code>FileChooser</code>
 	 * @return File
@@ -628,7 +630,7 @@ public class Filer {
 	/**
 	 * opens <code>Alert</code> dialog to solicit location for new script file
 	 * to be saved to.
-	 * 
+	 *
 	 * @param sType  'Analysis'/'Synthesis'
 	 * @param sQuestion  text of question to be displayed
 	 */
@@ -666,7 +668,7 @@ public class Filer {
 
 	/**
 	 * writes new analysis control file
-	 * 
+	 *
 	 * @param file pointer to <code>File</code>
 	 */
 	public void writeAnalysisControlFile(File file) {
@@ -706,10 +708,10 @@ public class Filer {
 		writer.println("PROCESS      \"" + sDataFileName + "\"");
 		writer.close();
 	}
-	
+
 	/**
 	 * writes new synthesis control file
-	 * 
+	 *
 	 * @param fOutput  pointer to <code>File</code>
 	 */
 	public void writeSynthesisControlFile(File fOutput) {
@@ -751,5 +753,5 @@ public class Filer {
 			sb.append("    " + myNest.getVarianceCoefficient(i));
 		writer.println(sb.toString());
 		writer.close();
-	};
+	}
 }

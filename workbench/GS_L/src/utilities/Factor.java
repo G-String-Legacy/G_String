@@ -8,7 +8,7 @@ import model.SampleSizeTree;
  * within a configuration. It  calculates the absolute size, i.e. the number of states
  * of this factor. That makes it easier to calculate size for the whole configuration.
  * Factor is used extensively in SampleSizeTree.
- * 
+ *
  * @see <a href="https://github.com/G-String-Legacy/G_String/blob/main/workbench/GS_L/src/utilities/Factor.java">utilities.Factor</a>
  * @author ralph
  * @version %v..%
@@ -28,38 +28,38 @@ public class Factor {
 	 * Factor section split by colons expressed as string of Facet chars
 	 */
 	private String sFloor;
-	
+
 	/**
 	 * String array of <code>sFloor</code>s
 	 */
 	private String[] sarFloors;
-	
+
 	/**
 	 * index to <code>sarFloors</code>
 	 */
 	private int iFloors = 0;
-	
+
 	/**
 	 * array of sample sizes
 	 */
 	private int[][][] iarSizes;
-	
+
 	/**
 	 * pointer to original Facet dictionary
 	 */
 	private String sDictionary;
-	
+
 	/**
 	 * <code>Facet</code> variable
 	 */
 	private Facet facet;
-	
+
 	/**
 	 * This class encapsulates design factors ('factors')
 	 * within a configuration. It  calculates the absolute size, i.e. the number of states
 	 * of this factor. That makes it easier to calculate size for the whole configuration.
 	 * Factor is used extensively in SampleSizeTree.
-	 * 
+	 *
 	 * @param _tree  pointer to the SampleSizeTree
 	 * @param _sFactor string showing the configuration of the factor
 	 */
@@ -70,14 +70,14 @@ public class Factor {
 		sarFloors = sFactor.split(":");
 		iFloors = sarFloors.length;
 	}
-	
+
 	/**
 	 * Critical method:
 	 * It is trivial, if a factor corresponds to a 'primary Effect',
 	 * then it is simply equal to the cumulative sample size of the deepest facet.
 	 * However, if facets, nested under the same 'Nestor', are crossed, it
 	 * becomes somewhat more involved.
-	 * 
+	 *
 	 * @return int cumulative smple size
 	 */
 	public int getSize() {

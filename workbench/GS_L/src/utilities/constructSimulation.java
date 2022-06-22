@@ -13,17 +13,17 @@ import model.SampleSizeTree;
  * in terms of crossed and nested facets, as well as due to their interactions
  * (see CompConstrct), expressed as strings, designated 'Configurations'
  * - the general 'Effects' of the model.
- * For each configuration (i.e.'Effect') it then gets the number of possible states 
- * (from 'SampleSizeTree.getSize), over the allowed range of facet indices. 
- * For each configuration it generates 'synthetic error' values, distributed 
- * according to the variance component corresponding to its configuration. It then 
- * steps through the indices in the correct order, adding all the component error values 
- * according to the appropriate indices. The resulting array of double numbers (darOutput) 
+ * For each configuration (i.e.'Effect') it then gets the number of possible states
+ * (from 'SampleSizeTree.getSize), over the allowed range of facet indices.
+ * For each configuration it generates 'synthetic error' values, distributed
+ * according to the variance component corresponding to its configuration. It then
+ * steps through the indices in the correct order, adding all the component error values
+ * according to the appropriate indices. The resulting array of double numbers (darOutput)
  * is distributed symmetrically around 0.0 with the appropriate compound variance.
  * On the side, 'constructSimulation also prepares a stringArrayList (salCarriageReturn),
- * providing the formated indices for each line of data values. Both, darOutput and 
+ * providing the formated indices for each line of data values. Both, darOutput and
  * salCarriageReturn are being passed to SynthGroups.saveSynthetics.
- * 
+ *
  * @see <a href="https://github.com/G-String-Legacy/G_String/blob/main/workbench/GS_L/src/utilities/constructSimulation.java">utilities.constructSimulation</a>
  * @author ralph
  * @version %v..%
@@ -34,45 +34,45 @@ public class constructSimulation {
 	 * pointer to <code>Nest</code>
 	 */
 	private Nest myNest = null;
-	
+
 	/**
 	 * pointer to <code>SampleSizeTree</code>
 	 */
 	private SampleSizeTree myTree = null;
-	
+
 	/**
 	 * counts configurations (Effects), as they are created
 	 */
 	private int iConfCount = 0;
-	
+
 	/**
 	 * number of individual states an Effect can assume, as the facets step through their sample sizes
 	 */
 	private int iDim = 0;
-	
+
 	/**
 	 * Double array of variance components per Effect
 	 */
 	private Double[] darSE = null;
-	
+
 	/**
 	 * Double Array of final score values minus grand mean
 	 */
 	private Double[] darOutput = null;
-	
+
 	/**
 	 * order of cStarred in original dictionary
 	 */
 	private int iAsterisk = 0;
-	
+
 	/**
 	 * String array list of row indices of final output
 	 */
-	private ArrayList<String> salCarriageReturn = new ArrayList<String>();
+	private ArrayList<String> salCarriageReturn = new ArrayList<>();
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param _nest  pointer to <code>Nest</code>
 	 */
 	public constructSimulation(Nest _nest) {
@@ -111,7 +111,7 @@ public class constructSimulation {
 		 * it increments both Facet index sets, and linear Effect indices, using
 		 * the method 'increment' in 'SampleSizeTree.
 		 */
-		
+
 		do { // increment indices
 			indices = myTree.getIndices();
 			if (indices[iAsterisk] != iChange) { // new line
@@ -131,7 +131,7 @@ public class constructSimulation {
 			myTree.increment();
 			iRange = myTree.getCount(iBase);
 		} while (iRange > 0);
-		
+
 		sb = new StringBuilder(sOut);
 		sb.append("|" + String.valueOf(iRange));
 		salCarriageReturn.add(sb.toString());
@@ -141,7 +141,7 @@ public class constructSimulation {
 	 * Generates a set of 'l' randomly distributed Double values with
 	 * a nominal standard distribution of 'vc'. The method returns an
 	 * array of 'l' double values with a mean of 0.0 for each 'Effect'.
-	 * 
+	 *
 	 * @param l  number of states for Effect
 	 * @param vc  variance component for Effect
 	 * @return  Double array (dim l) of Gaussian pseudo random numbers, mean 0.0, variance vc.
@@ -150,11 +150,11 @@ public class constructSimulation {
 		Double stdDev = 0.0;
 		Double dS = 0.0;
 		Double[] vector = new Double[l];
-		Double dFudgeFactor = 1.00;		// to match synthetic to reverse
-		Double dSum = 0.0;
-		Double dSum2 = 0.0;
-		Double dMean = 0.0;
-		Double dStd = 0.0;
+		double dFudgeFactor = 1.00;		// to match synthetic to reverse
+		double dSum = 0.0;
+		double dSum2 = 0.0;
+		double dMean = 0.0;
+		double dStd = 0.0;
 		// generate vector and sums
 		stdDev = Math.sqrt(vc) * dFudgeFactor;
 		for (int i = 0; i < l; i++) {
@@ -179,7 +179,7 @@ public class constructSimulation {
 	 * variable required for random number generator (Marsaglia)
 	 */
 	private static double spare;
-	
+
 	/**
 	 * variable required for random number generator (Marsaglia)
 	 */
@@ -189,7 +189,7 @@ public class constructSimulation {
 	 * Marsaglia polar method
 	 * Marsaglia, G.; Bray, T. A. (1964). "A Convenient Method for
 	 *   generating Normal Variables". SIAM Review. 6 (3): 260–264
-	 *   
+	 *
 	 * @param mean  required mean value
 	 * @param stdDev  standard deviation parameter
 	 * @return  Double random value
@@ -217,7 +217,7 @@ public class constructSimulation {
 
 	/**
 	 * getter of final <code>darOutput</code>
-	 * 
+	 *
 	 * @return darOutput
 	 */
 	public Double[] getData() {
@@ -225,8 +225,8 @@ public class constructSimulation {
 	}
 
 	/**
-	 * getter of row indices 
-	 * 
+	 * getter of row indices
+	 *
 	 * @return salCarriageReturn
 	 */
 	public ArrayList<String> getCarriageReturn() {
@@ -235,7 +235,7 @@ public class constructSimulation {
 
 	/**
 	 * utility to convert int array to text string
-	 * 
+	 *
 	 * @param array arbitrary int array
 	 * @return formatted text
 	 */

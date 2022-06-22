@@ -1,6 +1,7 @@
 package utilities;
 
 import java.util.logging.Logger;
+
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Region;
@@ -11,7 +12,7 @@ import javafx.stage.Stage;
  * stepping process.
  * When popup is triggered by a Throwable exception, it sends the message to the log file.
  * When popup is triggered by other needs, the message goes to a popup window.
- * 
+ *
  * @see <a href="https://github.com/G-String-Legacy/G_String/blob/main/workbench/GS_L/src/utilities/Popup.java">utilities.Popup</a>
  * @author ralph
  * @version %v..%
@@ -22,25 +23,25 @@ public class Popup {
 	private String sClass = null;
 	private String sMethod = null;
 
-	
+
 	public Popup(Logger _logger, Stage _stage) {
 		logger = _logger;
 	}
-	
+
 	public void setClass (@SuppressWarnings("rawtypes") Class _this) {
 		sClass = _this.getName();
 	}
-	
+
 	public void setClass (String _sClass) {
 		sClass = _sClass;
 	}
-	
+
 	public void tell(String _sMethod, Throwable _e) {
 		sMethod = _sMethod;
 		sMessage = sClass + "(" + sMethod + "): " + _e.getMessage();
 		logger.warning(sMessage);
 	}
-	
+
 	public void tell(String _sMethod, String _sMessage) {
 		sMethod = _sMethod;
         Alert a = new Alert(AlertType.INFORMATION);
@@ -51,5 +52,5 @@ public class Popup {
         a.setContentText(_sMessage);
         a.showAndWait();
 	}
-	
+
 }

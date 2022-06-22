@@ -22,7 +22,7 @@ import javafx.stage.Stage;
 /**
  * This small utility is used to display two text files:
  * 'About' G_String, and 'About' urGenova as part of 'Help'
- * 
+ *
  * @see <a href="https://github.com/G-String-Legacy/G_String/blob/main/workbench/GS_L/src/utilities/About.java">utilities.About</a>
  * @author ralph
  * @version %v..%
@@ -32,28 +32,28 @@ public class About {
 	/**
 	 * array list of text lines
 	 */
-	private ArrayList<String> salItems = new ArrayList<String>();
-	
+	private ArrayList<String> salItems = new ArrayList<>();
+
 	/**
 	 * document file path
 	 */
 	private String sFileName = null;
-	
+
 	/**
 	 * GUI window
 	 */
 	private Stage myStage;
-	
+
 	/**
 	 * subclass of JavaFX <code>Dialog</code>
 	 */
 	private Alert alert = null;
-	
+
 	/**
 	 * title of Alert window
 	 */
 	private String sTitle = null;
-	
+
 	/**
 	 * pointer to exception handler
 	 */
@@ -61,7 +61,7 @@ public class About {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param _myStage  pointer to MainStage
 	 * @param _popup  pointer to exception handler
 	 * @param _sFileName  path to 'About file)

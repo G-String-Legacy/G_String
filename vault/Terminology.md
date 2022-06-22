@@ -1,4 +1,4 @@
-[Return](professionals)
+[Return](professionals.md)
 ## Terminology ##
 The terminology in G_String can be quite confusing at first, this is partially due to the fact that concepts are drawn from different fields, where the same terms can have different meanings, and partially due to the development history of the G_String project, where terminological conflicts were only recognized too late, to correct without major rewrites of the whole program.
 

@@ -1,17 +1,17 @@
 [Return](professionals.md)
 ## Synthesize ##
 The synthetic data set is constructed in a [Monte Carlo process](https://en.wikipedia.org/wiki/Monte_Carlo_method). Each Effect can take on $s_{e}$ values, i.e, the number of its States. Each Effect consists of a different set of Facets, which in turn can be in $s_{f}$ different States. We identify a specific State of a Facet f by its index $i_{f}$, and the set of Facet indices corresponding to an Effect e as 
-$\hat{I_{e}}$. We designate the total set of all Facet indices at a given point as $\hat{I}$.  But each set $\hat{I_{e}}$ can actually be uniquely mapped to an  integer 0 &lt; $i_{e}$ &lt; $s_{e}$.  In fact, the total set of all facet indices $\hat{I}$ corresponds to the Effect involving all Facets, and can therefore be mapped accordingly. This mapping is based on the order and nesting of the facets, since the the sequence of facet indices is not random, but also corresponds to the sequence of scores in the data file. In actual practice, this mapping from the facet index sets for each Effect to linear Effect index occurs somewhat obscurely in method ['SampleSizeTree.increment'](../workbench/GS_L/src/model/SampleSizeTree.java#L594).
+$\hat{I_{e}}$. We designate the total set of all Facet indices at a given point as $\hat{I}$.  But each set $\hat{I_{e}}$ can actually be uniquely mapped to an  integer 0 &lt; $i_{e}$ &lt; $s_{e}$.  In fact, the total set of all facet indices $\hat{I}$ corresponds to the Effect involving all Facets, and can therefore be mapped accordingly. This mapping is based on the order and nesting of the facets, since the the sequence of facet indices is not random, but also corresponds to the sequence of scores in the data file. In actual practice, this mapping from the facet index sets for each Effect to linear Effect index occurs somewhat obscurely in method 'SampleSizeTree.increment'.
 
-Next, for each Effect e we generate $s_{e}$ randomly distributed values $\epsilon_{e}(i_{e})$ with a defined variance $\sigma^{2}_{e}$, and a mean of 0 ([code](../workbench/GS_L/src/utilities/constructSimulation.java#L100)). With this terminology we can then calculate the simulated score S as ([code](../workbench/GS_L/src/utilities/constructSimulation.java#L75)):
+Next, for each Effect e we generate $s_{e}$ randomly distributed values $\epsilon_{e}(i_{e})$ with a defined variance $\sigma^{2}_{e}$, and a mean of 0. With this terminology we can then calculate the simulated score S as:
 
 $$S(\hat{I}) = S(i_{h}) = \mu + \sum_{e}\epsilon_{e}(i_{e})$$
 
 where i<sub>h</sub> equals the integer index of the highest effect, and $\mu$ is the specified grand mean of all the scores.
 
-In reality, 'constructSimulation' only calculates the sums. The results 'darOutput' are then passed on in the Double array getter ['getData'](../workbench/GS_L/src/utilities/constructSimulation.java#L164) to the ['saveSynthetics'](../workbench/GS_L/src/steps/SynthGroups.java#L1161) method of ['SynthGroups'](../workbench/GS_L/src/steps/SynthGroups.java#L168). Also passed on is a string list array ['salCarriageReturn'](../workbench/GS_L/src/utilities/constructSimulation.java#L168) containing the leading index columns for the data output.
+In reality, 'constructSimulation' only calculates the sums. The results 'darOutput' are then passed on in the Double array getter 'getData' to the 'saveSynthetics' method of 'SynthGroups'. Also passed on is a string list array 'salCarriageReturn' containing the leading index columns for the data output.
 
-The [&mu; gets added](../workbench/GS_L/src/steps/SynthGroups.java#L1215), and the value is restrained within the limits of the specified score range.
+The &mu; gets added, and the value is restrained within the limits of the specified score range.
 
 
 **Important**  

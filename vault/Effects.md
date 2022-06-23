@@ -6,16 +6,16 @@ In Synthesis we have to figure out these crossed effects ourselves. G_String use
 ### 1. Find all possible combinations of the facets ###
 Combinatorics teaches us that n items  can be combined in N ways, ignoring ordering, and requiring at least one item: $$N = 2^{n}-1$$ Expressing the numbers from 1 to N in binary form requires 'n' digits, each being either '0' or '1'. Associating each position of the binary number with a specific facet, then gives us all possible combinations of the 'n' facets.
 ### 2. Eliminate all combinations that violate nesting rules ###
-But not all N combinations meet the nesting constraints. In fact, a given facet can only occur in the combination, if all the facets, it is nested in, also appear in the Effect. We have to eliminate all effects, where a nested facet ('Nestee') appears without its immediate container facet ('Nestor'). This happens in ['CompConstr'](../workbench/GS_L/src/utilities/CompConstrct.java#L65).
+But not all N combinations meet the nesting constraints. In fact, a given facet can only occur in the combination, if all the facets, it is nested in, also appear in the Effect. We have to eliminate all effects, where a nested facet ('Nestee') appears without its immediate container facet ('Nestor'). This happens in 'CombConstr'.
 ### 3. Break Effects into Factors ###
 <table><tr><td width = "50%">
 Before we can calculate the number of states, each Effect can assume, we have to break down the Effects
-into <a href = "../workbench/GS_L/src/utilities/Factor.java#L44">Factors</a>, where the number of states ('size') is determined easily.
+into Factors, where the number of states ('size') is determined easily.
 </td><td><img src= "img/factors.png"></td></tr></table>
 
 ### 4. States of Effects ###
 <table><tr><td width = "50%">
-By 'number of States' we mean the number of ANOVA error terms &epsilon; required for a given Effect considering the respective sample sizes. This number is calculated for each Effect as the <a href = "../workbench/GS_L/src/model/SampleSizeTree.java#L815"> product of sizes of its constituent Factors</a>.
+By 'number of States' we mean the number of ANOVA error terms &epsilon; required for a given Effect considering the respective sample sizes. This number is calculated for each Effect as the product of sizes of its constituent Factors.
  
 </td><td><img src= "img/effects.png"></tr></table>
 

@@ -98,7 +98,7 @@ public class VarianceComponent {
 		 */
 		b_tau = !has('g') && has('d');
 		b_delta = has('g') && has('d');
-		b_Delta = !has('d') && (has('g'));
+		b_Delta = has('g');
 		String sTarget = null;
 		if (b_tau)
 			sTarget = "τ only";

@@ -2,6 +2,7 @@ package model;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
 import application.Main;
@@ -10,7 +11,6 @@ import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import utilities.Popup;
 import utilities.VarianceComponent;
 
 /**
@@ -232,9 +232,9 @@ public class Nest {
 	private String sPlatform = null;
 
 	/**
-	 * <code>popup</code> pointer to <code>Popup</code>, exception handler.
+	 * <code>logger</code> pointer to application logger.
 	 */
-	private Popup popup = null;
+	private Logger logger = null;
 
 	/**
 	 * <code>salNestedNames</code> array list of nested configurations from AnaGroups step 6.
@@ -245,18 +245,17 @@ public class Nest {
 	/**
 	 * Constructor for class <code>Nest</code>
 	 *
-	 * @param _popup - pointer to exception handler
+	 * @param _logger - pointer application logger
 	 * @param _myMain - pointer to Main class
 	 * @param _prefs - pointer to Preferences API
 	 */
-	public Nest(Popup _popup, Main _myMain, Preferences _prefs) {
+	public Nest(Logger _logger, Main _myMain, Preferences _prefs) {
 
 		iAsterisk = 0;
 		falFacets = new ArrayList<>();
 		sbFO = new StringBuilder();
 		sbHFO = new StringBuilder();
-		popup = _popup;
-		popup.setClass("Nest");
+		logger = _logger;
 		myMain = _myMain;
 		prefs = _prefs;
 		salVarianceComponents = new ArrayList<>();
@@ -332,7 +331,7 @@ public class Nest {
 	public void setHDictionary(String _sHDictionary) {
 		sHDictionary = _sHDictionary;
 		if (myTree == null)
-			myTree = new SampleSizeTree(this, sDictionary, popup, prefs);
+			myTree = new SampleSizeTree(this, sDictionary, logger, prefs);
 		myTree.setHDictionary(_sHDictionary);
 	}
 
@@ -539,7 +538,7 @@ public class Nest {
 
 		char cTarget;
 		if (myTree == null) {
-			myTree = new SampleSizeTree(this, sDictionary, popup, prefs);
+			myTree = new SampleSizeTree(this, sDictionary, logger, prefs);
 
 		}
 		String[] words = _sEffect.trim().split("\\s+");
@@ -629,7 +628,7 @@ public class Nest {
 		// convert observable list back to string array
 		iNestCount = _nests.length;
 		if (myTree == null) {
-			myTree = new SampleSizeTree(this, sDictionary, popup, prefs);
+			myTree = new SampleSizeTree(this, sDictionary, logger, prefs);
 			myTree.setHDictionary(sHDictionary);
 		}
 		String sNest = null;
@@ -837,7 +836,7 @@ public class Nest {
 	 * @param _line  string from ANOVA table
 	 */
 	public void setVariance(String _line) {
-		salVarianceComponents.add(new VarianceComponent(this, _line, sPlatform, popup));
+		salVarianceComponents.add(new VarianceComponent(this, _line, sPlatform, logger));
 	}
 
 	/**
@@ -1024,9 +1023,9 @@ public class Nest {
 		 */
 
 		StringBuilder sb = new StringBuilder();
-		double dAbsolute = 0.0; // total sum of absolute values of weighted
+		//double dAbsolute = 0.0; // total sum of absolute values of weighted
 								// components
-		double dFactual = 0.0; // total sum of weighted components > 0.0
+		//double dFactual = 0.0; // total sum of weighted components > 0.0
 		Double dTemp = 0.0; // temporary variable;
 		Double dS2_t = 0.0; // sigma2(tau)
 		Double dS2_d = 0.0; // sigma2(delta)
@@ -1045,15 +1044,15 @@ public class Nest {
 			sbResult.append("Results " + sTitle + "\n\n");
 			sbResult.append(sb.toString());
 		} catch (Exception e1) {
-			popup.tell("formatResults_a", e1);
+			logger.warning(e1.getMessage());
 		}
 		sTitle = " D-Study.";
 		for (VarianceComponent vc : salVarianceComponents) {
 			vc.doCoefficient(sbResult);
 			dTemp = vc.getVarianceComponent() / vc.getDenominator();
-			dAbsolute += Math.abs(dTemp);
+			//dAbsolute += Math.abs(dTemp);
 			if (dTemp > 0.0) {
-				dFactual += dTemp;
+				//dFactual += dTemp;
 				if (vc.b_tau())
 					dS2_t += dTemp;
 				if (vc.b_delta())
@@ -1074,7 +1073,7 @@ public class Nest {
 			sbResult.append(reCode("Eρ\u00B2      	  = " + String.format("%.2f", dRel) + "\n"));
 			sbResult.append(reCode("Φ           = " + String.format("%.2f", dAbs) + "\n"));
 		} catch (Exception e) {
-			popup.tell("formatResults_b", e);
+			logger.warning(e.getMessage());
 		}
 	}
 
@@ -1325,15 +1324,6 @@ public class Nest {
 	 */
 	public SampleSizeTree getTree() {
 		return myTree;
-	}
-
-	/**
-	 * getter for Popup pointer.
-	 *
-	 * @return popup instance
-	 */
-	public Popup getPopup() {
-		return popup;
 	}
 
 	/*

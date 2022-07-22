@@ -1,6 +1,7 @@
 package utilities;
 
 import java.io.UnsupportedEncodingException;
+import java.util.logging.Logger;
 
 import model.Facet;
 import model.Nest;
@@ -25,25 +26,89 @@ import model.Nest;
  *
  */
 public class VarianceComponent {
-	private String sPattern; // nesting pattern
-	private char[] cPattern = null; // char array of pattern
-	private Boolean b_tau = false; // contributes to tau
-	private Boolean b_delta = false; // contributes to delta
-	private Boolean b_Delta = false; // contributes to Delta
-	private Double dVC; // variance component
-	private String sSignature; // interpretation of pattern
-	private Nest myNest;
-	private String sDictionary = null;
-	private Facet[] farFacets = null;
-	private Double dDenominator = 1.0;
-	private String sDenominator = null;
-	private Popup popup = null;
-	private String sPlatform = null;
+	
+	/**
+	 * nesting pattern
+	 */
+	private String sPattern;
+	
+	/**
+	 * char array of pattern
+	 */
+	private char[] cPattern = null;
+	
+	/**
+	 * contributes to tau
+	 */
+	private Boolean b_tau = false;
 
-	public VarianceComponent(Nest _nest, String _line, String _sPlatform, Popup _popup) {
+	/**
+	 * contributes to delta
+	 */
+	private Boolean b_delta = false;
+
+	/**
+	 * contributes to Delta
+	 */
+	private Boolean b_Delta = false;
+
+	/**
+	 * variance component
+	 */
+	private Double dVC;
+
+	/**
+	 * interpretation of pattern
+	 */
+	private String sSignature;
+
+	/**
+	 * pointer to Nest
+	 */
+	private Nest myNest;
+	
+	/**
+	 * Facet dictionary, original order
+	 */
+	private String sDictionary = null;
+	
+	/**
+	 * array of facets
+	 */
+	private Facet[] farFacets = null;
+	
+	/**
+	 * double variable for the value of the coefficient denominator
+	 */
+	private Double dDenominator = 1.0;
+	
+	/**
+	 * string for denominar
+	 */
+	private String sDenominator = null;
+	
+	/**
+	 * current operating system
+	 */
+	private String sPlatform = null;
+	
+	/**
+	 * pointer to logger
+	 */
+	private Logger logger;
+	
+	/**
+	 * 
+	 * @param _nest  pointer to Nest
+	 * @param _line  String argument formally characterizing the configuration of the variance component
+	 * @param _sPlatform  String - current operating system
+	 * @param _logger pointer to application logger
+	 */
+	public VarianceComponent(Nest _nest, String _line, String _sPlatform, Logger _logger) {
 		/*
 		 * constructor for G-Analysis
 		 */
+		logger = _logger;
 		myNest = _nest;
 		sDictionary = myNest.getDictionary();
 		farFacets = myNest.getFacets();
@@ -54,8 +119,6 @@ public class VarianceComponent {
 		sPattern = sWords[0];
 		cPattern = sPattern.toCharArray();
 		sPlatform = _sPlatform;
-		popup = _popup;
-		popup.setClass("VarianceComponent");
 	}
 
 	public void doCoefficient(StringBuilder sbOut) {
@@ -78,13 +141,13 @@ public class VarianceComponent {
 					try {
 						sb.append(reCode(String.format("%.2f", dFactor)));
 					} catch (UnsupportedEncodingException e) {
-						popup.tell("1185a", e);
+						logger.warning(e.getMessage());
 					}
 				else
 					try {
 						sb.append(reCode(" x " + String.format("%.2f", dFactor)));
 					} catch (UnsupportedEncodingException e) {
-						popup.tell("1185b", e);
+						logger.warning(e.getMessage());
 					}
 				bFirst = false;
 			}
@@ -113,8 +176,8 @@ public class VarianceComponent {
 			try {
 				sbOut.append("Variance component '" + sPattern + "' (" + sSignature + ") is " + dVC
 						+ "; denominator is " + sDenominator + ";  " + reCode(sTarget) + "\n");
-			} catch (Exception ioe) {
-				popup.tell("doCoefficient_a", ioe);
+			} catch (Exception e) {
+				logger.warning(e.getMessage());
 			}
 		}
 	}

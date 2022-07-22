@@ -390,6 +390,8 @@ public class Facet {
 	public void addNestee(char cNestee) {
 		if (sNestees == null)
 			sNestees = String.valueOf(cNestee);
+		else if (sNestees.indexOf(cNestee) > -1)
+			return;
 		else {
 			String s = sNestees;
 			sNestees = s + String.valueOf(cNestee);

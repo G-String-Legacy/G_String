@@ -2,11 +2,12 @@ package steps;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
+import application.Main;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,6 +16,8 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -40,7 +43,6 @@ import model.SampleSizeTree;
 import utilities.CombConstrct;
 import utilities.Filer;
 import utilities.Lehmer;
-import utilities.Popup;
 import utilities.constructSimulation;
 import view.rootLayoutController;
 
@@ -213,24 +215,30 @@ public class SynthGroups {
 	private Integer iNoCut = 0;
 
 	/**
-	 * pointer to <code>Popup</code>
+	 * pointer to application logger
 	 */
-	private Popup popup = null;
+	private Logger logger = null;
+	
+	/**
+	 * pointer to Main
+	 */
+	private Main myMain;
 
 	/**
 	 * Constructor
 	 *
+	 * @param _main  pointer to Main class
 	 * @param _nest  pointer to Nest
-	 * @param _popup  pointer to Popup
+	 * @param _logger  application logger
 	 * @param _controller  pointer to rootLayoutController
 	 * @param _prefs pointer to Preferences
 	 * @param _flr pointer to Filer
 	 */
-	public SynthGroups(Nest _nest, Popup _popup, rootLayoutController _controller, Preferences _prefs, Filer _flr) {
+	public SynthGroups(Main _main, Nest _nest, Logger _logger, rootLayoutController _controller, Preferences _prefs, Filer _flr) {
+		myMain = _main;
 		myNest = _nest;
 		myController = _controller;
-		popup = _popup;
-		popup.setClass("SynthGroups");
+		logger = _logger;
 		flr = _flr;
 		nestedData = FXCollections.observableArrayList();
 		crossedData = FXCollections.observableArrayList();
@@ -253,6 +261,8 @@ public class SynthGroups {
 				flr.readFile(selectedFile);
 			}
 		}
+		//myTree = myNest.getTree(); // to be available for the next step
+		//myTree.setSimulate(true);
 	}
 
 	/**
@@ -274,6 +284,7 @@ public class SynthGroups {
 	 * @throws Throwable  IOException
 	 */
 	public Group getGroup() throws Throwable {
+		testSetup();
 		checkVarianceDawdle();
 		iStep = myNest.getStep();
 		if (iStep == 0)
@@ -304,7 +315,8 @@ public class SynthGroups {
 			iTFonPage = 0;
 			return baseScaleGroup();
 		case 8:
-			myNest.setVarianceDawdle(true);
+			if (!myNest.getDoOver())
+				myNest.setVarianceDawdle(true);
 			return VarianceComponentsGroup();
 		case 9:
 			flr.saveParametersDialog("Synthesis", "ready for saving synthetic parameters");
@@ -326,9 +338,8 @@ public class SynthGroups {
 	 * with the header 'COMMENT*'.
 	 *
 	 * @return <code>Group</code> essentially the 'Scene' for comment entry to be sent to the GUI
-	 * @throws IOException
 	 */
-	private Group addComments() throws IOException {
+	private Group addComments() {
 		Group group = new Group();
 		VBox vb = new VBox(20);
 		Label lb = new Label("Edit or add comment describing details of this analysis.");
@@ -517,7 +528,7 @@ public class SynthGroups {
 	/**
 	 * Generates the subform for the header line in all subject forms.
 	 *
-	 * @param _sColumnHeader
+	 * @param _sColumnHeader  String containing column header text
 	 * @return <code>Group</code> essentially the 'Scene' for facet form header entry to be sent to the GUI
 	 */
 	private Group headerGroup(String _sColumnHeader) {
@@ -695,6 +706,7 @@ public class SynthGroups {
 									sb.append(orderedData.get(i).charAt(0));
 								sHDictionary = sb.toString();
 								myNest.setHDictionary(sHDictionary);
+								myTree = myNest.getTree();
 								lv.refresh();
 							}
 						}
@@ -786,24 +798,6 @@ public class SynthGroups {
 					}
 				};
 
-				cell.setOnDragEntered(new EventHandler<DragEvent>() {
-					@Override
-					public void handle(DragEvent event) {
-						if (event.getGestureSource() != cell && event.getDragboard().hasString())
-							cell.setStyle("-fx-background-color: BLANCHEDALMOND;");
-						event.consume();
-					}
-				});
-
-				cell.setOnDragExited(new EventHandler<DragEvent>() {
-					@Override
-					public void handle(DragEvent event) {
-						/* mouse moved away, remove the graphical cues */
-						cell.setStyle(null);
-						event.consume();
-					}
-				});
-
 				cell.setOnDragOver(new EventHandler<DragEvent>() {
 					@Override
 					public void handle(DragEvent event) {
@@ -817,6 +811,7 @@ public class SynthGroups {
 						event.consume();
 					}
 				});
+				
 				cell.setOnDragDropped(new EventHandler<DragEvent>() {
 					@Override
 					public void handle(DragEvent event) {
@@ -844,24 +839,6 @@ public class SynthGroups {
 						 * successfully transferred and used
 						 */
 						event.setDropCompleted(success);
-						event.consume();
-					}
-				});
-
-				cell.setOnMouseClicked(new EventHandler<MouseEvent>() {
-					@Override
-					public void handle(MouseEvent event) {
-						String sNest = cell.getItem();
-						Integer iColon = sNest.indexOf(':');
-						if (iColon > 0) // nested item (colon detected
-						{
-							String sNested = sNest.substring(0, iColon);
-							nestedData.add(sNested);
-							lvNested.refresh();
-							crossedData.remove(sNest);
-							lvCrossed.refresh();
-							iPointer--;
-						}
 						event.consume();
 					}
 				});
@@ -1264,7 +1241,7 @@ public class SynthGroups {
 	 * Saves the nested list to the 'Nest' repository, and returns it for further use
 	 * in AnaGroups as a formal tree structure.
 	 *
-	 * @param _crossed
+	 * @param _crossed observable list of crossed Effect descriptions
 	 */
 	private void saveNested(ObservableList<String> _crossed) {
 		String[] sNests = null;
@@ -1277,7 +1254,6 @@ public class SynthGroups {
 		}
 		sNests = sarNests.toArray(new String[sarNests.size()]);
 		myNest.setNests(sNests);
-		myTree = myNest.getTree(); // to be available for the next step
 	}
 
 	/**
@@ -1289,6 +1265,7 @@ public class SynthGroups {
 	 * @return <code>Group</code> essentially the 'Scene' for setting sample sizes entry to be sent to the GUI
 	 */
 	public Group setSampleSize() {
+		myTree.collectSampleSizes();
 		Group group = new Group();
 		// construct samples page
 		group.getChildren().add(myTree.getPage(iSample));
@@ -1333,7 +1310,7 @@ public class SynthGroups {
 	 * thread utility for javafx
 	 *
 	 * @see <a href="https://docs.oracle.com/javase/8/javafx/api/index.html?javafx/application/Platform.html">JavaFX platform</a>
-	 * @param node  javafx generic scene graph
+	 * @param facetName  Text field for response entry
 	 */
 	private void repeatFocus(TextField facetName) {
 		if (iTFonPage < 1)
@@ -1423,7 +1400,7 @@ public class SynthGroups {
 		try {
 			writer = new PrintStream(fout);
 		} catch (FileNotFoundException e) {
-			popup.tell("saveDataFile_a", e);
+			logger.warning(e.getMessage());
 		}
 		int iCeiling = myNest.getCeiling();
 		int iFloor = myNest.getFloor();
@@ -1475,10 +1452,14 @@ public class SynthGroups {
 		 */
 
 		int iPercentage = (100 * (iMinCut + iMaxCut)) / (iPointer + iNext);
-		String sFeedback = iNoCut.toString() + " scores were in range. " + iMinCut.toString()
-				+ " had to be restrained at bottom. " + iMaxCut.toString() + " had to be restrained at top. "
+		String sFeedback = iNoCut.toString() + " scores were in range.\n" + iMinCut.toString()
+				+ " had to be restrained at bottom. " + iMaxCut.toString() + " had to be restrained at top.\n "
 				+ "Otherwise, a total of " + iPercentage + "% would have been out of bounds.";
-		popup.tell("saveDataFile_b", sFeedback);
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setHeaderText("Secondary score adjustments:");
+		alert.setContentText(sFeedback);
+		alert.showAndWait();
+		
 		System.exit(0);
 	}
 
@@ -1495,5 +1476,26 @@ public class SynthGroups {
 				repeatFocus(node);
 			}
 		});
+	}
+
+	/**
+	 * Checks if a working directory has been specified previously,
+	 * and the operating system specific urGENOVA code has been installed.
+	 */
+	private void testSetup() {
+		String sWorkingDirectory = prefs.get("Working Directory", null);
+		String sOS_Full = System.getProperty("os.name");
+		String sUrGenova = null;
+		if (sOS_Full.indexOf("Windows") >=0)
+			sUrGenova = "urgenova.exe";
+		else
+			sUrGenova = "urGenova";
+		File f = new File(sWorkingDirectory, sUrGenova);
+		if (!f.isFile()){
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setContentText("You did not go properly through setup \n  (see manual)!");
+			alert.showAndWait();
+			myMain.doSetup();
+		}
 	}
 }

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
 import application.Main;
@@ -22,7 +23,6 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
-import utilities.Popup;
 
 /**
  * Utility for G_String Help
@@ -46,33 +46,32 @@ public class TextStack
 	private Preferences prefs = null;
 
 	/**
-	 * pointer to exception handler
+	 * pointer to application Logger
 	 */
-	private Popup popup;
+	private Logger logger;
 
 	/**
 	 * constructor
 	 *
 	 * @param sLocation  file name of specific help file
 	 * @param _prefs  pointer to Preferences API
-	 * @param _popup  pointer to exception handler
+	 * @param _logger  application logger
 	 */
-	public TextStack(String sLocation, Preferences _prefs, Popup _popup)
+	public TextStack(String sLocation, Preferences _prefs, Logger _logger)
 	{
 		prefs = _prefs;
-		popup = _popup;
-		popup.setClass("TextStack");
+		logger = _logger;
 		try {
 			readFile( sLocation );
 		} catch (IOException e) {
-			popup.tell("TextStack_a", e);
+			logger.warning(e.getMessage());
 		}
 	}
 
 	/**
 	 * read text file
 	 *
-	 * @param filename
+	 * @param filename  name of input file
 	 * @throws IOException I/O exception
 	 */
 	private void readFile(String filename) throws IOException {

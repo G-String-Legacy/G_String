@@ -11,9 +11,8 @@
           <map>
             <entry key="Control" value="Work.txt"/>
             <entry key="Data Raw" value="Data.txt"/>
-            <entry key="Default Log" value="WARNING"/>
             <entry key="Help Style" value="-fx-Background-color: Beige;"/>
-            <entry key="Home Directory" value = "//"/>
+            <entry key="Home Directory" value = ""/>
             <entry key="OPTIONS" value="NREC 5 &quot;*.lis&quot; TIME NOBANNER"/>
             <entry key="OS" value="Linux"/>
             <entry key="StandardFormat" value="-fx-background-color:BLANCHEDALMOND;-fx-font-size: 16px;"/>
@@ -22,7 +21,7 @@
             <entry key="Style_18" value="-fx-font-size: 18px; -fx-font-family: &quot;ARIAL&quot;; -fx-padding: 10; -fx-background-color: #805015; -fx-text-fill: #FFFFFF;"/>
             <entry key="Style_20" value="-fx-font-size: 30px; -fx-font-family: &quot;ARIALSerif&quot;; -fx-padding: 10; -fx-background-color: #805015; -fx-text-fill: #FFFFFF;"/>
             <entry key="Synthesis Over" value="yes"/>
-            <entry key="Text Style" value="-fx-text-family: &quot;helvetica&quot;;-fx-font-size:16px;"/><entry key="Post Mortem" value="false"></entry>
+            <entry key="Text Style" value="-fx-text-family: &quot;helvetica&quot;;-fx-font-size:16px;"/>
           </map>
         </node>
       </node>

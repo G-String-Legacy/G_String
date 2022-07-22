@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 //import java.util.logging.Logger;
+import java.util.logging.Logger;
 
 //import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
@@ -55,26 +56,25 @@ public class About {
 	private String sTitle = null;
 
 	/**
-	 * pointer to exception handler
+	 * pointer to logger
 	 */
-	private Popup popup = null;
+	private Logger logger = null;
 
 	/**
 	 * constructor
 	 *
 	 * @param _myStage  pointer to MainStage
-	 * @param _popup  pointer to exception handler
+	 * @param _logger  pointer to application logger
 	 * @param _sFileName  path to 'About file)
 	 * @param _sTitle  dialog title
 	 */
-	public About(Stage _myStage, Popup _popup, String _sFileName, String _sTitle)
+	public About(Stage _myStage, Logger _logger, String _sFileName, String _sTitle)
 	{
 		//constructor
 		sTitle = _sTitle;
 		myStage = _myStage;
 		sFileName = _sFileName;
-		popup = _popup;
-		popup.setClass("About");
+		logger = _logger;
 		InputStream stIn = getClass().getResourceAsStream(sFileName);
         BufferedReader reader = new BufferedReader(new InputStreamReader(stIn));
         String line;
@@ -83,12 +83,12 @@ public class About {
 			    salItems.add(line);
 			}
 		} catch (IOException e) {
-			popup.tell("981a", e);
+			logger.warning(e.getMessage());
 		}
         try {
 			reader.close();
 		} catch (IOException e) {
-			popup.tell("981b", e);
+			logger.warning(e.getMessage());
 		}
 	}
 
@@ -138,7 +138,7 @@ public class About {
 		}
 		alert.setResizable(true);
 		DialogPane dp = alert.getDialogPane();
-		dp.getStylesheets().add("/resources/myDialog.css");
+		dp.getStylesheets().add("../resources/myDialog.css");
 		dp.getStyleClass().add("myDialog");
 		dp.setContent(Content);
 		ButtonBar buttonBar = (ButtonBar)dp.lookup(".button-bar");

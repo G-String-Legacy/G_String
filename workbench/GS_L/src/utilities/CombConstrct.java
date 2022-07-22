@@ -28,7 +28,7 @@ import model.SampleSizeTree;
 public class CombConstrct {
 
 	/**
-	 * array of <ode>Component</code> see below
+	 * array of <code>Component</code> see below
 	 */
 	private Component[] components;
 
@@ -126,13 +126,17 @@ public class CombConstrct {
 			}
 			iCount++;
 		}
-
-		for (int i = 0; i <tree.getConfigurationCount(); i++) {
-			tree.factorConfigurations(i);
+		tree.completeOffsets();
+		try {
+			for (int i = 0; i <tree.getConfigurationCount(); i++) {
+				tree.factorConfigurations(i);
+			}
+			tree.consolidateSplits();
+			tree.initCounter();
+			tree.resetIndices();
+		} catch (Throwable t) {
+			t.printStackTrace();
 		}
-		tree.consolidateSplits();
-		tree.initCounter();
-		tree.resetIndices();
 	}
 
 	public int getComp() {

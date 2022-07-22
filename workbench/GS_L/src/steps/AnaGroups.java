@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
 import application.Main;
@@ -22,6 +23,8 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -43,7 +46,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-//import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.Facet;
@@ -51,7 +53,6 @@ import model.Nest;
 import model.SampleSizeTree;
 import utilities.FacetModView;
 import utilities.Filer;
-import utilities.Popup;
 import view.rootLayoutController;
 
 /**
@@ -205,28 +206,35 @@ public class AnaGroups {
 	private StringBuilder sbResult; // accumulates results
 
 	/**
-	 * pointer to <code>Popup</code>
+	 * pointer to Main
 	 */
-	private Popup popup;
+	private Main myMain;
+	
+	/**
+	 * pointer to Logger
+	 */
+	private Logger logger;
 
 	/**
 	 * constructor of <code>AnaGroups</code>
 	 *
+	 * @param _main  pointer to <code>main</code> method of class <code>Main</code>
 	 * @param _nest  <code>Nest</code>
-	 * @param _popup  <code>Popup</code>
+	 * @param _logger  pointer to application logger
 	 * @param _controller  <code>rootLayoutController</code>
 	 * @param _stage  <code>primaryStage</code> of GUI
 	 * @param _prefs  <code>Preferences</code>
 	 * @param _flr  <code>Filer</code>
 	 */
-	public AnaGroups(Nest _nest, Popup _popup, rootLayoutController _controller, Stage _stage, Preferences _prefs, Filer _flr) {
+	public AnaGroups(Main _main, Nest _nest, Logger _logger, rootLayoutController _controller, Stage _stage, Preferences _prefs, Filer _flr) {
 
+		myMain = _main;
 		myNest = _nest;
 		flr = _flr;
+		logger = _logger;
+		
 		sControlFileName = myNest.getControlFileName();
 		myController = _controller;
-		popup = _popup;
-		popup.setClass("AnaGroups");
 		nestedData = FXCollections.observableArrayList();
 		crossedData = FXCollections.observableArrayList();
 		iFrom = -1;
@@ -238,7 +246,6 @@ public class AnaGroups {
 		sStyle_20 = prefs.get("Style_20",
 				"-fx-font-size: 30px; -fx-font-family: \"ARIALSerif\"; -fx-padding: 10; -fx-background-color: #805015; -fx-text-fill: #FFFFFF;");
 		customBorder = prefs.get("Border", null);
-		popup = _popup;
 	}
 
 	/**
@@ -269,49 +276,104 @@ public class AnaGroups {
 	 	switch (iStep) {
 		// step 0  initialize AnaGroups
 	 	case 0:
-			myController.buttonsEnabled(false);
-			myController.disableSave(true);
-			myNest.setDoOver(false);
-			return startUp();
+			try {
+				myController.buttonsEnabled(false);
+				myController.disableSave(true);
+				myNest.setDoOver(false);
+				return startUp();
+			} catch (Exception e) {
+						logger.warning(e.getMessage());
+;
+			}
 		// step 1  enter script title
 		case 1:
 			myController.buttonsEnabled(true);
-			return setTitle();
+			try {
+				return setTitle();
+			} catch (Exception e) {
+						logger.warning(e.getMessage());
+;
+			}
 		// step 2  add comments
 		case 2:
-			return addComments();
+			try {
+				return addComments();
+			} catch (Exception e) {
+						logger.warning(e.getMessage());
+;
+			}
 		// step 3  specify Facet of differentiation  and number of additional Facets
 		case 3:
-			return mainSubjectGroup();
+			try {
+				return mainSubjectGroup();
+			} catch (Exception e) {
+						logger.warning(e.getMessage());
+;
+			}
 		// step 4  add additional Facets
 		case 4:
-			return subjectsGroup();
+			try {
+				return subjectsGroup();
+			} catch (Exception e) {
+						logger.warning(e.getMessage());
+;
+			}
 		// step 5  set the desired order of Facets
 		case 5:
-			return orderFacets();
+			try {
+				return orderFacets();
+			} catch (Exception e) {
+						logger.warning(e.getMessage());
+;
+			}
 		// step 6  arrange nesting of Facets
 		case 6:
-			return setNestingGroup();
+			try {
+				return setNestingGroup();
+			} catch (Exception e) {
+						logger.warning(e.getMessage());
+;
+			}
 		// step 7  select data file
 		case 7:
-			myNest.setOrder();
-			myNest.G_setFacets();
-			return selectDataFile();
+			try {
+				myNest.setOrder();
+				myNest.G_setFacets();
+				return selectDataFile();
+			} catch (Exception e) {
+						logger.warning(e.getMessage());
+;
+			}
 		// step 8  enter sample sizes (repeat until done)
 		case 8:
-			return setSampleSize();
+			try {
+				return setSampleSize();
+			} catch (Exception e) {
+						logger.warning(e.getMessage());
+;
+			}
 		// step 9  program prepares files for, and runs urGENOVA
 		case 9:
-			flr.writeDataFileNew();
-			myController.disableSave(false);
-			return runBrennan();
+			try {
+				flr.writeDataFileNew();
+				myController.disableSave(false);
+				return runBrennan();
+			} catch (Exception e) {
+						logger.warning(e.getMessage());
+;
+			}
 		// step 10  calculates coefficients for G-Study and D_Stuies (repeat)
 		case 10:
-			if (bFirstAnalysis)
-				flr.getUrGenova();
-			bFirstAnalysis = false;
-			myNest.setDawdle(true);
-			return Analysis();
+			try {
+				if (bFirstAnalysis)
+					flr.getUrGenova();
+				bFirstAnalysis = false;
+				myNest.setDawdle(true);
+				return Analysis();
+			} catch (Exception e) {
+						logger.warning(e.getMessage());
+;
+			}
 		default:
 			System.exit(99);
 			return null;
@@ -416,9 +478,8 @@ public class AnaGroups {
 	 * with the header 'COMMENT*'.
 	 *
 	 * @return <code>Group</code> essentially the 'Scene' for comment entry to be sent to the GUI
-	 * @throws IOException
 	 */
-	private Group addComments() throws IOException {
+	private Group addComments() {
 		Group group = new Group();
 		VBox vb = new VBox(20);
 		Label lb = new Label("Edit or add comment describing details of this analysis.");
@@ -608,7 +669,7 @@ public class AnaGroups {
 	/**
 	 * Generates the subform for the header line in all subject forms.
 	 *
-	 * @param _sColumnHeader
+	 * @param _sColumnHeader string of header
 	 * @return <code>Group</code> essentially the 'Scene' for facet form header entry to be sent to the GUI
 	 */
 	private Group headerSubForm(String _sColumnHeader) {
@@ -1099,26 +1160,19 @@ public class AnaGroups {
 	 */
 	private Group selectDataFile() {
 		selectedFile = flr.getFile(true, "Select Analysis Data File");
-		if (selectedFile == null) {
-			popup.tell("selectDataFile_a", "Diagnostic: File not found!");
-			System.exit(10);
-			return null;
-		}
-		 else {
-			prefs.put("Home Directory", selectedFile.getParent());
-			prefs.put("Data Raw", "Data.txt");
-			flr.readDataFileNew(selectedFile);
-				// reads data file into filer table 'sRawData'
-			return flr.showTableNew();
-				// displays 'sRawData' and allows index suppressing
-		}
+		prefs.put("Home Directory", selectedFile.getParent());
+		prefs.put("Data Raw", "Data.txt");
+		flr.readDataFileNew(selectedFile);
+			// reads data file into filer table 'sRawData'
+		return flr.showTableNew();
+			// displays 'sRawData' and allows index suppressing
 	}
 
 	/**
 	 * Saves the nested list to the 'Nest' repository, and returns it for further use
 	 * in AnaGroups as a formal tree structure.
 	 *
-	 * @param _crossed
+	 * @param _crossed observable list of crossed factors descriptions
 	 */
 	private void saveNested(ObservableList<String> _crossed) {
 		String[] sNests = null;
@@ -1196,8 +1250,8 @@ public class AnaGroups {
 		Process process = null;
 		try {
 			process = builder.start();
-		} catch (IOException e) {
-			popup.tell("runBrennan_a", e);
+		} catch (Exception e) {
+			logger.warning( e.getMessage());
 		}
 
 		String line;
@@ -1208,7 +1262,7 @@ public class AnaGroups {
 				sbResult.append(line);
 			}
 		} catch (IOException e1) {
-			popup.tell("runBrennan_b", e1);
+			logger.warning(e1.getMessage());
 		}
 		line = sbResult.toString();
 		Label lbGenova = new Label("urGenova said: " + line);
@@ -1217,7 +1271,7 @@ public class AnaGroups {
 		try {
 			process.waitFor();
 		} catch (InterruptedException e) {
-			popup.tell("runBrennan_c", e);
+			logger.warning(e.getMessage());
 		}
 		TextArea taOutput = new TextArea();
 
@@ -1225,7 +1279,7 @@ public class AnaGroups {
 		try {
 			is = new FileInputStream(prefs.get("Working Directory", null) + "/~control.txt.lis");
 		} catch (FileNotFoundException e) {
-			popup.tell("runBrennan_d", e);
+			logger.warning(e.getMessage());
 		}
 
 		/*
@@ -1260,7 +1314,7 @@ public class AnaGroups {
 			tLine = "While this improves the accuracy, it does not affect the calculated variances.\n\n";
 			sbResult.append(tLine);
 		} catch (IOException e) {
-			popup.tell("runBrennan_e", e);
+			logger.warning(e.getMessage());
 		}
 		VBox vbOuter = new VBox();
 		vbOuter.setPrefWidth(800);
@@ -1298,7 +1352,7 @@ public class AnaGroups {
 		try {
 			myNest.formatResults(sbResult);
 		} catch (Exception ioe) {
-			popup.tell("Analysis_a", ioe);
+			logger.warning(ioe.getMessage());
 		}
 		Group group = new Group();
 		taOutput = new TextArea();
@@ -1416,8 +1470,10 @@ public class AnaGroups {
 			sUrGenova = "urGenova";
 		File f = new File(sWorkingDirectory, sUrGenova);
 		if (!f.isFile()){
-			popup.tell("testSetup_a", "You did not go properly through setup (see manual)!");
-			System.exit(10);
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setContentText("You did not go properly through setup\n(see manual)!");
+			alert.showAndWait();
+			myMain.doSetup();
 		}
 	}
 

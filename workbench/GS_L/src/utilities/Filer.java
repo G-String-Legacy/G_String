@@ -8,6 +8,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.Scanner;
+import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
 import javafx.geometry.Insets;
@@ -86,7 +87,7 @@ public class Filer {
 	private Preferences prefs = null;
 
 	/**
-	 * JavaFX code>WebEngine</code>
+	 * JavaFX  <code>WebEngine</code>
 	 */
 	private WebEngine webEngine = null;
 
@@ -141,9 +142,9 @@ public class Filer {
 	private Double dMax = -100.0;
 
 	/**
-	 * pointer to <code>Popup</code>
+	 * pointer to <code>logger</code>
 	 */
-	private Popup popup;
+	private Logger logger;
 
 	/**
 	 * pointer to GUI window
@@ -155,15 +156,14 @@ public class Filer {
 	 *
 	 * @param _nest  <code>Nest</code>
 	 * @param _prefs  <code>Preferences</code>
-	 * @param _popup  <code>Popup</code>
+	 * @param _logger  pointer to application logger
 	 * @param _stage  <code>Stage</code>
 	 */
-	public Filer(Nest _nest, Preferences _prefs, Popup _popup, Stage _stage) {
+	public Filer(Nest _nest, Preferences _prefs, Logger _logger, Stage _stage) {
 		iMaxColCount = 100;
 		myNest = _nest;
 		prefs = _prefs;
 		myStage = _stage;
-		//iFieldWidth = myNest.getFieldWidth();
 		iFieldWidth = 8;
 		sDataFileName = myNest.getDataFileName();
 		dSums = new Double[iMaxColCount];
@@ -172,8 +172,7 @@ public class Filer {
 			iCounts[i] = 0;
 			dSums[i] = 0.0;
 		}
-		popup = _popup;
-		popup.setClass("Filer");
+		logger = _logger;
 	}
 
 	/**
@@ -188,7 +187,7 @@ public class Filer {
 			sFileName = file.getCanonicalPath().toString();
 			myNest.setFileName(sFileName);
 		} catch (IOException e) {
-			popup.tell("readFile_a", e);
+			logger.warning(e.getMessage());
 		}
 
 		try (Scanner scanner = new Scanner(file)) {
@@ -197,7 +196,7 @@ public class Filer {
 				processControlLine(sLine); // process control file
 			}
 		} catch (IOException e) {
-			popup.tell("readFile_b", e);
+			logger.warning(e.getMessage());
 		}
 	}
 
@@ -260,9 +259,9 @@ public class Filer {
 	/**
 	 * reverse of <code>split</code>, joins words from array, drops first word
 	 *
-	 * @param words
-	 * @param length
-	 * @return
+	 * @param words array of strings
+	 * @param length  number of strings
+	 * @return assembled string
 	 */
 	private String join(String[] words, Integer length) {
 		StringBuilder sb = new StringBuilder();
@@ -273,7 +272,7 @@ public class Filer {
 	}
 
 	/**
-	 * highlights columns < <code>iHighlight</code>
+	 * highlights columns <code>iHighlight</code>
 	 *
 	 * @param _sColumns array of Strings for a row at a time, raw score data
 	 * @return sbLine.toString  line of formatted text
@@ -318,7 +317,7 @@ public class Filer {
 			try {
 				sb.append(HTML_join(sRow));
 			} catch (Exception e) {
-				popup.tell("showTableNew_a", e);
+				logger.warning(e.getMessage());
 			}
 		}
 		sb.append("</table></body></html>");
@@ -393,14 +392,16 @@ public class Filer {
 	 */
 	public void readDataFileNew(File _inFile) {
 		Integer iLineCount = 0;
-		int iFalseLineCount = 0;
+		//int iFalseLineCount = 0;
 		Integer iNumberFields;
 		int iLineIndex = 0;
 		String[] sChoppedLine = null;
 		String sLine = null;
 		// check if file exists
 		if (_inFile == null) {
-			popup.tell("1109a", "Data file missing in readDataFile.");
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setContentText("Data file missing in readDataFile.");
+			alert.showAndWait();
 			System.exit(0);
 		}
 		// Pass 1:
@@ -409,11 +410,9 @@ public class Filer {
 				sLine = scanner.nextLine();
 				if (sLine != null && sLine.replaceAll("\\s+", "") != "" && !sLine.matches("^[a-zA-Z]*$"))
 					iLineCount++;
-				else
-					iFalseLineCount++;
 			}
-		} catch (IOException eio) {
-			popup.tell("1109b", eio);
+		} catch (IOException e) {
+			logger.warning(e.getMessage());
 			System.exit(0);
 		}
 		// Pass 2:
@@ -439,8 +438,8 @@ public class Filer {
 						iMaxColumns = iNumberFields;
 				}
 			}
-		} catch (IOException eio) {
-			popup.tell("1109b", eio);
+		} catch (IOException e) {
+			logger.warning(e.getMessage());
 			System.exit(0);
 		}
 	}
@@ -469,7 +468,6 @@ public class Filer {
 					DataCount++;
 				} else {
 					sRow1[j] = "x";
-					//iBlankCount++;
 				}
 			}
 		}
@@ -483,7 +481,7 @@ public class Filer {
 		try {
 			ps = new PrintStream(fData);
 		} catch (IOException e) {
-			popup.tell("writeDataFileNew_a", e);
+			logger.warning(e.getMessage());
 		}
 	    new DecimalFormat("####.##");
 	    DecimalFormat df = (DecimalFormat) NumberFormat.getInstance(Locale.US);
@@ -556,7 +554,7 @@ public class Filer {
 				processResultlLine(sLine); // process control file
 			}
 		} catch (IOException e) {
-			popup.tell("getUrGenova_a", e);
+			logger.warning(e.getMessage());
 		}
 	}
 
@@ -647,8 +645,9 @@ public class Filer {
 		alert.setHeaderText(null);
 		alert.setContentText(sQuestion);
 		DialogPane dialogPane = alert.getDialogPane();
-		dialogPane.getStylesheets().add("resources/myDialog.css");
-		dialogPane.getStyleClass().add("myDialog");
+		/*dialogPane.getStylesheets().add(
+				   getClass().getResource("myDialogs.css").toExternalForm());
+		dialogPane.getStyleClass().add("myDialog");*/
 		ButtonBar buttonBar = (ButtonBar) dialogPane.lookup(".button-bar");
 		buttonBar.getButtons().forEach(b -> b.setStyle(
 				"-fx-font-size: 16;-fx-background-color: #551200;-fx-text-fill: #ffffff;-fx-font-weight: bold;"));
@@ -681,7 +680,7 @@ public class Filer {
 		try {
 			writer = new PrintStream(file);
 		} catch (FileNotFoundException e) {
-			popup.tell("writeAnalysisControlFile_a", e);
+			logger.warning(e.getMessage());
 		}
 		// Title
 		writer.println("GSTUDY    " + myNest.getTitle());
@@ -723,7 +722,7 @@ public class Filer {
 		try {
 			writer = new PrintStream(fOutput);
 		} catch (FileNotFoundException e) {
-			popup.tell("writeSynthesisControlFile_a", e);
+			logger.warning(e.getMessage());
 		}
 
 		// Comments

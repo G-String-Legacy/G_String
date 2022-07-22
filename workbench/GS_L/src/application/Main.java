@@ -6,11 +6,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,9 +22,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ChoiceDialog;
-import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -38,7 +33,6 @@ import steps.AnaGroups;
 import steps.SynthGroups;
 import steps.gSetup;
 import utilities.Filer;
-import utilities.Popup;
 import view.TextStack;
 import view.rootLayoutController;
 
@@ -65,12 +59,6 @@ public class Main extends Application {
 	 * the rootLayout of the mainStage is formated as a <code>BorderPane</code>
 	 */
 	private BorderPane rootLayout;
-
-	/**
-	 * <code>bDawdle</code> - acts as a switch, whether <code>AnaGroups</code> resp. <code>SynthGroups</code>
-	 * should proceed to the next step (false) or repeat the current step (true).
-	 */
-	private Boolean bDawdle = false;
 
 	/**
 	 * Object <code>myNest</code> - encapsulates all experimental model descriptors (excepts
@@ -140,11 +128,6 @@ public class Main extends Application {
 	private Filer flr;
 
 	/**
-	 * <code>popup</code> - handles exception communication.
-	 */
-	private Popup popup;
-
-	/**
 	 * String containing current location of log file output.
 	 */
 	private String sLogPath = null;
@@ -155,7 +138,6 @@ public class Main extends Application {
 	 * @param args; Default for javaFX
 	 */
 	public static void main(String[] args) {
-
 		launch(args);
 	}
 
@@ -170,39 +152,35 @@ public class Main extends Application {
 	 */
 	@Override
 	public void start(Stage primaryStage) {
-
-		String homeDir = System.getProperty("user.home");
-		sLogPath = prefs.get("Home Directory", homeDir) + File.separator + "com.papaworx.gstring.Log";
-				// logger targets log output to file "com.papaworx.gstring.Log" in the user's current directory
-		File fLog = new File(sLogPath);
-		if (fLog.exists())								// cleans up existing log files
-			fLog.delete();
+		String sUser = System.getProperty("user.home");
+		String sHomeDir = prefs.get("Home Directory","");
+		File fHome = new File (sHomeDir);
+		if (!fHome.exists()) {
+			sHomeDir = sUser;
+			prefs.put("Home Directory", sHomeDir);
+		}
+		sLogPath = sHomeDir + File.separator + "com.papaworx.gstring.Log";
 		FileHandler fh = null;							// just for initialization
 		try {
 			fh = new FileHandler(sLogPath, true);		// log handler, creates append logs, rather than new ones
 		} catch (IOException e1) {
 			e1.printStackTrace(); 						// emergency exit
 		}
-		//String sLogLevel = prefs.get("Default Log", "Warning");		// sets log level to preferred
-		//Level lCurrent = Level.parse(sLogLevel);
 		logger = Logger.getLogger(Main.class.getName());
 		logger.addHandler(fh);
-		//logger.setLevel(lCurrent);						// that's the logger, used throughout
-		popup = new Popup(logger, primaryStage);		// standard diagnostic message handler
-		popup.setClass("Main");
-		myNest = new Nest(popup, this, prefs);
-		flr = new Filer(myNest, prefs, popup, primaryStage);
+		myNest = new Nest(logger, this, prefs);
+		flr = new Filer(myNest, prefs, logger, primaryStage);
 		this.primaryStage = primaryStage;
 		myNest.setStage(primaryStage);
 		this.primaryStage.setTitle("G_String_L (Java)");
 		group = null;
 		initRootLayout();								// initializes standard GUI layout
-		mySteps = new AnaGroups(myNest, popup, controller, primaryStage, prefs, flr); 	// object for analysis
-		mySynthSteps = new SynthGroups(myNest, popup, controller, prefs, flr);	// object for synthesis
+		mySteps = new AnaGroups(this, myNest, logger, controller, primaryStage, prefs, flr); 	// object for analysis
+		mySynthSteps = new SynthGroups(this, myNest, logger, controller, prefs, flr);	// object for synthesis
 		try {
 			stepUp();	// now ready for work
 		} catch (Throwable e) {
-			popup.tell("Main_a", e);
+			logger.warning(e.getMessage());
 		}
 	}
 
@@ -220,9 +198,9 @@ public class Main extends Application {
 			scene0 = new Scene(rootLayout);
 			myNest.setScene(scene0);
 			controller = loader.getController();
-			controller.setMainApp(this, popup, prefs);
+			controller.setMainApp(this, logger, prefs);
 		} catch (IOException e) {
-			popup.tell("initRootLayout_a", e);
+			logger.warning(e.getMessage());
 			e.printStackTrace();
 		}
 	}
@@ -256,7 +234,7 @@ public class Main extends Application {
 			try {
 				group = mySteps.getGroup();
 			} catch (Throwable e) {
-				popup.tell("stepUp_a", e);
+				logger.warning(e.getMessage());
 			}
 			if (group == null)
 				switch (iStep) {
@@ -279,13 +257,12 @@ public class Main extends Application {
 			 * Otherwise we got for synthesis
 			 */
 			controller.setStep(iStep);
-			if (!bDawdle)
-				// only if all variance components have been selected
+			if (!myNest.getDawdle() && !myNest.getVarianceDawdle())
 				myNest.incrementSteps();
 			try {
 				group = mySynthSteps.getGroup();
 			} catch (Throwable e) {
-				popup.tell("stepUp_b", e);
+				logger.warning(e.getMessage());
 			}
 			show(group);
 		}
@@ -315,7 +292,7 @@ public class Main extends Application {
 		try {
 			stepUp();
 		} catch (Throwable e) {
-			popup.tell("setDoOver_a", e);
+			logger.warning(e.getMessage());
 		}
 	}
 
@@ -328,7 +305,7 @@ public class Main extends Application {
 		try {
 			stepUp();					// and then tries going to 'stepUp'
 		} catch (Throwable e) {
-			popup.tell("startOver", e);
+			logger.warning(e.getMessage());
 		}
 	}
 
@@ -342,7 +319,7 @@ public class Main extends Application {
 		try {
 			stepUp();
 		} catch (Throwable e) {
-			popup.tell("Simulate_a", e);
+			logger.warning(e.getMessage());
 		}
 	}
 
@@ -356,7 +333,7 @@ public class Main extends Application {
 		try {
 			stepUp();
 		} catch (Throwable e) {
-			popup.tell("reSimulate_a", e);
+			logger.warning(e.getMessage());
 		}
 	}
 
@@ -365,11 +342,11 @@ public class Main extends Application {
 	 */
 	public void doSetup() {
 
-		gSetup setup = new gSetup(primaryStage, popup, prefs);
+		gSetup setup = new gSetup(primaryStage, logger, prefs);
 		try {
 			setup.ask();
 		} catch (IOException e) {
-			popup.tell("doSetUp_a", e);
+			logger.warning(e.getMessage());
 		}
 	}
 
@@ -414,7 +391,7 @@ public class Main extends Application {
 		helpLayout.setBottom(bottomBox);
 		//
 		String sLocation = _sSource;
-		TextStack t = new TextStack(sLocation, prefs, popup);
+		TextStack t = new TextStack(sLocation, prefs, logger);
 		VBox vb = t.vStack();
 		vb.setStyle("-fx-background-color:beige;");
 		helpLayout.setCenter(vb);
@@ -461,36 +438,6 @@ public class Main extends Application {
 		}
 	}
 
-	/**
-	 * allows user to select logging level for current operation only.
-	 * After every new start the log level reverts to to the level set in preferences.
-	 */
-	public void SetLogLevel() {
-
-		List<Level> choices = new ArrayList<>();
-		choices.add(Level.OFF);
-		choices.add(Level.SEVERE);
-		choices.add(Level.WARNING);
-		choices.add(Level.INFO);
-		choices.add(Level.FINE);
-		choices.add(Level.FINER);
-		choices.add(Level.FINEST);
-		choices.add(Level.ALL);
-		String sInitialLevel = prefs.get("Default Log", "OFF").toUpperCase();
-		Level lDefault = Level.parse(sInitialLevel);
-		ChoiceDialog<Level> dialog = new ChoiceDialog<>(lDefault, choices);
-		dialog.setTitle("Choice Dialog");
-		dialog.setHeaderText("Pick your Log Level");
-		DialogPane dp = dialog.getDialogPane();
-		dp.getStylesheets().add("/resources/myDialog.css");
-		dp.getStyleClass().add("myDialog");
-		ButtonBar buttonBar = (ButtonBar) dp.lookup(".button-bar");
-		buttonBar.getButtons()
-				.forEach(b -> b.setStyle("-fx-font-size: 16;-fx-background-color: #551200;-fx-text-fill: #ffffff;"));
-
-		Optional<Level> result = dialog.showAndWait();			// Traditional way to get the response value.
-			result.ifPresent(selection -> logger.setLevel(selection));
-	}
 
 	/**
 	 * starts G_String all over again. Resets all switches and Nest to default
@@ -499,15 +446,15 @@ public class Main extends Application {
 
 		myNest = null;
 		mySteps = null;
-		myNest = new Nest(popup, this, prefs);
+		myNest = new Nest(logger, this, prefs);
 		myNest.setStage(primaryStage);
 		group = null;
-		mySteps = new AnaGroups(myNest, popup, controller, primaryStage, prefs, flr);
+		mySteps = new AnaGroups(this, myNest, logger, controller, primaryStage, prefs, flr);
 		controller.callForAction(true);
 		try {
 			stepUp();
 		} catch (Throwable e) {
-			popup.tell("freshStart_a", e);
+			logger.warning(e.getMessage());
 		}
 	}
 
@@ -519,7 +466,7 @@ public class Main extends Application {
 		try {
 			mySteps.saveAll();
 		} catch (IOException e) {
-			popup.tell("saveAll_a", e);
+			logger.warning(e.getMessage());
 		}
 	}
 
@@ -555,7 +502,7 @@ public class Main extends Application {
 		try {
 			sarKeys = Arrays.asList(prefs.keys());
 		} catch (Exception e) {
-			popup.tell("228a", e);
+			logger.warning(e.getMessage());
 		}
 		Collections.sort(sarKeys);
 
@@ -637,7 +584,7 @@ public class Main extends Application {
 				out.write(bytes, 0, read);
 			out.close();
 		} catch (IOException e) {
-			popup.tell("showPDF_a", e);
+			logger.warning(e.getMessage());
 		}
 		return docFile;
 	}

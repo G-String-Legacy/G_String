@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="bpScreen" prefHeight="800.0" prefWidth="900.0" style="-fx-background-color: #FBFBED; -fx-border-color: BLACK;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.rootLayoutController">
+<BorderPane fx:id="bpScreen" prefHeight="800.0" prefWidth="900.0" style="-fx-background-color: #FBFBED; -fx-border-color: BLACK;" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.rootLayoutController">
 	<top>
       <MenuBar minHeight="35.0" style="-fx-background-color: BLANCHEDALMOND; -fx-border-color: BLACK;" BorderPane.alignment="CENTER">
         <menus>
@@ -34,7 +34,6 @@
             </Menu>
             <Menu mnemonicParsing="false" text="Setup">
                <items>
-                  <MenuItem fx:id="mnuLogLevel" mnemonicParsing="false" text="Log Level" />
                   <Menu mnemonicParsing="false" text="Preferences">
                      <items>
                         <MenuItem fx:id="mnuChangePrefs" mnemonicParsing="false" text="Change Preferences" />

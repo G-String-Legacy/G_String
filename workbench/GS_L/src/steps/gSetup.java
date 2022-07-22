@@ -4,14 +4,15 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.logging.Logger;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.InvalidPreferencesFormatException;
 import java.util.prefs.Preferences;
-
 import application.Main;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import utilities.Popup;
 
 /**
  * Provides the screen for program setup
@@ -28,9 +29,9 @@ public class gSetup
 	private Stage myStage = null;
 
 	/**
-	 * pointer to <code>Popup</code>
+	 * pointer to <code>logger</code>
 	 */
-	private Popup popup = null;
+	private Logger logger = null;
 
 	/**
 	 * pointer to Preferences API
@@ -42,20 +43,19 @@ public class gSetup
 	 * constructor for <code>gSetup</code>.
 	 *
 	 * @param _stage  display screen
-	 * @param _popup  exception handler
+	 * @param _logger  pointer to application logger
 	 * @param _prefs  Preferences
 	 */
-	public gSetup(Stage _stage, Popup _popup, Preferences _prefs)
+	public gSetup(Stage _stage, Logger _logger, Preferences _prefs)
 	{
 		//  dummy constructor
 		myStage = _stage;
-		popup = _popup;
-		popup.setClass("gSetup");
+		logger = _logger;
 		prefs = _prefs;
 		try {
 			prefs.clear();
-		} catch (BackingStoreException e1) {
-			popup.tell("gSetup_a", e1);
+		} catch (BackingStoreException e) {
+			logger.warning(e.getMessage());
 		}
 	}
 
@@ -70,12 +70,13 @@ public class gSetup
 		InputStream stIn = Main.class.getResourceAsStream(sResource);
 		try {
 			Preferences.importPreferences(stIn);
-		} catch (InvalidPreferencesFormatException e1) {
-			popup.tell("776a", e1);
+		} catch (InvalidPreferencesFormatException e) {
+			logger.warning(e.getMessage());
 		}
 
 		DirectoryChooser dc = new DirectoryChooser();
-		File fDir = new File(prefs.get("Working Directory", File.separator));
+		dc.setInitialDirectory(null);
+		File fDir = new File(System.getProperty("user.home"));
 		if (fDir.exists())
 			dc.setInitialDirectory(fDir);
 		dc.setTitle("Choose location and create new working directory");
@@ -85,15 +86,13 @@ public class gSetup
 			dir.mkdir();
 		} catch (Exception e)
 		{
-			popup.tell("ask_b", e);
+			logger.warning(e.getMessage());
 		}
 		dir.setWritable(true, false);
 		String sWork = dir.getPath();
 		prefs.put("Working Directory", sWork);
 		prefs.put("Home Directory", System.getProperty("user.home"));
-		prefs.put("Default Log", "OFF");
 		String sOS_Full = System.getProperty("os.name");
-		popup.tell("776b", "Operating System: " + sOS_Full);
 		String sTarget = null;
 		String sName = null;
 		String sOS = null;
@@ -117,7 +116,9 @@ public class gSetup
 		}
 		else
 		{
-			popup.tell("ask_a","Operating system " + sOS + " not recognized.");
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setContentText("Operating system " + sOS + " not recognized.");
+			alert.showAndWait();
 			System.exit(1);
 		}
 		File fTarget = new File(sTarget);
@@ -128,33 +129,39 @@ public class gSetup
 		FileOutputStream out = new FileOutputStream(sTarget);
 		try {
 				InputStream is = Main.class.getResourceAsStream(sResource);
-				if (is == null)
-					popup.tell("ask_bf", "urGenova Input stream null.");
+				if (is == null) {
+					Alert alert = new Alert(AlertType.WARNING);
+					alert.setContentText("urGenova Input stream null.");
+					alert.showAndWait();
+				}
 				while((len = is.read(b, 0, 1024)) > 0){
 				    out.write(b, 0, len);
 				}
 				is.close();
 				out.close();
 		} catch (IOException e) {
-		    popup.tell("ask_c", e);
+		    logger.warning(e.getMessage());
 		}
 	    fTarget.setExecutable(true, false);
 
 	    // load default preferences
-	    String sPreferences = "resources/" + "Prefs_Default.xml";
+	    String sPreferences = "../resources/" + "Prefs_Default.xml";
 		try {
 			InputStream is = Main.class.getResourceAsStream(sPreferences);
-			if (is == null)
-				popup.tell("ask_d", "Default Preferences Input stream null.");
+			if (is == null) {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setContentText("Default Preferences Input stream null.");
+				alert.showAndWait();
+			}
 			try {
 				Preferences.importPreferences(is);
 			} catch (InvalidPreferencesFormatException e) {
-				popup.tell("ask_e", e);
+				logger.warning(e.getMessage());
 			}
 			is.close();
 			out.close();
 		} catch (IOException e) {
-		    popup.tell("ask_f", e);
+			logger.warning(e.getMessage());
 		}
 		prefs.put("OS", sOS);
 	}

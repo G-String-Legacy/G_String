@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
 import javafx.application.Platform;
@@ -13,7 +14,6 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import utilities.Factor;
-import utilities.Popup;
 import utilities.SampleSizeView;
 
 /**
@@ -54,7 +54,7 @@ public class SampleSizeTree {
 	 *  (true) - crossed; (false) - nested.
 	 */
 	private Boolean[] barCrossed = null;
-
+	
 	/**
 	 * <code>iFacet</code>  number of facets.
 	 */
@@ -85,7 +85,7 @@ public class SampleSizeTree {
 	/**
 	 * Pointer to array of primary nested Facet configurations.
 	 */
-	private int iConfiguration;
+	//private int iConfiguration;
 
 	/**
 	 * array list of <code>SampleSizeView</code> for sample size input
@@ -100,7 +100,7 @@ public class SampleSizeTree {
 	/**
 	 * configuration specific sums of sample sizes below a particular index of the nesting facet.
 	 */
-	private int[][][] iarSums;
+	//private int[][][] iarSums;
 
 	/**
 	 * Analysis specific sums of sample sizes below a particular index of the nesting facet.
@@ -144,9 +144,9 @@ public class SampleSizeTree {
 	private int iConfigurationCount = 0;
 
 	/**
-	 * pointer to exception handler
+	 * pointer to application logger
 	 */
-	private utilities.Popup popup;
+	private Logger logger;
 
 	/**
 	 * array of <code>Facets</code> in basic order
@@ -200,14 +200,13 @@ public class SampleSizeTree {
 	 *
 	 * @param _nest  pointer to <code>Nest</code>
 	 * @param _Dictionary  <code>sDictionary</code>
-	 * @param _popup  pointer to <code>Popup</code>
+	 * @param _logger  pointer to application logger
 	 * @param _prefs pointer to <code>Preferences</code>
 	 */
-	public SampleSizeTree(Nest _nest, String _Dictionary, Popup _popup, Preferences _prefs) {
+	public SampleSizeTree(Nest _nest, String _Dictionary, Logger _logger, Preferences _prefs) {
 		sDictionary = _Dictionary;
 		Integer iFacets = sDictionary.length();
 		iarSizes = new int[iFacets][];
-		iarSums = new int[100][iFacets][];
 		//iarTotals = new int[100][iFacets][];
 		iarASums = new int[iFacets][];
 		iarOffsets = new int[iFacets][];
@@ -216,8 +215,7 @@ public class SampleSizeTree {
 		myNest = _nest;
 		farFacets = myNest.getFacets();
 		iIndices = new int[iFacets];
-		popup = _popup;
-		popup.setClass("SampleSizeTree");
+		logger = _logger;
 		prefs = _prefs;
 		salConfigurations = new ArrayList<>();
 		bDoOver = myNest.getDoOver();
@@ -447,8 +445,6 @@ public class SampleSizeTree {
 					iSize += i;
 			}
 			iarSizes[iFacet] = new int[iSize];
-			iarSums[iConfiguration][iFacet] = new int[iSize + 1];
-			iarSums[iConfiguration][iFacet][0] = 0;
 			iarASums[iFacet] = new int[iSize + 1];
 			iarASums[iFacet][0] = 0;
 		}
@@ -545,7 +541,6 @@ public class SampleSizeTree {
 		Integer[] iNestees = null;
 		Integer iSize = 0;
 		Integer iRoot = -1;
-		int iLoopCount = 0;
 		Boolean bAsterisk = false;
 		for (char c : sHDictionary.toCharArray()) {
 			Facet f = myNest.getFacet(c);
@@ -560,8 +555,6 @@ public class SampleSizeTree {
 				iRecordCount *= iarASums[iFacet][iarSizes[iFacet].length];
 				if (bAsterisk)
 					break;
-				else
-					iLoopCount++;
 				continue;
 			} else if (iNestees.length == 2) {
 				Integer iN0 = iNestees[0];
@@ -574,8 +567,6 @@ public class SampleSizeTree {
 				iRecordCount *= iSum;
 				if (bAsterisk)
 					break;
-				else
-					iLoopCount++;
 				continue;
 			}		}
 		return iRecordCount;
@@ -643,7 +634,7 @@ public class SampleSizeTree {
 			try {
 				iResult[i] = Integer.parseUnsignedInt(sTemp);
 			} catch (Exception e) {
-				popup.tell("stringToArray_a", e);
+				logger.warning(e.getMessage());
 			}
 		}
 		return iResult;
@@ -919,7 +910,6 @@ public class SampleSizeTree {
 	public void addConfiguration(String _sConfiguration) {
 		String sConfiguration = _sConfiguration;
 		salConfigurations.add(sConfiguration);
-		iConfiguration = salConfigurations.size();
 	}
 
 	/**
@@ -1178,5 +1168,45 @@ public class SampleSizeTree {
 	 */
 	public int getDepth(int _iC) {
 		return iarDepths[_iC];
+	}
+	
+	/**
+	 * Accumulates sample size sums during simulation
+	 */
+	public void ProcessSizes() {
+		int[][][] iarSums = new int[iConfigurationCount][iFacetCount][];
+		for (int i = 0; i < iFacetCount; i++)
+			for (int j = 0; j < iConfigurationCount; j++)
+				iarSums[j][i] = new int[iarSizes[i].length];
+		for (int j = 0; j < iConfigurationCount; j++) {
+			String sConfig = salConfigurations.get(j);
+			char[] carConf = new StringBuilder(sConfig).reverse().toString().toCharArray();
+			Boolean bTail = true;
+			for (char cF : carConf) {
+				if (cF==':') {
+					bTail = false;		// switch to no longer in tail of configuration
+					continue;
+				} else if (bTail) {  	// facet in tail
+					
+				} else {				// facet not in tail
+					
+				}
+			}
+		}
+	}
+	
+	/**
+	 * completes sizeArray offsets from size array
+	 */
+	public void completeOffsets() {
+		for (int i = 0; i < iFacetCount; i++) {
+			int iSampleCount = iarSizes[i].length;
+			int iOffset = 0;
+			iarOffsets[i] = new int[iSampleCount + 1];
+			for (int j = 0; j < iSampleCount; j++) {
+				iOffset += iarSizes[i][j];
+				iarOffsets[i][j + 1] = iOffset;
+			}				
+		}
 	}
 }

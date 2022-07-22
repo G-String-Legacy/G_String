@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.logging.Logger;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.InvalidPreferencesFormatException;
 import java.util.prefs.Preferences;
@@ -23,7 +24,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import utilities.About;
-import utilities.Popup;
 
 /**
  * LayoutController for JavaFX GUI
@@ -42,9 +42,9 @@ public class rootLayoutController {
 	private application.Main myMain;
 
 	/**
-	 * pointer to <code>Popup</code>
+	 * pointer to application logger
 	 */
-	private Popup popup = null;
+	private Logger logger = null;
 
 	/**
 	 * pointer to Preferences API
@@ -68,8 +68,6 @@ public class rootLayoutController {
 	private MenuItem mnuSimulate;
 	@FXML
 	private MenuItem mnuResimulate;
-	@FXML
-	private MenuItem mnuLogLevel;
 	@FXML
 	private MenuItem mnuSetup;
 	@FXML
@@ -134,9 +132,6 @@ public class rootLayoutController {
 		mnuResimulate.setOnAction((event) -> {
 			myMain.Resimulate();
 		});
-		mnuLogLevel.setOnAction((event) -> {
-			myMain.SetLogLevel();
-		});
 		mnuSetup.setOnAction((event) -> {
 			myMain.doSetup();
 		});
@@ -172,13 +167,12 @@ public class rootLayoutController {
 	 * establishes call backs
 	 *
 	 * @param _main  to <code>Main</code>
-	 * @param _popup  to exception handler
+	 * @param _logger application logger
 	 * @param _prefs  to Preferences API
 	 */
-	public void setMainApp(application.Main _main, Popup _popup, Preferences _prefs) {
+	public void setMainApp(application.Main _main, Logger _logger, Preferences _prefs) {
 		myMain = _main;
-		popup = _popup;
-		popup.setClass("rootLayoutController");
+		logger = _logger;
 		prefs = _prefs;
 		homeDir = System.getProperty("user.home");
 	}
@@ -225,7 +219,7 @@ public class rootLayoutController {
 	 * displaye 'About G_String' info
 	 */
 	private void about() {
-		About myAbout = new About(myMain.getPrimaryStage(), popup, "/resources/About.txt", "About G_String_L");
+		About myAbout = new About(myMain.getPrimaryStage(), logger, "/resources/About.txt", "About G_String_L");
 		myAbout.show();
 	}
 
@@ -233,7 +227,7 @@ public class rootLayoutController {
 	 * display 'About Brennan' info
 	 */
 	private void aboutB() {
-		About myAbout = new About(myMain.getPrimaryStage(), popup, "/resources/AboutB.txt", "About urGenova");
+		About myAbout = new About(myMain.getPrimaryStage(), logger, "/resources/AboutB.txt", "About urGenova");
 		myAbout.show();
 	}
 
@@ -261,20 +255,20 @@ public class rootLayoutController {
 		try {
 			selectedFile = fc.showOpenDialog(myMain.getPrimaryStage());
 		} catch (Exception e) {
-			popup.tell("1266a", e);
+			logger.warning(e.getMessage());
 		}
 		if (selectedFile != null) {
 			try {
 				sIn = new FileInputStream(selectedFile);
 			} catch (FileNotFoundException e) {
-				popup.tell("1266b", e);
+				logger.warning(e.getMessage());
 			}
 			try {
 				Preferences.importPreferences(sIn);
 			} catch (IOException e) {
-				popup.tell("1266c", e);
+				logger.warning(e.getMessage());
 			} catch (InvalidPreferencesFormatException e) {
-				popup.tell("1266d", e);
+				logger.warning(e.getMessage());
 			}
 		}
 
@@ -295,20 +289,20 @@ public class rootLayoutController {
 		try {
 			selectedFile = fc.showSaveDialog(myMain.getPrimaryStage());
 		} catch (Exception e) {
-			popup.tell("1267a", e);
+			logger.warning(e.getMessage());
 		}
 		if (selectedFile != null) {
 			try {
 				sOut = new FileOutputStream(selectedFile);
 			} catch (FileNotFoundException e) {
-				popup.tell("1267b", e.getMessage());
+				logger.warning(e.getMessage());
 			}
 			try {
 				prefs.exportNode(sOut);
 			} catch (IOException e) {
-				popup.tell("1267c", e.getMessage());
+				logger.warning(e.getMessage());
 			} catch (BackingStoreException e) {
-				popup.tell("1267d", e.getMessage());
+				logger.warning(e.getMessage());
 			}
 		}
 	}

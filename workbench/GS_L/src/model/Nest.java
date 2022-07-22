@@ -1070,7 +1070,7 @@ public class Nest {
 		dAbs = dS2_t / (dS2_t + dS2_D);
 		try {
 			sbResult.append(reCode("\nGENERALIZABILITY COEFFICIENTS:\n\n"));
-			sbResult.append(reCode("Eρ\u00B2      	  = " + String.format("%.2f", dRel) + "\n"));
+			sbResult.append(reCode("Eρ\u00B2      	= " + String.format("%.2f", dRel) + "\n"));
 			sbResult.append(reCode("Φ           = " + String.format("%.2f", dAbs) + "\n"));
 		} catch (Exception e) {
 			logger.warning(e.getMessage());

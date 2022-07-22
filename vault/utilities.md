@@ -19,8 +19,6 @@ Package ['utilities'](../../../tree/main/workbench/GS_L/src/utilities) contains 
 
 **['Lehmer.java'](../../../blob/main/workbench/GS_L/src/utilities/Lehmer.java)** is a small routine that signs synthetic data sets, so they can be distinguished from genuine experimental data. It is used in <a href="../workbench/GS_L/src/steps/SynthGroups.java#L1205">'SynthGroups.java'</a>.
 
-**['Popup.java'](../../../blob/main/workbench/GS_L/src/utilities/Popup.java)** handles error logging and alerts throughout GS.
-
 **['SampleSizeView.java'](../../../blob/main/workbench/GS_L/src/utilities/SampleSizeView.java)** is a specialized text field for entering sample size values.
 
 **['VarianceComponent.java'](../../../blob/main/workbench/GS_L/src/utilities/VarianceComponent.java)** uses Brennan's rules when calculating , &sigma;<sup>2</sup>(&tau;), &sigma;<sup>2</sup>(&delta;), and &sigma;<sup>2</sup>(&Delta;) .

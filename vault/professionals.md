@@ -8,7 +8,6 @@ This line of pages is intended for for people who want to understand how G_Strin
 #### [Terminology](Terminology.md)
 ### Housekeeping  ###
 #### [Preferences](Preferences.md)
-#### [Exception Handling](Exceptions.md)
 #### [Special Directories](Directories.md)
 ### The Structure of G_String ###
 #### [Block Diagram](Block_Diagram.md)

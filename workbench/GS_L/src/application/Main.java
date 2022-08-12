@@ -192,7 +192,7 @@ public class Main extends Application {
 		try {
 			URL fxmlLocation = getClass().getResource("/view/rootLayout.fxml");
 			FXMLLoader loader = new FXMLLoader(fxmlLocation);
-			rootLayout = loader.load();
+			rootLayout = (BorderPane) loader.load();
 
 			// Show the scene containing the root layout.
 			scene0 = new Scene(rootLayout);

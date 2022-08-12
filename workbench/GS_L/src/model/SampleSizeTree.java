@@ -76,6 +76,11 @@ public class SampleSizeTree {
 	 * when stepping through them.
 	 */
 	private char cPrevious = '-';
+	
+	/**
+	 * Carrie current cumulative parent index
+	 */
+	private int[] iParentIndices = null;
 
 	/**
 	 * Flag if parameters are entered from script, rather than manually
@@ -194,7 +199,7 @@ public class SampleSizeTree {
 	 * ragged matrix <code>Factor</code> per <code>sConfig</code> (Effect)
 	 */
 	private String[][] sarFactors = null;
-
+	
 	/**
 	 * Constructor for <code>SampleSizeTree</code>
 	 *
@@ -215,6 +220,7 @@ public class SampleSizeTree {
 		myNest = _nest;
 		farFacets = myNest.getFacets();
 		iIndices = new int[iFacets];
+		iParentIndices = new int[iFacets];
 		logger = _logger;
 		prefs = _prefs;
 		salConfigurations = new ArrayList<>();
@@ -778,37 +784,24 @@ public class SampleSizeTree {
 	/**
 	 * incrementer for simulation for each call the Facet indices get incremented
 	 * according to the nesting order, such that the count of the last Effect
-	 * goes up by one count.
+	 * goes up by one count. The 'Effect' corresponding to the residual variance
+	 * component gets split into its factors. The indices are then incremented
+	 * separately for each factor in the appropriate order by the recursive
+	 * method 'bClimb'.
 	 *
 	 * @return <code>true</code> if all Facet indices have reached their maximum, <code>true</code> otherwise
 	 */
 	public Boolean increment() {
-		char[] cHFacets = sHDictionary.toCharArray();
-		int iIndex = 0;
-		int iLimit = 0;
-		char c0 = '-';
-		Character c1 = '-';
-		int iPointer = 0;
-		int iIncrementer = 0;
-		boolean bReturn = true;
-
-		iIncrementer = iConfigurationCount - 1;
-		for (int i = sHDictionary.length() - 1; i >= 0; i--) {
-			c0 = cHFacets[i];
-			c1 = myNest.getFacet(c0).getNestor();
-			iIndex = getHIndex(c0);
-			if (c1 == '$')
-				iPointer = 0;
-			else
-				iPointer = getHIndex(c1);
-			iLimit = iarSizes[sDictionary.indexOf(c0)][iPointer];
-			iIndex++;
-			if (iIndex >= iLimit)
-				setHIndex(c0, 0);
-			else {
-				setHIndex(c0, iIndex);
+		
+		int L = sarFactors.length -1;
+		Boolean bReturn = true;
+		String[] sarFacComp = sarFactors[L];
+		int K = sarFacComp.length;
+		for (int i = K -1; i >= 0; i--) {
+			String sFac = sarFacComp[i];
+			bReturn = bClimb(sFac.toCharArray()[0]);
+			if (bReturn)
 				break;
-			}
 		}
 
 		//now update counts
@@ -823,7 +816,38 @@ public class SampleSizeTree {
 				iarCurrentIndexSet[j] = indexSet.clone();
 			}
 		}
-		bReturn = (getCount(iIncrementer) >= iLimit);
+		
+		return bReturn;
+	}
+	
+	/**
+	 * recursive routine climbs facet hierarchy to orderly increment indices.
+	 * 
+	 * @param _cFacet  facet for incrementing index
+	 * @return  true if successful, false if not.
+	 */
+	private Boolean bClimb (char _cFacet) {
+		Boolean bReturn = true;
+		char cF = _cFacet;
+		char cN = getFacet(cF).getNestor();
+		int iNIndex = 1;
+		if (cN != '$') {
+			iNIndex = getHIndex(cN) + 1;
+		}
+		int iF = sDictionary.indexOf(cF);
+		int iFIndex = getHIndex(cF);
+		
+		if (iFIndex++ < iarOffsets[iF][iNIndex] - 1) {
+			setHIndex(cF, iFIndex);					// the facet index is incremented
+			bReturn = true;
+		} else if (cN == '$') {						// the indices of the factor reached maximum
+			setHIndex(cF, 0);
+			bReturn = false;
+		}
+		else {
+			setHIndex(cF, iFIndex);					// carryover to next facet in nested factor
+			bReturn = bClimb(cN);
+		}
 		return bReturn;
 	}
 
@@ -856,8 +880,10 @@ public class SampleSizeTree {
 	 */
 	public void resetIndices() {
 		int L;
-		for (int i = 0; i < iFacetCount; i++)
+		for (int i = 0; i < iFacetCount; i++) {
 			iIndices[i] = 0;
+			iParentIndices[i] = 0;
+		}
 		for (int i = 0; i < iConfigurationCount; i++) {
 			iarCounts[i]= 0;
 			L = conKeySet[i].length;

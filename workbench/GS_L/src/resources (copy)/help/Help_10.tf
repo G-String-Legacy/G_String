@@ -1,0 +1,8 @@
+<title>Analysis</title>
+<para>G_String has now quietly calculated the Generalization Coefficients. They appear both in the output window on the left, and the summary column on the right.</para>
+<sub>Consistency|is not part of the traditional G - Theory jargon. But it makes sense. The approximations needed to calculate the variance components can lead to negative component values. This does obviously not make sense, since variances, by definition, must be positive definite. The convention is to simply set negative variance components equal to zero. But this introduces errors. The more Variance Components had to be set to zero, the more questionable are the results of the calculation. "Consistency" is equal to 1.00 when all the variance components are zero or positive, and smaller than 1, the larger the contribution of negative variance components.</sub>
+<sub>E_rho|the traditional "Generalizability Coefficient" as defined by Brennan.</sub>
+<sub>Phi|the traditional "Dependability Coefficient" as defined by Brennan.</sub>
+<para>In the column to the right you also find the facets of Generalization of your design. It allows you to perform D - Studies. Specify proposed mean sample sizes and set some facets as fixed by clicking on the appropriate little button. Each time you click on "Next Step", G_String will calculate the corresponding coefficients.</para>
+<para>When you look through the calculations in the output window, you may actually have some ideas. You can simply insert those thoughts by typing them into the appropriate place of the output prose.</para>
+<sub>Files > Save All|allows you to save the G - Study, the various D - Studies and your added thoughts to the output file.</sub>

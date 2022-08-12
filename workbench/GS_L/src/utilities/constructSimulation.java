@@ -114,6 +114,7 @@ public class constructSimulation {
 
 		do { // increment indices
 			indices = myTree.getIndices();
+			iRange = myTree.getCount(iBase);
 			if (indices[iAsterisk] != iChange) { // new line
 				sb = new StringBuilder(sOut);
 				sb.append("|" + String.valueOf(iRange));
@@ -128,9 +129,7 @@ public class constructSimulation {
 				iTemp = myTree.getCount(i);
 				darOutput[iRange] += darVector[i][iTemp];
 			}
-			myTree.increment();
-			iRange = myTree.getCount(iBase);
-		} while (iRange > 0);
+		} while (myTree.increment());	
 
 		sb = new StringBuilder(sOut);
 		sb.append("|" + String.valueOf(iRange));

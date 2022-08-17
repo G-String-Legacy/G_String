@@ -789,7 +789,7 @@ public class SampleSizeTree {
 	 * separately for each factor in the appropriate order by the recursive
 	 * method 'bClimb'.
 	 *
-	 * @return <code>true</code> if all Facet indices have reached their maximum, <code>true</code> otherwise
+	 * @return <code>false</code> when all Facet indices have reached their maximum, <code>true</code> otherwise
 	 */
 	public Boolean increment() {
 		

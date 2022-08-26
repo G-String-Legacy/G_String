@@ -7,7 +7,7 @@ Next, for each Effect e we generate $s_{e}$ randomly distributed values $\epsilo
 
 $$S(\hat{I}) = S(i_{h}) = \mu + \sum_{e}\epsilon_{e}(i_{e})$$
 
-where i<sub>h</sub> equals the integer index of the highest effect, and $\mu$ is the specified grand mean of all the scores.
+where i<sub>h</sub> equals the integer index of the highest effect, and &mu; is the specified grand mean of all the scores.
 
 In reality, 'constructSimulation' only calculates the sums. The results 'darOutput' are then passed on in the Double array getter 'getData' to the 'saveSynthetics' method of 'SynthGroups'. Also passed on is a string list array 'salCarriageReturn' containing the leading index columns for the data output.
 

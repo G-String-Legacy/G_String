@@ -3,7 +3,7 @@
 The synthetic data set is constructed in a [Monte Carlo process](https://en.wikipedia.org/wiki/Monte_Carlo_method). Each Effect can take on $s_{e}$ values, i.e, the number of its States. Each Effect consists of a different set of Facets, which in turn can be in $s_{f}$ different States. We identify a specific State of a Facet f by its index $i_{f}$, and the set of Facet indices corresponding to an Effect e as 
 $\hat{I_{e}}$. We designate the total set of all Facet indices at a given point as $\hat{I}$.  But each set $\hat{I_{e}}$ can actually be uniquely mapped to an  integer 0 &lt; $i_{e}$ &lt; $s_{e}$.  In fact, the total set of all facet indices $\hat{I}$ corresponds to the Effect involving all Facets, and can therefore be mapped accordingly. This mapping is based on the order and nesting of the facets, since the the sequence of facet indices is not random, but also corresponds to the sequence of scores in the data file. In actual practice, this mapping from the facet index sets for each Effect to linear Effect index occurs somewhat obscurely in method 'SampleSizeTree.increment'.
 
-Next, for each Effect e we generate $s_{e}$ randomly distributed values &epsilon;<sub>e</sub>(i<sub>e</sub>) with a defined variance &sigma;<sup>2</sup><sub>e</sub>  and a mean of 0. With this terminology we can then calculate the simulated score S as:
+Next, for each Effect e we generate s<sub>e</sub> randomly distributed values &epsilon;<sub>e</sub>(i<sub>e</sub>) with a defined variance &sigma;<sup>2</sup><sub>e</sub>  and a mean of 0. With this terminology we can then calculate the simulated score S as:
 
 $$S(\hat{I}) = S(i_{h}) = \mu + \sum_{e}\epsilon_{e}(i_{e})$$
 

@@ -16,7 +16,7 @@ We classify facets thus:<ul>
 <li>'facets of generalization (g)':  components of the measurement process;</li>
 <li>'facets of stratification (s)':  categories of primary subjects.</li></ul><br>
 <b>Brennan's Rules</b>
-(<a href="../workbench/GS_L/src/utilities/VarianceComponent.java#L94">code</a>) for B<sub>&kappa;</sub>(E) state, that if effect E contains:<ul>
+(<a href="../workbench/GS_L/src/utilities/VarianceComponent.java#L162">code</a>) for B<sub>&kappa;</sub>(E) state, that if effect E contains:<ul>
 <li>a 'd', but no 'g' facet, B<sub>&tau;</sub>(E) = 1, otherwise 0;</li>
 <li>a 'd', and at least one 'g' facet, B<sub>&delta;</sub>(E) = 1, otherwise 0;</li>
 <li>at least one 'g' facet, B<sub>&Delta;</sub>(E) = 1, otherwise 0.</li></ul><br>

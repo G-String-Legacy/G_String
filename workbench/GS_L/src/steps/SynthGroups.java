@@ -294,34 +294,70 @@ public class SynthGroups {
 		myController.setStep(iStep);
 		switch (iStep) {
 		case 1:
-			myController.enableStepUp(true);
-			if (myNest.getDoOver())
-				readOld();
+			try {
+				myController.enableStepUp(true);
+				if (myNest.getDoOver())
+					readOld();
+			} catch (Exception e) {
+				myLogger(1, logger, e);
+			}
 			return addComments();
 		case 2:
-			return mainSubjectGroup();
+			try {
+				return mainSubjectGroup();
+			} catch (Exception e) {
+				myLogger(2, logger, e);
+			}
 		case 3:
-			return subjectsGroup();
+			try {
+				return subjectsGroup();
+			} catch (Exception e) {
+				myLogger(3, logger, e);
+			}
 		case 4:
-			return orderFacets();
+			try {
+				return orderFacets();
+			} catch (Exception e) {
+				myLogger(4, logger, e);
+			}
 		case 5:
-			return setNestingGroup();
+			try {
+				return setNestingGroup();
+			} catch (Exception e) {
+				myLogger(5, logger, e);
+			}
 		case 6:
-			myNest.setOrder();
-			myNest.G_setFacets();
-			myNest.setDawdle(true);
-			return setSampleSize();
+			try {
+				myNest.setOrder();
+				myNest.G_setFacets();
+				myNest.setDawdle(true);
+				return setSampleSize();
+			} catch (Exception e) {
+				myLogger(6, logger, e);
+			}
 		case 7:
-			iTFonPage = 0;
-			return baseScaleGroup();
+			try {
+				iTFonPage = 0;
+				return baseScaleGroup();
+			} catch (Exception e) {
+				myLogger(7, logger, e);
+			}
 		case 8:
-			if (!myNest.getDoOver())
-				myNest.setVarianceDawdle(true);
-			return VarianceComponentsGroup();
+			try {
+				if (!myNest.getDoOver())
+					myNest.setVarianceDawdle(true);
+				return VarianceComponentsGroup();
+			} catch (Exception e) {
+				myLogger(8, logger, e);
+			}
 		case 9:
-			flr.saveParametersDialog("Synthesis", "ready for saving synthetic parameters");
-			CS = new constructSimulation(myNest);
-			return saveSynthetics(CS.getData(), CS.getCarriageReturn());
+			try {
+				flr.saveParametersDialog("Synthesis", "ready for saving synthetic parameters");
+				CS = new constructSimulation(myNest);
+				return saveSynthetics(CS.getData(), CS.getCarriageReturn());
+			} catch (Exception e) {
+				myLogger(9, logger, e);
+			}
 		default:
 			System.exit(99);
 			return null;
@@ -579,6 +615,7 @@ public class SynthGroups {
 	 */
 	private Group orderFacets() {
 		myNest.createDictionary();
+		myTree = myNest.getTree();
 		lvFacets = new ListView<>();
 		ObservableList<String> orderedData = FXCollections.observableArrayList();
 		// final ToggleGroup tg = new ToggleGroup();
@@ -706,7 +743,6 @@ public class SynthGroups {
 									sb.append(orderedData.get(i).charAt(0));
 								sHDictionary = sb.toString();
 								myNest.setHDictionary(sHDictionary);
-								myTree = myNest.getTree();
 								lv.refresh();
 							}
 						}
@@ -1420,10 +1456,12 @@ public class SynthGroups {
 		 */
 		Lehmer Signer = new Lehmer(iFloor, iCeiling);
 		for (int iLine = 0; iLine < iMaxLine; iLine++) {
+			//System.out.println(iLimit + "; " + iPointer);
 			sLeaders = _salCarriageReturn.get(iLine).split ("\\|");
 			sHeader = sLeaders[0];
 			if (iLine < iMaxLine - 1) {
 				iNext = Integer.parseInt(sLeaders[1]);
+				//System.out.println(iNext);
 			} else
 				iNext = _darData.length;
 			sb = new StringBuilder(sHeader);
@@ -1497,5 +1535,10 @@ public class SynthGroups {
 			alert.showAndWait();
 			myMain.doSetup();
 		}
+	}
+	
+	private void myLogger(int _iStep, Logger _logger, Exception _e) {
+		String sMessage = "\n Step: " + _iStep + "\n " + _e.getLocalizedMessage();
+		_logger.warning(sMessage);
 	}
 }

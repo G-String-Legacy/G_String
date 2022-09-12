@@ -246,10 +246,16 @@ public class Filer {
 			myNest.addProcess(value);
 			break;
 		case "ANCHORS":
-			myNest.addAnchors(value);
+			if (myNest.getSimulate())		// if in 'Simulate', value gets to variances
+				myNest.addAnchors(value);
+			else
+				myNest.addComment(value);   // else to comments (in 'Analysis'
 			break;
 		case "VARIANCES":
-			myNest.addVariances(value);
+			if (myNest.getSimulate())		// if in 'Simulate', value gets to variances
+				myNest.addVariances(value);
+			else
+				myNest.addComment(value);   // else to comments (in 'Analysis'
 			break;
 		default:
 			break;

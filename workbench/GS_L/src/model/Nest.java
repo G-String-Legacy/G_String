@@ -1201,7 +1201,10 @@ public class Nest {
 	 * @return Double value of variance coeffient
 	 */
 	public Double getVarianceCoefficient(int i) {
-		return darVarianceCoefficients[i];
+		if (i < darVarianceCoefficients.length)
+			return darVarianceCoefficients[i];
+		else
+			return 0.0;
 	}
 
 	/**

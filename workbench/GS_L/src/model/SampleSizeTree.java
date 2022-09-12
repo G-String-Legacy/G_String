@@ -797,7 +797,7 @@ public class SampleSizeTree {
 		Boolean bReturn = true;
 		String[] sarFacComp = sarFactors[L];
 		int K = sarFacComp.length;
-		for (int i = K -1; i >= 0; i--) {
+		for (int i = K - 1; i >= 0; i--) {
 			String sFac = sarFacComp[i];
 			bReturn = bClimb(sFac.toCharArray()[0]);
 			if (bReturn)
@@ -816,7 +816,6 @@ public class SampleSizeTree {
 				iarCurrentIndexSet[j] = indexSet.clone();
 			}
 		}
-		
 		return bReturn;
 	}
 	
@@ -830,23 +829,34 @@ public class SampleSizeTree {
 		Boolean bReturn = true;
 		char cF = _cFacet;
 		char cN = getFacet(cF).getNestor();
-		int iNIndex = 1;
-		if (cN != '$') {
-			iNIndex = getHIndex(cN) + 1;
-		}
-		int iF = sDictionary.indexOf(cF);
+		int iNIndex = 0;
+		int iF = sDictionary.indexOf(cF);	
+		if (cN != '$')
+			iNIndex = getHIndex(cN);
+		/*else
+			return false;*/
 		int iFIndex = getHIndex(cF);
-		
-		if (iFIndex++ < iarOffsets[iF][iNIndex] - 1) {
-			setHIndex(cF, iFIndex);					// the facet index is incremented
-			bReturn = true;
-		} else if (cN == '$') {						// the indices of the factor reached maximum
-			setHIndex(cF, 0);
-			bReturn = false;
-		}
-		else {
-			setHIndex(cF, iFIndex);					// carryover to next facet in nested factor
-			bReturn = bClimb(cN);
+		int iLimit = 0;
+		try {
+			if (iNIndex <= iarSizes[iF].length)
+				iLimit = iarSizes[iF][iNIndex];
+			else  
+				return true;
+			
+			if (iFIndex++ < iLimit -1) {
+				setHIndex(cF, iFIndex);					// the facet index is incremented
+				bReturn = true;
+			} else {
+				setHIndex(cF, 0);
+				if (cN == '$') 						// the indices of the factor reached maximum
+					bReturn = false;
+				else {
+					bReturn = bClimb(cN);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(0);
 		}
 		return bReturn;
 	}

@@ -282,8 +282,7 @@ public class AnaGroups {
 				myNest.setDoOver(false);
 				return startUp();
 			} catch (Exception e) {
-						logger.warning(e.getMessage());
-;
+				myLogger(0, logger, e);
 			}
 		// step 1  enter script title
 		case 1:
@@ -291,48 +290,42 @@ public class AnaGroups {
 			try {
 				return setTitle();
 			} catch (Exception e) {
-						logger.warning(e.getMessage());
-;
+				myLogger(1, logger, e);
 			}
 		// step 2  add comments
 		case 2:
 			try {
 				return addComments();
 			} catch (Exception e) {
-						logger.warning(e.getMessage());
-;
+				myLogger(2, logger, e);
 			}
 		// step 3  specify Facet of differentiation  and number of additional Facets
 		case 3:
 			try {
 				return mainSubjectGroup();
 			} catch (Exception e) {
-						logger.warning(e.getMessage());
-;
+				myLogger(2, logger, e);
 			}
 		// step 4  add additional Facets
 		case 4:
 			try {
 				return subjectsGroup();
 			} catch (Exception e) {
-						logger.warning(e.getMessage());
-;
+				myLogger(4, logger, e);
 			}
 		// step 5  set the desired order of Facets
 		case 5:
 			try {
 				return orderFacets();
 			} catch (Exception e) {
-						logger.warning(e.getMessage());
-;
+				myLogger(5, logger, e);
 			}
 		// step 6  arrange nesting of Facets
 		case 6:
 			try {
 				return setNestingGroup();
 			} catch (Exception e) {
-						logger.warning(e.getMessage());
-;
+				myLogger(6, logger, e);
 			}
 		// step 7  select data file
 		case 7:
@@ -341,16 +334,14 @@ public class AnaGroups {
 				myNest.G_setFacets();
 				return selectDataFile();
 			} catch (Exception e) {
-						logger.warning(e.getMessage());
-;
+				myLogger(7, logger, e);
 			}
 		// step 8  enter sample sizes (repeat until done)
 		case 8:
 			try {
 				return setSampleSize();
 			} catch (Exception e) {
-						logger.warning(e.getMessage());
-;
+				myLogger(8, logger, e);
 			}
 		// step 9  program prepares files for, and runs urGENOVA
 		case 9:
@@ -359,8 +350,7 @@ public class AnaGroups {
 				myController.disableSave(false);
 				return runBrennan();
 			} catch (Exception e) {
-						logger.warning(e.getMessage());
-;
+				myLogger(9, logger, e);
 			}
 		// step 10  calculates coefficients for G-Study and D_Stuies (repeat)
 		case 10:
@@ -371,8 +361,7 @@ public class AnaGroups {
 				myNest.setDawdle(true);
 				return Analysis();
 			} catch (Exception e) {
-						logger.warning(e.getMessage());
-;
+				myLogger(10, logger, e);
 			}
 		default:
 			System.exit(99);
@@ -1495,5 +1484,10 @@ public class AnaGroups {
 			outputStreamWriter.flush();
 			outputStreamWriter.close();
 		}
+	}
+	
+	private void myLogger(int _iStep, Logger _logger, Exception _e) {
+		String sMessage = "\n Step: " + _iStep + "\n " + _e.getLocalizedMessage();
+		_logger.warning(sMessage);
 	}
 }

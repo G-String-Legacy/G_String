@@ -241,7 +241,7 @@ public class constructSimulation {
 	public String dumpArray (int[] array){
 		int l = array.length;
 		StringBuilder sb = new StringBuilder(array[0]);
-		for (int i = 1; i < l; i++)
+		for (int i = 0; i < l; i++)
 			sb.append("\t" + array[i]);
 		return sb.toString();
 	}

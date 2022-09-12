@@ -5,6 +5,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Collections;
@@ -234,7 +236,10 @@ public class Main extends Application {
 			try {
 				group = mySteps.getGroup();
 			} catch (Throwable e) {
-				logger.warning(e.getMessage());
+				StringWriter sw = new StringWriter();
+				PrintWriter pw = new PrintWriter(sw);
+				e.printStackTrace(pw);			
+				logger.warning(e.toString());
 			}
 			if (group == null)
 				switch (iStep) {

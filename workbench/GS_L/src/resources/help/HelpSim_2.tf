@@ -1,8 +1,4 @@
-<title>Subject</title>
-<para>The subject is the target of your investigation. It might be a student, a lecturer, a physician, in short, a person whose performance you want to quantitate.</para>
-<sub>Subject:|Enter a descriptive term in the name field.</sub>
-<sub>Label:|The subject also requires a one character label, e.g. 'p' for person, 's' for student etc. You are free to pick - anything, as long as it is only one character.</sub>
-<sub>Nesting:|Each subject may stand on his or her own (crossed), or they may be nested in a stratifying category. You can choose which by using one of the two radio buttons.</sub>
-<sub>Column Index:|if you are in Auto-Index mode, and the facet has an index column, set the value to the number of the column (counting from 1)</sub>
-<sub>Number of Facets:|'Facets' is the term used in Generalizability Theory for the categories used to distinguish between subjects, and over which scope you want to generalize your results. One facet is sufficient, but pretty trivial. You select the number of facets by using the up or down button </sub>
-<para>When you are done, click the 'Next Step' button.</para>
+<title>Comments</title>
+<para>The comments you enter in this window should describe the testing design in such a way that you will be able to mentally reconstruct at some point in the future what the design entailed in detail.</para>
+<para>If this is a new project, the comment field will be blank, for you to fill in. If you are working on an existing project, you will find your previous comments. You are free to add, delete or change what is there.</para>
+<para>When you are done, click on "Next Step".</para>

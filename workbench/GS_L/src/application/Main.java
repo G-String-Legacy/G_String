@@ -15,7 +15,6 @@ import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -133,9 +132,14 @@ public class Main extends Application {
 	 * String containing current location of log file output.
 	 */
 	private String sLogPath = null;
+	
+	/**
+	 * flag indicating replication mode.
+	 */
+	private Boolean bReplicate = false;
 
 	/**
-	 * Obligatory javafx <code>main</code>
+	 * Obligatory javafx <code>main</code> - constructor
 	 *
 	 * @param args; Default for javaFX
 	 */
@@ -224,52 +228,46 @@ public class Main extends Application {
 	 * Responds to GUI 'Next' button.
 	 */
 	public void stepUp() {
-
-		Integer iStep = myNest.getStep();
-		if (!myNest.getSimulate()) // if in analysis mode
-		{
-			/**
-			 * This is the default analysis path
-			 */
-			myNest.incrementSteps();
-			controller.setStep(iStep);
-			try {
-				group = mySteps.getGroup();
-			} catch (Throwable e) {
-				StringWriter sw = new StringWriter();
-				PrintWriter pw = new PrintWriter(sw);
-				e.printStackTrace(pw);			
-				logger.warning(e.toString());
-			}
-			if (group == null)
-				switch (iStep) {
-				case 1:
-					freshStart();
-					break;
-				case 9:
-					myNest.setStep(7);
-					break;
-				case 10:
-					break;
-				default:
-					break;
-				}
-			else {
-				show(group);
-			}
-		} else {
-			/**
-			 * Otherwise we got for synthesis
-			 */
-			controller.setStep(iStep);
+		
+		try {
 			if (!myNest.getDawdle() && !myNest.getVarianceDawdle())
 				myNest.incrementSteps();
-			try {
+			int iStep = myNest.getStep();
+			controller.setStep(iStep);
+			if (!myNest.getSimulate()) // if in analysis mode
+			{
+				/**
+				 * This is the default analysis path
+				 */
+					group = mySteps.getGroup();
+				if (group == null)
+					switch (iStep) {
+					case 1:
+						freshStart();
+						break;
+					case 9:
+						myNest.setStep(7);
+						break;
+					case 10:
+						break;
+					default:
+						break;
+					}
+				else {
+					show(group);
+				}
+			} else {
+				/**
+				 * Otherwise we got for synthesis
+				 */
 				group = mySynthSteps.getGroup();
-			} catch (Throwable e) {
-				logger.warning(e.getMessage());
+				show(group);
 			}
-			show(group);
+		} catch (Throwable e) {
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw);
+			e.printStackTrace(pw);			
+			logger.warning(e.toString());
 		}
 	}
 
@@ -292,8 +290,10 @@ public class Main extends Application {
 	 * In response to GUI sets switches for manual analysis
 	 */
 	public void startFresh() {
-
+		bReplicate = false;
+		myNest.setReplicate(false);
 		myNest.setDoOver(false);
+		mySteps.setReplicate(false);
 		try {
 			stepUp();
 		} catch (Throwable e) {
@@ -305,8 +305,10 @@ public class Main extends Application {
 	 * In response to GUI sets switches for script driven analysis
 	 */
 	public void startOver() {
-
+		bReplicate = false;
 		myNest.setDoOver(true);			// sets the 'doOver' Boolean in 'Nest'
+		myNest.setReplicate(false);
+		mySteps.setReplicate(false);
 		try {
 			stepUp();					// and then tries going to 'stepUp'
 		} catch (Throwable e) {
@@ -321,6 +323,7 @@ public class Main extends Application {
 
 		myNest.setDoOver(false); 		// only manual input
 		myNest.setSimulate(true); 		// simulate
+		myNest.setReplicate(false);
 		try {
 			stepUp();
 		} catch (Throwable e) {
@@ -335,6 +338,7 @@ public class Main extends Application {
 
 		myNest.setDoOver(true); 		// to read script input file
 		myNest.setSimulate(true);		// to force simulation
+		myNest.setReplicate(false);
 		try {
 			stepUp();
 		} catch (Throwable e) {
@@ -417,13 +421,21 @@ public class Main extends Application {
 		switch (sCommand) {
 		case "help":										// context specific help
 			Boolean bSimulate = myNest.getSimulate();
+			bReplicate = myNest.getReplicate();
 			String sLocation = null;
+			Integer iStep = myNest.getStep();
 			if (storedScene == null)
 				storedScene = primaryStage.getScene();
-			if (bSimulate) {								// get prose from simulation help files
-				sLocation = "HelpSim_" + myNest.getStep().toString() + ".tf";
-			} else {										// get prose from default (analysis) help files
-				sLocation = "Help_" + myNest.getStep().toString() + ".tf";
+			if (bSimulate) {		// get prose from simulation help files
+				if (iStep == 1)
+					sLocation = "HelpRep_1" + ".tf";
+				else
+					sLocation = "HelpSim_" + iStep.toString() + ".tf";
+			} else {
+				if ((iStep == 1) && bReplicate)
+					sLocation = "HelpRep_1" + ".tf";
+				else
+					sLocation = "Help_" + iStep.toString() + ".tf";   // get prose from default (analysis) help files
 			}
 			primaryStage.setScene(helpScene("Contextual Help", sLocation));
 			primaryStage.show();
@@ -436,6 +448,12 @@ public class Main extends Application {
 			break;
 		case "return":										// restores pre-help scene
 			primaryStage.setScene(storedScene);
+			primaryStage.show();
+			break;
+		case "replicate":
+			if (storedScene == null)
+				storedScene = primaryStage.getScene();
+			primaryStage.setScene(helpScene("replicate", "Replicate.tf"));
 			primaryStage.show();
 			break;
 		default:
@@ -592,5 +610,35 @@ public class Main extends Application {
 			logger.warning(e.getMessage());
 		}
 		return docFile;
+	}
+	
+	/**
+	 * User has selected replication analysis.
+	 */
+	public void replicate() {
+		myNest.setDoOver(false);
+		bReplicate = true;
+		myNest.setReplicate(true);
+		mySteps.setReplicate(true);
+		try {
+			stepUp();					// and then tries going to 'stepUp'
+		} catch (Throwable e) {
+			logger.warning(e.getMessage());
+		}
+	}
+	
+	/**
+	 * User has selected replication synthesis
+	 */
+	public void replicateAgain() {
+		myNest.setDoOver(true);
+		bReplicate = true;
+		myNest.setReplicate(true);
+		mySteps.setReplicate(true);
+		try {
+			stepUp();					// and then tries going to 'stepUp'
+		} catch (Throwable e) {
+			logger.warning(e.getMessage());
+		}
 	}
 }

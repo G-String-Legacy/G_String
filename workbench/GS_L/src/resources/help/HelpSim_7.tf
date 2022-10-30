@@ -1,5 +1,4 @@
-<title>Simulation Parameters</title>
-<para>Here you define the basic parameters for the synthetic data file. Remember, all scores must be able to assume the same range of values.</para>
-<sub>Floor|The lowest value each score can assume (an integer value).</sub>
-<sub>Mean|The mean score value you are aiming for over all (a decimal value between floor and ceiling).</sub>
-<sub>Ceiling|The highest value each score can assume (an integer value).</sub>
+<title>Nesting</title>
+<para>As mentioned before, some facets may be nested in others. If you came to this screen in a fresh design, you find that some facets - the nested ones - are in the left window, the crossed facets are on the right.</para>
+<para>You nest a facet by mouse dragging it from the left window, and dropping it on the appropriate crossed facet on the right. You can even nest some facets even further by dropping them on already established nests on the right. You may even see crossed products in the right window. A facet that is nested within one crossed facet as well as within another, should be dropped on the corresponding product.</para>
+<para>If you made a mistake, don't worry. Simply click on the offending nest, and the the most deeply nested facet will jump back to the left window.</para>

@@ -25,11 +25,23 @@ import utilities.VarianceComponent;
 public class Nest {
 
 	/**
-	 * <code>iAsterisk</code> the hierarchical position (sHDirectory) of
-	 * the facet carrying the asterisk, i.e. the facet associated with a carriage
+	 * This is a VERY IMPORTANT SWITCH! It can only be changed by directly
+	 * entering the value here. It controls, whether exceptions get logged, or
+	 * cause a stack trace printout in debugging mode.
+	 */
+	private Boolean bStackTrace = true;
+	
+	/**
+	 * <code>cAsterisk</code> the designating char designation of the facet 
+	 * carrying the asterisk, i.e. the facet associated with a carriage
 	 * return in the data input file.
 	 */
-	private Integer iAsterisk = -1;
+	private char cAsterisk = '-';
+	
+	/**
+	 * Designation char for replicating facet. '-' for none
+	 */
+	private char cReplicate = '-';
 
 	/**
 	 * <code>iFacetCount</code> the number of facets in the design.
@@ -51,6 +63,11 @@ public class Nest {
 	 */
 	private Boolean bSimulate = false;
 
+	/**
+	 * <code>bReplicate</code> flag to operate with replicating measurements
+	 */
+	private Boolean bReplicate;
+	
 	/**
 	 * <code>sFileName</code> path of control file.
 	 */
@@ -82,22 +99,16 @@ public class Nest {
 	private String sProcess;
 
 	/**
-	 * <code>sbFO</code> stringbuilder to build basic facet directory <code>sDictionary</code>,
-	 * the order in which the facets were entered initially.
-	 */
-	private StringBuilder sbFO;
-
-	/**
 	 * <code>sbHFO</code> stringbuilder to build hierarchic facet directory <code>sHDictionary</code>,
 	 * the order they were arranged subsequently.
 	 */
 	private StringBuilder sbHFO;
 
 	/**
-	 * <code>falFacets</code> array list of all the facets in the design.
+	 * arra list of facets; temporary if facets come in before number established
 	 */
 	private ArrayList<Facet> falFacets = null;
-
+	
 	/**
 	 * <code>farFacets</code> array of all facets
 	 */
@@ -107,7 +118,7 @@ public class Nest {
 	 * <code>myTree</code> pointer to <code>SampleSizeTree</code>.
 	 */
 	private SampleSizeTree myTree = null;
-
+	
 	/**
 	 * <code>sarNestedNames</code> array of final, nested arrays in hierarchical order.
 	 */
@@ -125,6 +136,12 @@ public class Nest {
 	 * facets in the order the data appear in the data file.
 	 */
 	private String sHDictionary;
+	
+	/**
+	 * provides instant translation from index order (sHdictionary) to original
+	 * Facet order (sDictionary).
+	 */
+	private int[] iarCeilings = null;
 
 	/**
 	 * <code>iNestCount</code> number of nested facets.
@@ -210,6 +227,17 @@ public class Nest {
 	 * <code>iCeiling</code> highest permitted score value in synthesis.
 	 */
 	private Integer iCeiling = 0;
+	
+	/**
+	 * <code>iRepMinimum</code> lowest permitted number of replications.
+	 */
+	private Integer iRepMinimum = 0;
+	
+	/**
+	 * <code>dRepRange</code> excess over replication minimum as variance.
+	 * This serves to calculate the actual number of replications as random process.
+	 */
+	private Double dRepRange = 0.0;
 
 	/**
 	 * <code>dVectors</code> intermediate double matrix for calculation of variance components.
@@ -240,7 +268,27 @@ public class Nest {
 	 * <code>salNestedNames</code> array list of nested configurations from AnaGroups step 6.
 	 */
 	private ArrayList<String> salNestedNames = new ArrayList<>();
+	
+	/**
+	 * Flag forcing non-regular program exit.	
+	 */
+	private int iProblem = 0;
+	
+	/**
+	 * number of index columns in data file.
+	 */
+	private int iHighLight = 0;
 
+	/**
+	 * step, at which stepup is to resume after an 'Explain'.
+	 * i.e. a setback.
+	 */
+	private int iResume = -1;
+	
+	/**
+	 * Place holder for subjet facet.
+	 */
+	private Facet fSubject = null;
 
 	/**
 	 * Constructor for class <code>Nest</code>
@@ -251,16 +299,15 @@ public class Nest {
 	 */
 	public Nest(Logger _logger, Main _myMain, Preferences _prefs) {
 
-		iAsterisk = 0;
-		falFacets = new ArrayList<>();
-		sbFO = new StringBuilder();
+		cAsterisk = '-';
 		sbHFO = new StringBuilder();
 		logger = _logger;
 		myMain = _myMain;
 		prefs = _prefs;
 		salVarianceComponents = new ArrayList<>();
 		sPlatform = prefs.get("OS", null);
-	}
+		myTree = new SampleSizeTree(this, logger, prefs);
+	}	
 
 	/**
 	 * facet name from char designation
@@ -280,7 +327,7 @@ public class Nest {
 	 * @return facets.get(iOrder)- Facet object
 	 */
 	public Facet getFacet(int iOrder) {
-		return falFacets.get(iOrder);
+		return farFacets[iOrder];
 	}
 
 	/**
@@ -291,7 +338,7 @@ public class Nest {
 	 */
 	public Facet getFacet(char _cDesignation) {
 		Integer index = sDictionary.indexOf(_cDesignation);
-		return falFacets.get(index);
+		return farFacets[index];
 	}
 
 	/**
@@ -326,38 +373,55 @@ public class Nest {
 	/**
 	 * setter for <code>sHDictionary</code>.
 	 *
-	 * @param _sHDictionary hierarchic facet dictionary
+	 * @param _sHDictionary  hierarchic facet dictionary
 	 */
 	public void setHDictionary(String _sHDictionary) {
 		sHDictionary = _sHDictionary;
-		if (myTree == null)
-			myTree = new SampleSizeTree(this, sDictionary, logger, prefs);
-		myTree.setHDictionary(_sHDictionary);
-	}
+		int L = sDictionary.length();
+		iarCeilings = new int[L];
+		char[] cHDictionary = new char[L];
+		cHDictionary = sHDictionary.toCharArray();
+		for (int i = 0; i < L; i++)
+			iarCeilings[i] = sDictionary.indexOf(cHDictionary[i]);
+		}
 
 	/**
-	 * setter for <code>iAsterisk</code> as hierarchical facet order.
-	 *
-	 * @param _Asterisk integer value
+	 * For incrementing through the indices, SampleSizeTree needs to easily
+	 * translate between the 'sDictionary' and 'sHDictionary' order.
+	 * 
+	 * @return order array sHDictionary to sDictionary
 	 */
-	public void setAsterisk(Integer _Asterisk) {
-		iAsterisk = _Asterisk;
+	public int[] getCeilings() {
+		return iarCeilings;
 	}
 
 	/**
 	 * setter of <code>iAsterisk</code> by facet char Designation.
-	 * @param cAsterisk char facet designation
+	 * @param _cAsterisk  char facet designation
 	 */
-	public void setAsterisk(char cAsterisk){
+	public void setAsterisk(char _cAsterisk){
+		cAsterisk = _cAsterisk;
 		myTree.setAsterisk(cAsterisk);
+	}
+	
+	/**
+	 * Setter for starred facet after change of asterisk position
+	 * 
+	 * @param _iAsterisk  new position of starred facet in sHDictionary
+	 */
+	public void setAsterisk(int _iAsterisk) {
+		char[] cFacets = sDictionary.toCharArray();
+		cAsterisk = cFacets[_iAsterisk];
+		for (char c : cFacets)
+			getFacet(c).setAsterisk(c == cAsterisk);
 	}
 
 	/**
 	 * getter of <code>iAsterisk</code> as hierarchical facet order.
 	 * @return iAsterisk  facet index of asterisk
 	 */
-	public Integer getAsterisk() {
-		return iAsterisk;
+	public char getAsterisk() {
+		return cAsterisk;
 	}
 
 	/**
@@ -365,17 +429,51 @@ public class Nest {
 	 *
 	 * @return   hierarchical facet index of asterisk
 	 */
-	public Integer getHAsterisk() {
-		char c = sDictionary.toCharArray()[iAsterisk];
-		return sHDictionary.indexOf(c);
+	/*public char get_cAsterisk() {
+		return cAsterisk;
+	}*/
+	
+	/**
+	 * getter for minimal number of replications.
+	 * 
+	 * @return  iRepMinimum
+	 */
+	public int get_iMinRep() {
+		return iRepMinimum;
+	}
+	
+	/**
+	 * getter for Replication range (variance)
+	 * 
+	 * @return  dRepRange
+	 */
+	public Double getRepRange() {
+		return dRepRange;
 	}
 
 	/**
 	 * conditional <code>iStep</code> incrementer.
+	 * Depending on the <code>iProblem</code> switch:
+	 * 		-1:	exit the program
+	 * 		 0:	go to the next step
+	 * 		greater than 0: go and explain problem
 	 */
 	public void incrementSteps() {
-		if (!bDawdle)
-			iStep++;
+		if (iStep < -1)
+			System.exit(iProblem);
+		switch( iProblem) {
+			case -1:
+				System.exit(iProblem);
+				break;
+			case 0:
+				if (!bDawdle)
+					iStep++;
+				break;
+			default:
+				iStep = iResume;
+				iProblem = 0;
+				break;
+		}
 	}
 
 	/**
@@ -419,18 +517,6 @@ public class Nest {
 	}
 
 	/**
-	 * adds <code>Facet</code> to <code>falFacets</code>.
-	 *
-	 * @param _facet Facet object
-	 */
-	public void addFacet(Facet _facet) {
-		falFacets.add(_facet);
-		sbFO.append(_facet.getDesignation());
-		sDictionary = sbFO.toString();
-		iFacetCount++;
-	}
-
-	/**
 	 * getter for <code>iFacetCount</code>.
 	 *
 	 * @return iFacetCount
@@ -446,6 +532,49 @@ public class Nest {
 	 */
 	public void setFacetCount(Integer _iFacetCount) {
 		iFacetCount = _iFacetCount;
+	}
+	
+	public void setSubject(Facet _fSubject) {
+		fSubject = _fSubject;
+	}
+	
+	/**
+	 * Sets designation char of current facet
+	 * 
+	 * @param iFacetID  ID of current facet
+	 * @param cDesignation  new facet designation char
+	 */
+	public void setFacetDesignation(int iFacetID, char cDesignation) {
+		if (iFacetID == 0)
+			fSubject.setDesignation(cDesignation);
+		else
+			farFacets[iFacetID].setDesignation(cDesignation);
+	}
+	
+	/**
+	 * Sets name of current facet
+	 * 
+	 * @param iFacetID  iFacetID  ID of current facet
+	 * @param sFacetName  new facet name
+	 */
+	public void setFacetName(int iFacetID, String sFacetName) {
+		if (iFacetID == 0)
+			fSubject.setName(sFacetName);
+		else			
+			farFacets[iFacetID].setName(sFacetName);
+	}
+	
+	/**
+	 * Sets nested status of current facet
+	 * 
+	 * @param iFacetID   iFacetID  ID of current facet
+	 * @param bFacetNested new facet status
+	 */
+	public void setFacetNested(int iFacetID, Boolean bFacetNested) {
+		if (iFacetID == 0)
+			fSubject.setNested(bFacetNested);
+		else
+			farFacets[iFacetID].setNested(bFacetNested);
 	}
 
 	/**
@@ -479,35 +608,6 @@ public class Nest {
 	}
 
 	/**
-	 * adds new, default <code>Facet</code> to facet array list, and returns pointer.
-	 *
-	 * @return newFacet
-	 */
-	public Facet getNewFacet() {
-		Facet newFacet = new Facet(this);
-		falFacets.add(newFacet);
-		return newFacet;
-	}
-
-	/**
-	 * returns designation character of starred facet.
-	 *
-	 * @return facet char
-	 */
-	public char getCStarred() {
-		return sDictionary.toCharArray()[iAsterisk];
-	}
-
-	/**
-	 * setter of <code>iAsterisk</code> via facet char designation.
-	 *
-	 * @param cStarred facet designation char of starred facet
-	 */
-	public void setStarred(char cStarred) {
-		iAsterisk = sDictionary.indexOf(cStarred);
-	}
-
-	/**
 	 * add commentLine to <code>salComments</code>.
 	 *
 	 * @param _sCommentLine  line of comment to be included in script
@@ -524,6 +624,18 @@ public class Nest {
 	public void setOptions(String _sOptions) {
 		sOptions = _sOptions;
 	}
+	
+	/**
+	 * method to collect facet information from scripts
+	 * 
+	 * @param _f  facet to be added
+	 */
+	public void addFacet(Facet _f) {
+		if (falFacets == null)
+			falFacets = new ArrayList<Facet>();
+		_f.setAsterisk(false);
+		falFacets.add(_f);
+	}
 
 	/**
 	 * parser for 'Effect' line in analyze script
@@ -536,19 +648,28 @@ public class Nest {
 		 * Basically it is a simple lexical analyzer.
 		 */
 
-		char cTarget;
-		if (myTree == null) {
-			myTree = new SampleSizeTree(this, sDictionary, logger, prefs);
-
+		if ((farFacets == null) || (farFacets.length == 0)) {
+			StringBuilder sb = new StringBuilder();
+			iFacetCount = falFacets.size();
+			farFacets = new Facet[iFacetCount];
+			for (int i = 0; i < iFacetCount; i++) {
+				Facet f = falFacets.get(i);
+				farFacets[i] = f;
+				sb.append(f.getDesignation());
+			}
+			sDictionary = sb.toString();
+			falFacets = null;
 		}
+		Boolean bAsterisk = false;
+		char cTarget;
+		char cNestor = '$';
 		String[] words = _sEffect.trim().split("\\s+");
 		String sNest = words[0];
 		String[] sss = null;
 		int iFirst = 1;
 		Integer iLength = words[0].length();
 		boolean bPrimary = true;
-		boolean bAsterisk = false;
-		if (words[0].indexOf("*") == 0) // indicates starred face;
+		if (sNest.indexOf("*") == 0) // indicates starred face;
 		{
 			bAsterisk = true;
 			if (iLength.equals(1)) {
@@ -557,21 +678,29 @@ public class Nest {
 			} else {
 				sNest = words[0].substring(1, iLength);
 			}
+			cAsterisk = sNest.toCharArray()[0];
+			getFacet(cAsterisk).setAsterisk(true);
 		}
-		cTarget = sNest.trim().toCharArray()[0];
-		Integer iFacet = sDictionary.indexOf(cTarget);
-		if (sNest.length() > 1)
-			bPrimary = false;
+		String[] sFacets = sNest.split(":");
+		cTarget = sFacets[0].charAt(0);
 		if (bAsterisk)
-			iAsterisk = iFacet;
+			cAsterisk = cTarget;
+		if (sNest.length() > 1) {
+			bPrimary = false;
+			cNestor = sFacets[1].charAt(0);
+		}
 		this.getFacet(cTarget).setNested(!bPrimary);
+		this.getFacet(cTarget).setNestor(cNestor);
 		salNestedNames.add(sNest);
 		sbHFO.append(cTarget);
 		sHDictionary = sbHFO.toString();
 		sss = new String[words.length - iFirst];
 		for (Integer i = 0; i < words.length - iFirst; i++)
 			sss[i] = words[i + iFirst];
-		myTree.addSampleSize(cTarget, sss);
+		if (cTarget != cReplicate)
+			myTree.addSampleSize(cTarget, sss);
+		myTree.setDictionary(sDictionary);
+		sHDictionary = sDictionary;
 		myTree.setHDictionary(sHDictionary);
 		iNestCount++;
 	}
@@ -601,13 +730,15 @@ public class Nest {
 	 * @return ObservableList
 	 */
 	public ObservableList<String> getNests() {
-		if (sarNestedNames == null) {
+		if (sarNestedNames == null || sarNestedNames.length == 0) {
+			if ((salNestedNames== null) || (salNestedNames.isEmpty()))
+				return null;
 			iNestCount = salNestedNames.size();
 			sarNestedNames = new String[iNestCount];
 			for (int i = 0; i < iNestCount; i++)
 				sarNestedNames[i] = salNestedNames.get(i);
 		}
-		ArrayList<String> result = new ArrayList<>();
+		ArrayList<String> result = new ArrayList<String>();
 		for (char c : sHDictionary.toCharArray())
 			result.add(sarNestedNames[sHDictionary.indexOf(c)]);
 		return FXCollections.observableArrayList(result);
@@ -627,10 +758,7 @@ public class Nest {
 		 */
 		// convert observable list back to string array
 		iNestCount = _nests.length;
-		if (myTree == null) {
-			myTree = new SampleSizeTree(this, sDictionary, logger, prefs);
 			myTree.setHDictionary(sHDictionary);
-		}
 		String sNest = null;
 		sarNestedNames = new String[iNestCount];
 		for (Integer i = 0; i < iNestCount; i++) {
@@ -845,19 +973,17 @@ public class Nest {
 	 */
 	public void setOrder() {
 		Integer iFacetCount = sHDictionary.length();
-		//Boolean bNotFound = true;
-		@SuppressWarnings("unchecked")
-		ArrayList<Integer>[] ialNestees = new ArrayList[iFacetCount];
-		for (Integer i = 0; i < iFacetCount; i++)
-			ialNestees[i] = new ArrayList<>();
-		farFacets = new Facet[iFacetCount];
 		for (Integer i = 0; i < iFacetCount; i++) {
-			Facet f = falFacets.get(i);
+			Facet f = farFacets[i];
 			char c = f.getDesignation();
 			Integer j = sDictionary.indexOf(c);
 			f.setID(j);
 			farFacets[j] = f;
 		}
+		myTree.setDictionary(sDictionary);
+		myTree.setFacets(farFacets);
+		myTree.setFacetCount(iFacetCount);
+		myTree.setNests(sarNestedNames);
 	}
 
 	/**
@@ -866,10 +992,7 @@ public class Nest {
 	 * @return farFacets  all facets of the study
 	 */
 	public Facet[] getFacets() {
-		Facet[] farFacet = new Facet[iFacetCount];
-		for (int i = 0; i < iFacetCount; i++)
-			farFacet[i] = falFacets.get(i);
-		return farFacet;
+		return farFacets;
 	}
 
 	/**
@@ -894,7 +1017,14 @@ public class Nest {
 	 * sets up facet types for generalizability calculations
 	 */
 	public void G_setFacets() {
-
+		if ((sarNestedNames == null) || (sarNestedNames.length ==0)) {
+			int L = salNestedNames.size();
+			sarNestedNames = new String[L];
+			for (int i = 0; i < L; i++)
+			sarNestedNames[i] = salNestedNames.get(i);
+		}
+		iNestCount = sarNestedNames.length;
+		
 		char cDiff = 'x';
 
 		/**
@@ -927,6 +1057,14 @@ public class Nest {
 
 			}
 		}
+		
+	}
+	
+	public void createFacets() {
+		farFacets = new Facet[iFacetCount];
+		farFacets[0] = fSubject;
+		for (int i = 1; i < iFacetCount; i++)
+			farFacets[i] = new Facet(this);
 	}
 
 	/**
@@ -934,15 +1072,10 @@ public class Nest {
 	 */
 	public void createDictionary() {
 		StringBuilder sb = new StringBuilder();
-		farFacets = new Facet[iFacetCount];
-		int iCount = 0;
-		for (Integer i = 0; i < iFacetCount; i++) {
-			Facet f = falFacets.get(i);
-			f.setID(i);
+		for (Facet f : farFacets)
 			sb.append(f.getDesignation());
-			farFacets[iCount++] = f;
-		}
 		sDictionary = sb.toString();
+		sHDictionary = sDictionary;
 	}
 
 	/**
@@ -971,6 +1104,8 @@ public class Nest {
 		case "cCeiling":
 			iCeiling = iValue;
 			break;
+		case "cRepMin":
+			iRepMinimum = iValue;
 		}
 	}
 
@@ -987,6 +1122,8 @@ public class Nest {
 		case "cMean":
 			dMean = dValue;
 			break;
+		case "cRepRange":
+			dRepRange = dValue;
 		default:
 			break;
 		}
@@ -1019,8 +1156,6 @@ public class Nest {
 	 * @throws UnsupportedEncodingException  this is a heuristic for unspecified Exceptions
 	 */
 	public void formatResults(StringBuilder sbResult) throws UnsupportedEncodingException {
-		/**
-		 */
 
 		StringBuilder sb = new StringBuilder();
 		//double dAbsolute = 0.0; // total sum of absolute values of weighted
@@ -1101,6 +1236,7 @@ public class Nest {
 	 * @param _iStep  step in data entry sequence
 	 */
 	public void setStep(Integer _iStep) {
+		iProblem = 0;
 		iStep = _iStep;
 	}
 
@@ -1112,6 +1248,15 @@ public class Nest {
 	 */
 	public String getNestedName(Integer iSAR) {
 		return sarNestedNames[iSAR];
+	}
+	
+	/**
+	 * Getter of nested names array
+	 * 
+	 * @return nested names arry
+	 */
+	public String[] getNestedNames() {
+		return sarNestedNames;
 	}
 
 	/**
@@ -1143,6 +1288,7 @@ public class Nest {
 	 */
 	public void set_dVC(Integer iPos, Double _dValue) {
 		dVC[iPos] = _dValue;
+		bReplicate = true;
 	}
 
 	/**
@@ -1191,6 +1337,11 @@ public class Nest {
 	 * @param _dVC  value of variance coefficient.
 	 */
 	public void setVariancecoefficient(int i, Double _dVC) {
+		if (_dVC == null)
+			return;
+		if (darVarianceCoefficients == null) {
+			darVarianceCoefficients = new Double[myTree.getConfigurationCount()];
+		}
 		darVarianceCoefficients[i] = _dVC;
 	}
 
@@ -1201,7 +1352,7 @@ public class Nest {
 	 * @return Double value of variance coeffient
 	 */
 	public Double getVarianceCoefficient(int i) {
-		if (i < darVarianceCoefficients.length)
+		if ((darVarianceCoefficients != null) && (i < darVarianceCoefficients.length))
 			return darVarianceCoefficients[i];
 		else
 			return 0.0;
@@ -1266,10 +1417,13 @@ public class Nest {
 	public void addAnchors(String sValue) {
 		String[] sAnchors = sValue.split("\\s+");
 		int iAnchors = sAnchors.length;
-		if (iAnchors != 3)
 		iFloor = Integer.parseInt(sAnchors[0]);
 		dMean = Double.parseDouble(sAnchors[1]);
 		iCeiling = Integer.parseInt(sAnchors[2]);
+		if (iAnchors > 3) {
+			iRepMinimum = Integer.parseInt(sAnchors[3]);
+			dRepRange = Double.parseDouble(sAnchors[4]);
+		}
 	}
 
 	/**
@@ -1401,7 +1555,24 @@ public class Nest {
 		}
 		return sarOrderedNames;
 	}
+	
+	/**
+	 * Setter for replication flag.
+	 * @param _bReplicate replication flag
+	 */
+	public void setReplicate(Boolean _bReplicate) {
+		bReplicate = _bReplicate;
+	}
 
+	/**
+	 * Getter for replication flag.
+	 * 
+	 * @return  replication flag.
+	 */
+	public Boolean getReplicate() {
+		return bReplicate;
+	}
+	
 	/**
 	 * processes raw Facets to include nesting logic.
 	 */
@@ -1411,6 +1582,138 @@ public class Nest {
 			Facet f = getFacet(cFacet);
 			f.doNesting(s);
 		}
+	}
+	
+	/**
+	 * Getter for cReplicate
+	 * 
+	 * @return cReplicate
+	 */
+	public char get_cRep() {
+		return cReplicate;
+	}
+	
+	/**
+	 * Setter of termination flag (<code>bAbandon</code>).
+	 * 
+	 * @param _iProblem  problem identifier in replication
+	 */
+	public void setProblem(int _iProblem) {
+		iProblem = _iProblem;
+		bDawdle = false;
+	}
+	
+	/**
+	 * Getter of termination flag (<code>iProblem</code>).
+	 * 
+	 * @return <code>bAbandon</code>
+	 */
+	public int getProblem() {
+		return iProblem;
+	}
+	
+	/**
+	 * method adding a facet nest to the list
+	 * 
+	 * @param _sNest  name of facet nest to be addedd
+	 */
+	public void addNestedName(String _sNest) {
+		salNestedNames.add(_sNest);
+	}
+	
+	/**
+	 * Setter for cReplicate
+	 * 
+	 * @param _cRep  cReplicate
+	 */
+	public void set_cRep(char _cRep) {
+		if(bReplicate)
+			cReplicate = _cRep;
+	}
+	
+	/**
+	 * Returns designation of replicating facet, or '-' if none.
+	 * 
+	 * @return  <code>cReplicate</code>, or '-'
+	 */
+	public char getRepChar() {
+		if (bReplicate)
+			return cReplicate;
+		else
+			return '-';
+	}
+	
+	/**
+	 * Getter for lowest posible value for number of replications.
+	 * 
+	 * @return  iRepMinimum
+	 */
+	public Integer getRepMin() {
+		return iRepMinimum;
+	};
+	
+	/**
+	 * Setter for number of index columns in data file.
+	 * 
+	 * @param  _iHighLight  offset afyer index columns
+	 */
+	public void setHighlight(int _iHighLight) {
+		iHighLight = _iHighLight;
+	}
+	
+	/**
+	 * Getter  for number of index columns in data file.
+	 * 
+	 * @return  iHighLight  offset after index columns;
+	 */
+	public int getHighLight() {
+		return iHighLight;
+	}
+	
+	/**
+	 * Sets step, at which AnaGroups has to resume after a design problem
+	 * 
+	 * @param _iResume  set number to resume at.
+	 */
+	public void setResume(int _iResume) {
+		iResume = _iResume;
+	}
+
+	/**
+	 * Getter for iResume after Problem.
+	 * 
+	 * @return iResume  Step, at which SynthGroups is to return to after problem explanation
+	 */
+	public int getResume() {
+		return iResume;
+	}
+	
+	/**
+	 * Setter for bReNest (whether nesting info is reused)
+	 * 
+	 * @param _bReNest  boolean flag
+	 */
+	public void setReNest(Boolean _bReNest) {
+		if (!_bReNest) {
+			iNestCount = 0;
+			sarNestedNames = null;
+
+		}
+	}
+	
+	/**
+	 * Debug utility, prints out an int[] array.
+	 * @param iArray  any integer array to be printed
+	 */
+	public void printIntArray(int[] iArray) {
+		StringBuilder sb = new StringBuilder(iArray[0]);
+		for (int i =1; i < iArray.length; i++)
+			sb.append(", " + iArray[i]);
+		System.out.println(sb.toString());
+	}
+	
+	public Boolean getStackTraceMode() {
+		return bStackTrace;
 	}
 }
 

@@ -1,4 +1,6 @@
-<title>Nesting</title>
-<para>As mentioned before, some facets may be nested in others. If you came to this screen in a fresh design, you find that some facets - the nested ones - are in the left window, the crossed facets are on the right.</para>
-<para>You nest a facet by mouse dragging it from the left window, and dropping it on the appropriate crossed facet on the right. You can even nest some facets even further by dropping them on already established nests on the right. You may even see crossed products in the right window. A facet that is nested within one crossed facet as well as within another, should be dropped on the corresponding product.</para>
-<para>If you made a mistake, don't worry. Simply click on the offending nest, and the the most deeply nested facet will jump back to the left window.</para>
+<title>Facets</title>
+<para>The term "Facet" was chosen by the inventors of Generalizability theory to describe the various factors that could determine the performance of a subject. Actually, the goal of a G - Study is to analyze the influence of these factors or facets on the performance measure of the subject. So, for each facet you must specifiy:</para>
+<sub>Facet Name:|a term adequately describing a given categorizable factor that could influence the performance measure of the subject.</sub>
+<sub>Label:|a single character that stands for that facet in the calculations. Make sure that subject and facets carry distinct labels.</sub>
+<sub>Nesting:|a dichotomous choice whether this facet stands by itself, or it is nested in another facet.</sub>
+<para>When you are done with this screen, click on "Next Step".</para>

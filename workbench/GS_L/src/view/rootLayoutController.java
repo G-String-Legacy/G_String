@@ -93,6 +93,10 @@ public class rootLayoutController {
 	@FXML
 	private MenuItem mnuSavePrefs;
 	@FXML
+	private MenuItem mnuReplicate;
+	@FXML
+	private MenuItem mnuReReplicate;
+	@FXML
 	private Button btnStepUp;
 	@FXML
 	private Label lblStep;
@@ -155,6 +159,12 @@ public class rootLayoutController {
 		});
 		mnuSaveAll.setOnAction((event) -> {
 			myMain.saveAll();
+		});
+		mnuReplicate.setOnAction((event) -> {
+			myMain.replicate();
+		});
+		mnuReReplicate.setOnAction((event) -> {
+			myMain.replicateAgain();
 		});
 		lblStep.setAlignment(Pos.CENTER);
 		lblStep.setText("Step 0");

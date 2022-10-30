@@ -114,16 +114,21 @@ public class AnaGroups {
 	 * lower limit for list (drag and drop)
 	 */
 	private Integer iFrom;
-
+	
 	/**
 	 * upper limit for list (drag and drop)
 	 */
 	private Integer iTo;
-
+	
 	/**
 	 * Facet designation char for starred Facet
 	 */
-	private char cStarred;
+	private char cAsterisk = ' ';
+	
+	/**
+	 * char designation of replicating facet.
+	 */
+	private char cReplicate = '-';
 
 	/**
 	 * integer location of element in list
@@ -139,11 +144,6 @@ public class AnaGroups {
 	 * <code>SampleSizeTree</code> sample size repository for facets and nesting
 	 */
 	private SampleSizeTree myTree = null;
-
-	/**
-	 * storage for previous element in series
-	 */
-	private Facet oldFacet = null;
 
 	/**
 	 * sample size intermediary result
@@ -196,7 +196,12 @@ public class AnaGroups {
 	private TextArea taOutput = null;
 
 	/**
-	 *
+	 * Flag indicating Replication mode
+	 */
+	private Boolean bReplicate = false;
+
+	/**
+	 * Flag for first analysis
 	 */
 	private Boolean bFirstAnalysis = true;
 
@@ -286,8 +291,14 @@ public class AnaGroups {
 			}
 		// step 1  enter script title
 		case 1:
+			bReplicate = myNest.getReplicate();
 			myController.buttonsEnabled(true);
+			myController.enableStepUp(true);
+			if (myNest.getDoOver())
+				readOld();
 			try {
+				cReplicate = myNest.get_cRep();
+					
 				return setTitle();
 			} catch (Exception e) {
 				myLogger(1, logger, e);
@@ -316,6 +327,7 @@ public class AnaGroups {
 		// step 5  set the desired order of Facets
 		case 5:
 			try {
+				myTree = myNest.getTree();
 				return orderFacets();
 			} catch (Exception e) {
 				myLogger(5, logger, e);
@@ -330,8 +342,6 @@ public class AnaGroups {
 		// step 7  select data file
 		case 7:
 			try {
-				myNest.setOrder();
-				myNest.G_setFacets();
 				return selectDataFile();
 			} catch (Exception e) {
 				myLogger(7, logger, e);
@@ -339,6 +349,8 @@ public class AnaGroups {
 		// step 8  enter sample sizes (repeat until done)
 		case 8:
 			try {
+				myNest.setOrder();
+				myNest.G_setFacets();
 				return setSampleSize();
 			} catch (Exception e) {
 				myLogger(8, logger, e);
@@ -346,6 +358,11 @@ public class AnaGroups {
 		// step 9  program prepares files for, and runs urGENOVA
 		case 9:
 			try {
+				// figure out reps
+				if (bReplicate) {
+					myTree.setDepths();
+					doReplications();
+				}
 				flr.writeDataFileNew();
 				myController.disableSave(false);
 				return runBrennan();
@@ -363,6 +380,8 @@ public class AnaGroups {
 			} catch (Exception e) {
 				myLogger(10, logger, e);
 			}
+		case 100:
+			return Explain();
 		default:
 			System.exit(99);
 			return null;
@@ -404,7 +423,7 @@ public class AnaGroups {
 		Group group = new Group();
 		VBox vb = new VBox(100);
 		vb.setAlignment(Pos.TOP_CENTER);
-		String projectTitle = null;
+		String projectTitle = myNest.getTitle();;
 
 		/*
 		 * In both Analysis and Synthesis users have the choice to
@@ -417,7 +436,7 @@ public class AnaGroups {
 		 * new control file.
 		 */
 
-		if (myNest.getDoOver()) {
+		/*if (myNest.getDoOver()) {
 			selectedFile = flr.getFile(true, "Select Analysis Control File");
 			if (selectedFile != null) {
 				String sFileName = selectedFile.getName();
@@ -427,7 +446,7 @@ public class AnaGroups {
 			} else {
 				return null;
 			}
-		}
+		}*/
 		// proceeds normally with manual edit
 		TextField tf = new TextField(projectTitle);
 		tf.setPrefWidth(800.0);
@@ -453,7 +472,12 @@ public class AnaGroups {
 		lb.setAlignment(Pos.TOP_CENTER);
 		lb.setPrefWidth(800.0);
 		lb.setStyle(sStyle_18);
-		vb.getChildren().addAll(lb, tf);
+		Label lbRep = new Label("You may request contextual help in regard to replication.");
+		lbRep.setStyle(sStyle_18);
+		if (bReplicate)
+			vb.getChildren().addAll(lb, tf, lbRep);
+		else
+			vb.getChildren().addAll(lb, tf);
 		group.getChildren().add(vb);
 		return group;
 	}
@@ -514,7 +538,7 @@ public class AnaGroups {
 		title.setAlignment(Pos.TOP_CENTER);
 		vb.getChildren().add(title);
 		vb.getChildren().add(headerSubForm("Subject"));
-		vb.getChildren().add(facetSubForm("Subject Name", 0));
+		vb.getChildren().add(facetGroup("Subject Name", 0));
 		vb.getChildren().add(facetCountSubForm());
 		content.getChildren().add(vb);
 		return content;
@@ -529,6 +553,10 @@ public class AnaGroups {
 	 */
 	private Group subjectsGroup() {
 		Group content = new Group();
+		int iFCount = myNest.getFacetCount();
+		if (!myNest.getDoOver()) {
+			myNest.createFacets();
+		}
 		VBox vb = new VBox(20);
 		// vb.setPrefHeight(600);
 		Label lb = new Label("Now specify each of the remaining facets.");
@@ -537,8 +565,8 @@ public class AnaGroups {
 		lb.setPrefWidth(800);
 		vb.getChildren().add(lb);
 		vb.getChildren().add(headerSubForm("Facets"));
-		for (Integer i = 1; i < myNest.getFacetCount(); i++)
-			vb.getChildren().add(facetSubForm("Facet Name", i));
+		for (Integer i = 1; i < iFCount; i++)
+			vb.getChildren().add(facetGroup("Facet Name", i));
 		content.getChildren().add(vb);
 		return content;
 	}
@@ -547,36 +575,59 @@ public class AnaGroups {
 	 * generates bound GUI sub form to specify each specific facet.
 	 * iFacetID provides an index for the specific facet.
 	 * It is used in both 'mainSubjectGroup' (x 1), and 'subjectsGroup' (x1 to many).
+	 * It assigns full facet name, facet char designation, and the facts whether a facet
+	 * is crossed or nested, and if the latter, is replicated.
 	 *
 	 * @param sCue  header string
 	 * @param iFacetID original order of new Facet
 	 * @return <code>Group</code> essentially the sub -'Scene' for Facet details entry to be sent to the GUI
 	 */
-	private Group facetSubForm(String sCue, Integer iFacetID) {
-		Facet currentFacet = myNest.getNewFacet();
+	/**
+	 * generates bound GUI sub form to specify each specific facet.
+	 * iFacetID provides an index for the specific facet.
+	 * It is used in both 'mainSubjectGroup' (x 1), and 'subjectsGroup' (x1 to many).
+	 * It assigns full facet name, facet char designation, and the facts whether a facet
+	 * is crossed or nested, and if the latter, is replicated.
+	 *
+	 * @param sCue  header string
+	 * @param iFacetID original order of new Facet
+	 * @return <code>Group</code> essentially the sub -'Scene' for Facet details entry to be sent to the GUI
+	 */
+	private Group facetGroup(String sCue, Integer iFacetID) {
+		Facet tempFacet = null;
 		Boolean isNested = false;
 		Group facetGroup = new Group();
 		HBox layout = new HBox(20);
 		layout.setStyle("-fx-padding: 10;-fx-border-color: silver;-fx-border-width: 1;");
 		String sFacet = "";
-		char cFacet = ' ';
+		char[] cFacet = new char[1];
+		Boolean bRep = false;
 		if (myNest.getDoOver()) {
-			oldFacet = myNest.getFacet(iFacetID);
-			sFacet = oldFacet.getName();
-			cFacet = oldFacet.getDesignation();
-			isNested = oldFacet.getNested();
+			tempFacet = myNest.getFacet(iFacetID);
+			sFacet = tempFacet.getName();
+			cFacet[0] = tempFacet.getDesignation();
+			isNested = tempFacet.getNested();
+			bRep = (cFacet[0] == cReplicate);
 		}
+		else
+			tempFacet = new Facet(myNest);
+		
+		if (iFacetID == 0) {
+			tempFacet.setAsterisk(true);
+			myNest.setSubject(tempFacet);
+		}
+		
 		layout.setAlignment(Pos.BASELINE_LEFT);
 
 		TextField facetName = new TextField(sFacet);
 		if (iFacetID < 2)
 			repeatFocus(facetName);
 		facetName.setPromptText(sCue);
-		facetName.setPrefWidth(300);
+		facetName.setPrefWidth(260);
 		facetName.setStyle(customBorder);
 		facetName.textProperty().addListener((observable, oldValue, newValue) -> {
 			if (newValue != oldValue) {
-				currentFacet.setName(newValue.trim());
+				myNest.setFacetName(iFacetID, newValue.trim());
 			}
 		});
 		TextField facetChar = new TextField(String.valueOf(cFacet));
@@ -590,13 +641,16 @@ public class AnaGroups {
 				return;
 			}
 			if (sTemp != oldValue) {
-				currentFacet.setDesignation(newValue.trim().toCharArray()[0]);
+				cFacet[0] = (char)newValue.trim().toCharArray()[0];
+				myNest.setFacetDesignation(iFacetID, cFacet[0]);
 			}
 		});
 		Label lbSpacer = new Label(null);
-		lbSpacer.setPrefWidth(5);
+		lbSpacer.setPrefWidth(15);
 		Label lbSpacer2 = new Label(null);
-		lbSpacer2.setPrefWidth(35);
+		lbSpacer2.setPrefWidth(0.8);
+		Label lbSpacer3 = new Label(null);
+		lbSpacer3.setPrefWidth(0.8);
 		ToggleGroup nestGroup = new ToggleGroup();
 		RadioButton butCrossed = new RadioButton();
 		butCrossed.setSelected(true);
@@ -605,18 +659,48 @@ public class AnaGroups {
 		butNested.setToggleGroup(nestGroup);
 		butNested.setSelected(isNested);
 		butNested.setToggleGroup(nestGroup);
-		nestGroup.selectToggle(isNested ? butNested : butCrossed);
+		//nestGroup.selectToggle(isNested ? butNested : butCrossed);
+		RadioButton butReplication = new RadioButton();
 		butNested.selectedProperty().addListener((observable, oldToggle, newToggle) -> {
 			if (newToggle != oldToggle) {
-				currentFacet.setNested(newToggle);
+				myNest.setFacetNested(iFacetID, newToggle);
+				butReplication.setSelected(false);
+				if (newToggle.equals(true) && bReplicate) {
+					butReplication.setVisible(true);
+				} else {
+					butReplication.setVisible(false);
+				}
+			}
+		});
+		if (isNested && bReplicate) {
+			butReplication.setVisible(true);
+			if (cFacet[0] == cReplicate)
+				butReplication.setSelected(true);
+		}
+		else
+			butReplication.setVisible(false);
+		if (bRep) {
+			butReplication.setVisible(true);
+			butReplication.setSelected(true);
+		}
+		butReplication.setOnAction(event -> {
+			if (butReplication.isSelected() && (cReplicate == '-')) {
+				butReplication.setSelected(true);
+				cReplicate = cFacet[0];
+			} else {
+				butReplication.setSelected(false);
+				cReplicate = '-';
+				myNest.set_cRep('-');
 			}
 		});
 		layout.getChildren().add(facetName);
 		layout.getChildren().add(facetChar);
 		layout.getChildren().add(lbSpacer);
 		layout.getChildren().add(butCrossed);
-		layout.getChildren().add(butNested);
 		layout.getChildren().add(lbSpacer2);
+		layout.getChildren().add(butNested);
+		layout.getChildren().add(lbSpacer3);
+		layout.getChildren().add(butReplication);
 		facetGroup.getChildren().add(layout);
 		return facetGroup;
 	}
@@ -635,7 +719,9 @@ public class AnaGroups {
 		hb.setPadding(new Insets(30, 12, 15, 0));
 		Label lFc = new Label("  Select number of facets (excl. subject):    ");
 		lFc.setFont(Font.font("ARIAL", 20));
-		Integer facCount = myNest.getFacetCount();
+		Integer facCount = 1;
+		if (myNest.getDoOver())
+			facCount = myNest.getFacetCount();
 		final Spinner<Integer> facetCount = new Spinner<>();
 		if (!myNest.getDoOver())
 			myNest.setFacetCount(2);
@@ -663,27 +749,29 @@ public class AnaGroups {
 	 */
 	private Group headerSubForm(String _sColumnHeader) {
 		Group header = new Group();
-		HBox hb = new HBox(30);
+		HBox hb = new HBox();
 		VBox vb = new VBox();
 		vb.setAlignment(Pos.BOTTOM_CENTER);
 		HBox hb2 = new HBox(10);
 		Label lbSubject = new Label(_sColumnHeader);
 		lbSubject.setFont(new Font("Arial", 20));
-		lbSubject.setPrefWidth(300);
-		lbSubject.setAlignment(Pos.BASELINE_CENTER);
+		lbSubject.setPadding(new Insets(0,0,0,10));
+		lbSubject.setMinWidth(275);
 		Label lbLabel = new Label("Label");
 		lbLabel.setFont(new Font("Arial", 20));
+		lbLabel.setMinWidth(100);
 		Label lbNesting = new Label("Nesting");
 		lbNesting.setFont(new Font("Arial", 20));
 		Label lbCrossed = new Label("crossed");
 		Label lbNested = new Label("nested");
-		Label lbIndex = new Label("Column Index");
-		lbIndex.setFont(new Font("Arial", 20));
+		Label lbReplicate = new Label("replicate");
+		lbReplicate.setVisible(bReplicate==true);
 		hb.getChildren().add(lbSubject);
 		hb.getChildren().add(lbLabel);
 		vb.getChildren().add(lbNesting);
-		hb2.getChildren().add(lbCrossed);
-		hb2.getChildren().add(lbNested);
+		hb2.getChildren().addAll(lbCrossed, lbNested);
+		if (bReplicate == true)
+			hb2.getChildren().add(lbReplicate);
 		vb.getChildren().add(hb2);
 		hb.getChildren().add(vb);
 		header.getChildren().add(hb);
@@ -708,10 +796,9 @@ public class AnaGroups {
 	 * @return <code>Group</code> essentially the 'Scene' for Facets order entry to be sent to the GUI
 	 */
 	private Group orderFacets() {
-		myNest.createDictionary();
 		lvFacets = new ListView<>();
 		ObservableList<String> orderedData = FXCollections.observableArrayList();
-				// see a short discussion of 'ObservableList' in the 'FilteredFacetList' method below.
+		// final ToggleGroup tg = new ToggleGroup();
 
 		Group returnGroup = new Group();
 
@@ -723,12 +810,10 @@ public class AnaGroups {
 		lbTitle.setStyle(sStyle_18);
 		lbTitle.setAlignment(Pos.TOP_CENTER);
 		vbOuter.getChildren().add(lbTitle);
+		myNest.createDictionary();
 		sDictionary = myNest.getDictionary();
-		if (sHDictionary == null) {
-			sHDictionary = sDictionary;
-			myNest.setHDictionary(sDictionary);
-		}
-		cStarred = myNest.getCStarred();
+		sHDictionary = sDictionary;
+		cAsterisk = myNest.getAsterisk();
 		for (Integer i = 0; i < sHDictionary.length(); i++)
 			orderedData.add(sHDictionary.substring(i, i + 1));
 		lvFacets.setItems(orderedData);
@@ -749,10 +834,8 @@ public class AnaGroups {
 							String sTemp = t;
 							this.setPrefWidth(50.0);
 							this.setAlignment(Pos.CENTER);
-							if (c == cStarred){
+							if (c == cAsterisk)
 								sTemp += "*";
-								myNest.setAsterisk(cStarred);
-							}
 							setText(sTemp);
 							setFont(Font.font(20));
 						}
@@ -860,17 +943,16 @@ public class AnaGroups {
 					@Override
 					public void handle(MouseEvent event) {
 						String sText = cell.getText();
-						if (sText == cStarred + "*") {
+						if (sText == cAsterisk + "*") {
 							cell.setText(sText);
 							cell.setVisible(true);
 							event.consume();
 							return;
 						} else {
-							Integer iStarred = cell.getIndex();
-							myNest.setAsterisk(iStarred);
-							cStarred = sText.toCharArray()[0];
-							cell.setText(sHDictionary.toCharArray()[iStarred] + "*");
-							myNest.setAsterisk(cStarred);
+							cAsterisk = cell.getText().toCharArray()[0];
+							myNest.setAsterisk(cAsterisk);
+							cell.setText(cAsterisk + "*");
+							myNest.setAsterisk(cAsterisk);
 							lv.refresh();
 							cell.setVisible(true);
 							event.consume();
@@ -905,6 +987,8 @@ public class AnaGroups {
 		nestedData.addAll(filteredFacetList(true));
 		crossedData.clear();
 		crossedData.addAll(filteredFacetList(false));
+		saveNested(crossedData);
+		ArrayList<String> tempNested = new ArrayList<String>();
 		Group group = new Group();
 		VBox vb = new VBox(20);
 		Label title = new Label("Arrange Nesting");
@@ -977,12 +1061,18 @@ public class AnaGroups {
 						if (db.hasString()) {
 							String sCarried = db.getString();
 							iTo = cell.getIndex();
+							if (bReplicate) {
+								char cN = sDictionary.toCharArray()[iTo];
+								if (cN == cReplicate) {
+									myNest.setProblem(1);
+									return;
+								}
+							}
 							if (iTo >= iPointer)
 								iPointer = iTo + 1;
 							success = true;
-							crossedData.add(iPointer++, sCarried + ":" + lvCrossed.getItems().get(iTo).toString());
-							// testList(crossedData);
-							saveNested(crossedData);
+							String sNest = sCarried + ":" + lvCrossed.getItems().get(iTo).toString();
+							crossedData.add(iPointer++, sNest);
 							lvNested.getItems().remove(sCarried);
 							lvNested.refresh();
 							String[] ss = crossedData.toArray(new String[crossedData.size()]);
@@ -996,6 +1086,9 @@ public class AnaGroups {
 						 * successfully transferred and used
 						 */
 						event.setDropCompleted(success);
+						for (int i = 0; i < crossedData.size(); i++)
+							tempNested.add(crossedData.get(i));
+						saveNested(crossedData);
 						event.consume();
 					}
 				});
@@ -1099,9 +1192,28 @@ public class AnaGroups {
 		hb.getChildren().add(vbC);
 		vb.getChildren().add(hb);
 		group.getChildren().add(vb);
-		saveNested(crossedData);
 		return group;
 	}
+
+	/**
+	 * Saves the nested list to the 'Nest' repository, and returns it for further use
+	 * in AnaGroups as a formal tree structure.
+	 *
+	 * @param _crossed observable list of crossed Effect descriptions
+	 */
+	private void saveNested(ObservableList<String> _crossed) {
+		String[] sNests = null;
+		ArrayList<String> sarNests = new ArrayList<>();
+		Integer iLength = _crossed.size();
+		for (Integer i = 0; i < iLength; i++) {
+			String sNest = _crossed.get(i);
+			if ((sNest.length() == 1) || (sNest.indexOf(':') >= 0))
+				sarNests.add(sNest);
+		}
+		sNests = sarNests.toArray(new String[sarNests.size()]);
+		myNest.setNests(sNests);
+	}
+
 
 	/**
 	 * An 'ObservableList' is a Javafx construct that enables listeners
@@ -1109,22 +1221,22 @@ public class AnaGroups {
 	 * an interface that receives notifications of changes to an ObservableList.
 	 * This construct is used in the method 'setNestingGroup' for both the list
 	 * of crossed and nested facets. That makes the visual arranging
-	 * of facet nesting possible.
+	 * of facet nesting possible. Identical to the one in 'AnaGroups'.
 	 *
-	 * @param isNested  boolean flag sets filter
-	 * @return ObservableList of nested vs crossed facets
+	 * @param isNested Boolean
+	 * @return filteredFacetList  ObservableList
 	 */
 	private ObservableList<String> filteredFacetList(Boolean isNested) {
+		ArrayList<String> result = new ArrayList<String>();
 		Integer iMax = 0;
 		String sTemp = null;
-		if (myNest.getDoOver())
+		if (myNest.getNests() != null)
 			if (!isNested)
 				return myNest.getNests();
 			else
 				return FXCollections.observableArrayList(new ArrayList<String>());
 		else {
 			sHDictionary = myNest.getHDictionary();
-			ArrayList<String> result = new ArrayList<>();
 			char[] cOrder = sHDictionary.toCharArray();
 			for (char c : cOrder) {
 				if (myNest.getFacet(c).getNested() == isNested) {
@@ -1137,8 +1249,8 @@ public class AnaGroups {
 					}
 				}
 			}
-			return FXCollections.observableArrayList(result);
 		}
+		return FXCollections.observableArrayList(result);
 	}
 
 	/**
@@ -1158,26 +1270,6 @@ public class AnaGroups {
 	}
 
 	/**
-	 * Saves the nested list to the 'Nest' repository, and returns it for further use
-	 * in AnaGroups as a formal tree structure.
-	 *
-	 * @param _crossed observable list of crossed factors descriptions
-	 */
-	private void saveNested(ObservableList<String> _crossed) {
-		String[] sNests = null;
-		ArrayList<String> sarNests = new ArrayList<>();
-		Integer iLength = _crossed.size();
-		for (Integer i = 0; i < iLength; i++) {
-			String sNest = _crossed.get(i);
-			if ((sNest.length() == 1) || (sNest.indexOf(':') >= 0))
-				sarNests.add(sNest);
-		}
-		sNests = sarNests.toArray(new String[sarNests.size()]);
-		myNest.setNests(sNests);
-		myTree = myNest.getTree(); // to be available for the next step
-	}
-
-	/**
 	 * G_String cycles through 'setSampleSize' until all the sample sizes
 	 * for all facets (in hierarchical order) have been collected, when the variable 'bDawdle'
 	 * turns to 'false'. The actual form is constructed as 'getPage' within 'SampleSizeTree',
@@ -1186,14 +1278,14 @@ public class AnaGroups {
 	 * @return <code>Group</code> essentially the 'Scene' for setting sample sizes entry to be sent to the GUI
 	 */
 	public Group setSampleSize() {
+		char cFacet = sHDictionary.toCharArray()[iSample];
+		if ((cFacet == cReplicate) && bReplicate)
+			iSample++;
 		myTree.collectSampleSizes();
 		Group group = new Group();
 		// construct samples page
 		group.getChildren().add(myTree.getPage(iSample));
-		myNest.setDawdle(iSample++ < myNest.getNestCount() - 1); // iSample ==
-																	// iNest in
-																	// hierarchical
-																	// order
+		myNest.setDawdle(iSample++ < myNest.getFacetCount()- 1);			
 		return group;
 	}
 
@@ -1205,15 +1297,15 @@ public class AnaGroups {
 	 */
 	public Group runBrennan() {
 		String tLine = null;
-		myNest.setLevels();
 
 		String slash = File.separator;
 		String sControl = prefs.get("Working Directory", null) + slash + sControlFileName;
 		File brennanControl = new File(sControl);
 		if (brennanControl != null) {
-			flr.writeAnalysisControlFile(brennanControl);
+			flr.writeAnalysisControlFile(brennanControl,true);
 			flr.saveParametersDialog("Analysis", "Save Analysis Control File?");
 		}
+		myNest.setLevels();
 		brennanControl.setReadable(true, false);
 		brennanControl.setWritable(true, false);
 
@@ -1242,7 +1334,6 @@ public class AnaGroups {
 		} catch (Exception e) {
 			logger.warning( e.getMessage());
 		}
-
 		String line;
 		sbResult = new StringBuilder();
 		BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -1323,6 +1414,62 @@ public class AnaGroups {
 	}
 
 	/**
+	 * Special display group to explain specific problem.
+	 * Depending on the severity of the issue, it might force end of program,
+	 * or it may bring you back to the step, where you can fix it.
+	 *  
+	 *  @return  <code>Group</code> essentially the 'Scene' for main Facet entry to be sent to the GUI
+	 */
+	private Group Explain() {
+		int iProblem = myNest.getProblem();
+		String[] sExplanations = new String[10];
+		sExplanations[1] = "You can not nest a facet within a replicating facet!";
+		sExplanations[2] = "Only one facet can be replicating," +
+				"\n - it has to be nested under the facet of differentiation," +
+				"\n - it has to also be the 'starred' facet, or immediately follow it.";
+		sExplanations[3] = "The facet, you set the asterisk on, " +
+				"\nthe index column number for that facet," +
+				"\nand the organisation of the data file have to correspond!";
+		int[] iResumeSteps = new int[10];
+		iResumeSteps[1] = 3;
+		iResumeSteps[2] = 5;
+		iResumeSteps[3] = 4;
+		Group content = new Group();
+		VBox vb = new VBox(20);
+		Label lTitle = new Label("Knowledge is Power!");
+		lTitle.setPrefWidth(800);
+		lTitle.setStyle(sStyle_20);
+		lTitle.setAlignment(Pos.TOP_CENTER);
+		HBox hbExplain = new HBox();
+		hbExplain.setStyle(sStyle_18);
+		Label lExplanation = new Label(sExplanations[iProblem]);
+		lExplanation.setStyle(sStyle_18);
+		hbExplain.getChildren().add(lExplanation);
+		vb.getChildren().addAll(lTitle, hbExplain);
+		myNest.setResume(iResumeSteps[iProblem]);
+		content.getChildren().add(vb);
+		return content;
+	}
+
+	/**
+	 * reads existing script
+	 */
+	private void readOld() {
+		String sInitial = prefs.get("Home Directory", File.separator);
+
+		if (myNest.getDoOver()) {
+			File selectedFile = flr.getFile(true, "Select Synthesis Control File");
+			if (selectedFile != null) {
+				sInitial = selectedFile.getParent();
+				prefs.put("Home Directory", sInitial);
+				String sFileName = selectedFile.getName();
+				prefs.put("Control", sFileName);
+				flr.readFile(selectedFile);
+			}
+		}
+	}
+
+	/**
 	 * 'Analysis' extracts the means and estimated variance coefficients
 	 * from the urGenova output file, and uses them to calculate G-Study and D-Study results
 	 * see 'VarianceComponents' in the 'Algorithm' section of the explanations.
@@ -1341,7 +1488,7 @@ public class AnaGroups {
 		try {
 			myNest.formatResults(sbResult);
 		} catch (Exception ioe) {
-			logger.warning(ioe.getMessage());
+			myLogger(11, logger, ioe);
 		}
 		Group group = new Group();
 		taOutput = new TextArea();
@@ -1486,8 +1633,85 @@ public class AnaGroups {
 		}
 	}
 	
+	/**
+	 * Setter for replication flag
+	 * 
+	 * @param _bRep  replication flag
+	 */
+	public void setReplicate(Boolean _bRep) {
+		bReplicate = _bRep;
+	}
+	
+	/**
+	 * Handles replications in analysis. In contrast to the method with the same
+	 * name in SynthGroups, this method extracts the replication sample sizes
+	 * from the data file, interpreting the leading index columns.
+	 * 
+	 * @return true if successful false otherwise
+	 */
+	private Boolean doReplications() {
+		String[][] sRawData = flr.getRawData();
+		Boolean bCondition = (cAsterisk == cReplicate);
+		char cNestor = myNest.getFacet(cReplicate).getNestor();
+		if (bCondition && (myNest.getFacet(cNestor).getFacetType() != 'd'))
+			myNest.setProblem(4);
+		int[] iarNestor =myTree.getSizes(cNestor);
+		int iDimRep = 0;
+		for (int i : iarNestor)
+			iDimRep +=i;
+		int[] iarReps = new int[iDimRep];
+		int iCount = 0;
+		int iHighLight = myNest.getHighLight();
+		int iFactor = myTree.iGetRepFactor(cReplicate);
+		int iDiffCol = sHDictionary.indexOf(cNestor);
+		int iDiff = 0;
+		int iRep = 0;
+		try {
+			for(String[] sLine : sRawData) {
+				if (bCondition) {		// a new data line for each replicate value
+					int iSubject = Integer.parseInt(sLine[iDiffCol]);
+					if (iSubject != iDiff){
+						iarReps[iCount] = iRep;
+						iRep = 0;
+						iDiff = iSubject;
+						iCount++;
+					} else
+						iRep++;
+				
+				} else {				// all replicates and dependents on same line
+					if (iCount >= iarReps.length) {
+						myNest.setProblem(3);
+						return false;
+					}
+					iarReps[iCount] = (sLine.length - iHighLight)/iFactor;
+					iCount++;
+				}
+			}
+			if (bCondition && (iCount >= iDimRep))
+				myNest.setProblem(5);
+		} catch(Exception e) {
+			 e.printStackTrace();
+		}
+		
+		Integer iR = sDictionary.indexOf(cReplicate);
+		myTree.addSampleSize(iR, iarReps);
+		myNest.setDawdle(iSample++ < myNest.getNestCount() - 1);
+		return true;
+	}
+	
+	/**
+	 * auxiliary method in logger handling
+	 * 
+	 * @param _iStep  current step in AnaGroups
+	 * @param _logger  pointer to logger API
+	 * @param _e  error to be logged
+	 */
 	private void myLogger(int _iStep, Logger _logger, Exception _e) {
-		String sMessage = "\n Step: " + _iStep + "\n " + _e.getLocalizedMessage();
-		_logger.warning(sMessage);
+		if (myNest.getStackTraceMode())
+			_e.printStackTrace();
+		else {
+			String sMessage = "\n Step: " + _iStep + "\n " + _e.getLocalizedMessage();
+			logger.warning(sMessage);
+		}
 	}
 }

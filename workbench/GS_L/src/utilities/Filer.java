@@ -205,60 +205,64 @@ public class Filer {
 	 * @param line  of text
 	 */
 	private void processControlLine(String line) {
-		String[] words;
-		String key;
-		Integer length;
-		words = line.split("\\s+", 100);
-		key = words[0];
-		char cFacet;
-		length = words.length;
-		String value = join(words, length);
-		String sMark = prefs.get("Facet mark", "%");
-		sMark = sMark.trim().substring(0, 1);
-		switch (key) {
-		case "GSTUDY":
-			myNest.setTitle(value);
-			break;
-		case "COMMENT&":
-		case "COMMENT*":
-		case "COMMENT%":
-			Facet nullFacet = new Facet(myNest);
-			words = value.split("\\s+");
-			nullFacet.setName(words[0]);
-			cFacet = words[1].toCharArray()[1];
-			nullFacet.setDesignation(cFacet);
-			nullFacet.setNested(false);
-			myNest.addFacet(nullFacet);
-			break;
-		case "COMMENT":
-			myNest.addComment(value);
-			break;
-		case "OPTIONS":
-			prefs.put("OPTIONS", value);
-			break;
-		case "EFFECT":
-			myNest.addEffect(value);
-			break;
-		case "FORMAT":
-			myNest.addFormat(value);
-			break;
-		case "PROCESS":
-			myNest.addProcess(value);
-			break;
-		case "ANCHORS":
-			if (myNest.getSimulate())		// if in 'Simulate', value gets to variances
-				myNest.addAnchors(value);
-			else
-				myNest.addComment(value);   // else to comments (in 'Analysis'
-			break;
-		case "VARIANCES":
-			if (myNest.getSimulate())		// if in 'Simulate', value gets to variances
-				myNest.addVariances(value);
-			else
-				myNest.addComment(value);   // else to comments (in 'Analysis'
-			break;
-		default:
-			break;
+		try {
+			String[] words = line.split("\\s+", 100);
+			String key = words[0];
+			char cFacet = '-';
+			Integer length = words.length;
+			String value = join(words, length);
+			String sMark = prefs.get("Facet mark", "%");
+			sMark = sMark.trim().substring(0, 1);
+			switch (key) {
+			case "GSTUDY":
+				myNest.setTitle(value);
+				break;
+			case "COMMENT&":
+			case "COMMENT*":
+			case "COMMENT%":
+				Facet nullFacet = new Facet(myNest);
+				words = value.split("\\s+");
+				nullFacet.setName(words[0]);
+				cFacet = words[1].toCharArray()[1];
+				nullFacet.setDesignation(cFacet);
+				nullFacet.setNested(false);
+				myNest.addFacet(nullFacet);
+				break;
+			case "COMMENT":
+				myNest.addComment(value);
+				break;
+			case "OPTIONS":
+				prefs.put("OPTIONS", value);
+				break;
+			case "EFFECT":
+				myNest.addEffect(value);
+				break;
+			case "FORMAT":
+				myNest.addFormat(value);
+				break;
+			case "PROCESS":
+				myNest.addProcess(value);
+				break;
+			case "REPLICATE":
+				myNest.set_cRep(value.toCharArray()[0]);
+				break;
+			case "ANCHORS":
+				if (myNest.getSimulate())		// if in 'Simulate', value gets to variances
+					myNest.addAnchors(value);
+				else
+					myNest.addComment(value);   // else to comments (in 'Analysis'
+				break;
+			case "VARIANCES":
+				if (myNest.getSimulate())		// if in 'Simulate', value gets to variances
+					myNest.addVariances(value);
+				else
+					myNest.addComment(value);   // else to comments (in 'Analysis'
+				break;
+			default:
+				break;
+			}
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
 		}
 	}
 
@@ -328,7 +332,6 @@ public class Filer {
 		}
 		sb.append("</table></body></html>");
 		sHTML = sb.toString(); // content of browser
-		// System.out.print(sHTML);
 		Group tableGroup = new Group(); // overall container
 		VBox mainLayout = new VBox(0.0); // overall layout
 		mainLayout.setAlignment(Pos.TOP_CENTER);
@@ -361,6 +364,7 @@ public class Filer {
 			if (!oldValue1.equals(newValue1)) {
 				iHilight = Integer.parseInt(newValue1);
 				myNest.show(this.showTableNew());
+				myNest.setHighlight(iHilight);
 			}
 		});
 		TextField format = new TextField();
@@ -461,7 +465,8 @@ public class Filer {
 		Double dValue = 0.0;
 		int DataCount = 0;
 		int iHeadCount = 0;
-
+		
+		myNest.setHighlight(iHilight);
 		for (String[] sRow1 : sRawData) {
 			for (int j = iHilight; j < sRow1.length; j++) {
 				if (!sRow1[j].trim().isEmpty()) {
@@ -560,7 +565,8 @@ public class Filer {
 				processResultlLine(sLine); // process control file
 			}
 		} catch (IOException e) {
-			logger.warning(e.getMessage());
+			//logger.warning(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 
@@ -662,7 +668,7 @@ public class Filer {
 		switch (sType) {
 		case "Analysis":
 			fOutputFile = getFile(false, "Save Analysis Control File to:");
-			writeAnalysisControlFile(fOutputFile);
+			writeAnalysisControlFile(fOutputFile, false);
 			break;
 		case "Synthesis":
 			fOutputFile = getFile(false, "Save Synthesis Control File to:");
@@ -675,8 +681,9 @@ public class Filer {
 	 * writes new analysis control file
 	 *
 	 * @param file pointer to <code>File</code>
+	 * @param bBrennan  flag to limit output to urGENOVA conformity
 	 */
-	public void writeAnalysisControlFile(File file) {
+	public void writeAnalysisControlFile(File file, Boolean bBrennan) {
 		// writes new control file
 		// StringBuilder sbComments = new StringBuilder(); // informal comments
 		// StringBuilder sbFComments = new StringBuilder(); // facet comments
@@ -703,6 +710,11 @@ public class Filer {
 		Integer iLevels = cFacet.length;
 		// Options
 		writer.println("OPTIONS   " + prefs.get("OPTIONS", "NREC 5 \"*.lis\" TIME NOBANNER"));
+		
+		// Replications
+		if (myNest.getReplicate() && !bBrennan)
+			writer.println("REPLICATE   " + myNest.get_cRep());
+		
 		// Effects
 		for (Integer i = 0; i < iLevels; i++) {
 			sTemp = myTree.getEffect(i);
@@ -731,6 +743,9 @@ public class Filer {
 			logger.warning(e.getMessage());
 		}
 
+		// Title
+		writer.println("GSTUDY    " + myNest.getTitle());
+
 		// Comments
 		for (String s : myNest.getComments()) {
 			writer.println("COMMENT   " + s);
@@ -741,22 +756,43 @@ public class Filer {
 			writer.println("COMMENT* " + f.getName() + "    (" + f.getDesignationString() + ")");
 		}
 		char[] cFacet = myNest.getDictionary().toCharArray();
-		Integer iLevels = cFacet.length;
+		//rep
+		String sp = "    ";
+		char cReplicate = myNest.get_cRep();
+		if (cReplicate != '-')
+			writer.println("REPLICATE" + sp + cReplicate);
 		// Effects
+		Integer iLevels = cFacet.length;
 		for (Integer i = 0; i < iLevels; i++) {
 			sTemp = myTree.getEffect(i);
 			writer.println(sTemp);
 		}
-
 		// Anchors
-		writer.println("ANCHORS    " + myNest.getFloor() + "    " + myNest.getMean() + "     " + myNest.getCeiling());
+		StringBuilder sb = new StringBuilder("ANCHORS");
+		sb.append(sp + myNest.getFloor());
+		sb.append(sp + myNest.getMean());
+		sb.append(sp + myNest.getCeiling());
+		if ( cReplicate != '-')
+			sb.append(sp + myNest.get_iMinRep() + sp + myNest.getRepRange());
+		
+		writer.println(sb.toString());
 
 		// Variances
 		iNumberVarianceCoeffients = myNest.getVcDim();
-		StringBuilder sb = new StringBuilder("VARIANCES");
+		sb = new StringBuilder("VARIANCES");
 		for (int i = 0; i < iNumberVarianceCoeffients; i++)
 			sb.append("    " + myNest.getVarianceCoefficient(i));
 		writer.println(sb.toString());
 		writer.close();
+	}
+	
+	/**
+	 * returns raw data that has been read in previously for use
+	 * in replication analysis.
+	 * 
+	 * @return sRawData  2 dimensional array of strings
+	 */
+	public String[][] getRawData(){
+		return sRawData;
 	}
 }

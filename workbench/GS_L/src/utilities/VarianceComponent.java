@@ -122,36 +122,37 @@ public class VarianceComponent {
 	}
 
 	public void doCoefficient(StringBuilder sbOut) {
-		StringBuilder sb = new StringBuilder();
-		Double dFactor = 0.0;
-		boolean bFirst = true;
-		dDenominator = 1.0;
-		sSignature = sign(sPattern);
-		for (char c : cPattern) {
-			if (c != ':') {
-				Facet f = farFacets[sDictionary.indexOf(c)];
-				if (f.getFacetType() == 'd') 		// no factor from level of differentiation
-					dFactor = 1.00;
-				else if (f.getFacetType() == 's')	// no factor from level of stratification
-					dFactor = 1.00;
-				else
-					dFactor = f.dGetLevel();
-				dDenominator *= dFactor;
-				if (bFirst)
-					try {
-						sb.append(reCode(String.format("%.2f", dFactor)));
-					} catch (UnsupportedEncodingException e) {
-						logger.warning(e.getMessage());
-					}
-				else
-					try {
-						sb.append(reCode(" x " + String.format("%.2f", dFactor)));
-					} catch (UnsupportedEncodingException e) {
-						logger.warning(e.getMessage());
-					}
-				bFirst = false;
-			}
+			StringBuilder sb = new StringBuilder();
+			Double dFactor = 0.0;
+			boolean bFirst = true;
+			dDenominator = 1.0;
+			sSignature = sign(sPattern);
+			for (char c : cPattern) {
+				if (c != ':') {
+					Facet f = farFacets[sDictionary.indexOf(c)];
+					if (f.getFacetType() == 'd') 		// no factor from level of differentiation
+						dFactor = 1.00;
+					else if (f.getFacetType() == 's')	// no factor from level of stratification
+						dFactor = 1.00;
+					else
+						dFactor = f.dGetLevel();
+					dDenominator *= dFactor;
+					if (bFirst)
+						try {
+							sb.append(reCode(String.format("%.2f", dFactor)));
+						} catch (UnsupportedEncodingException e) {
+							logger.warning(e.getMessage());
+						}
+					else
+						try {
+							sb.append(reCode(" x " + String.format("%.2f", dFactor)));
+						} catch (UnsupportedEncodingException e) {
+							logger.warning(e.getMessage());
+						}
+					bFirst = false;
+				}
 		}
+	
 		/**
 		 * now analyze contribution to tau, delta and Delta.
 		 * in words:

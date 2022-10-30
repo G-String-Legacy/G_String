@@ -17,7 +17,7 @@ public class Facet {
 	/**
 	 * <code>cDesignation</code> formal, symbolic name of facet
 	 */
-	private char cDesignation = ' ';
+	private char cDesignation;
 
 	/**
 	 * Boolean, indicating whether facet is nested or crossed
@@ -33,7 +33,7 @@ public class Facet {
 	/**
 	 * Hierarchical order of facet in sHDictionary
 	 */
-	private Integer iOrder = -1;
+	private Integer iOrder = 0;
 
 	/**
 	 * 'x' - not specified
@@ -137,6 +137,14 @@ public class Facet {
 	public void setNested( Boolean _bIsNested) {
 		bIsNested = _bIsNested;
 	}
+	
+	/**
+	 * 
+	 * @param _bIsReplicating
+	 */
+	/*public void setReplicating( Boolean _bIsReplicating) {
+		bIsReplicating = _bIsReplicating;
+	}*/
 
 	/**
 	 * Setter for the hierarchical order in which the facets increment
@@ -156,7 +164,8 @@ public class Facet {
 	 */
 	public void setNestor (char cFacet) {
 		cNestor = cFacet;
-		bIsNested = true;
+		if (!cNestor.equals('$'))
+			bIsNested = true;
 	}
 
 	/**

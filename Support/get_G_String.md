@@ -1,5 +1,5 @@
 ## About G_String_L
-G_String_VI is the most recent 'incarnation' of G_String, a computer program for analyzing psychometric performance tests based on Generalizability Theory. It is typically employed to optimize competence exams. G_String was originally developed for the Windows platform at McMaster University in 2006 and gradually evolved since.
+GS_L is the most recent 'incarnation' of G_String, a computer program for analyzing psychometric performance tests based on Generalizability Theory. It is typically employed to optimize competence exams. G_String was originally developed for the Windows platform at McMaster University in 2006 and gradually evolved since.
 
 G_String_L was redesigned from scratch in 2022. It is improved in three ways:
 

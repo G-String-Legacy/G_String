@@ -1,0 +1,17 @@
+COMMENT   Synthetic example File for new G_String users.
+COMMENT   Simulates an 250 candidate 'Objective Structured Clinical Examination (OSCE)
+COMMENT   over 5 days with 5 circuits per day at 10 stations each.
+COMMENT   
+COMMENT   The example consists of a control file 'ctl_Intro.txt', and data file 'data_Intro.csv';
+COMMENT* Candidate    (c)
+COMMENT* Day    (d)
+COMMENT* Circuit    (t)
+COMMENT* Station    (s)
+COMMENT* Item    (i)
+EFFECT       d           5 
+EFFECT       t:d         5 5 5 5 5 
+EFFECT       c:t:d       10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 
+EFFECT       s           10 
+EFFECT       i:s         8 8 8 8 8 8 8 8 12 12 
+ANCHORS    0    6.5     10
+VARIANCES    0.2    0.4    1.0    2.0    2.0    0.5    0.2    3.0

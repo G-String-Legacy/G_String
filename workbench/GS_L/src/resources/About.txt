@@ -1,0 +1,6 @@
+Application = G_String_L
+Version = 4.0.1  (Java 1.8)
+Build Date = 2022-10-30
+Copyright = Ralph Bloch (2020)
+Support = ralph@papaworx.com
+Institution = McMaster University

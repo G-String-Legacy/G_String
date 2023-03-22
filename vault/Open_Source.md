@@ -1,4 +1,4 @@
-[Return](../../../)
+[Return]([../../../](https://github.com/G-String-Legacy/GS_MV/wiki))
 ## Open Source ##
 [![youTube](img/WatchThis.png)](https://www.youtube.com/watch?v=SpeDK1TPbew)
 
